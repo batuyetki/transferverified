@@ -21,185 +21,451 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* ===========================================================================
+     TransferVerified — built to DESIGN-PLAN.md (Work Order 01, Task 3).
+     One family (Inter), the existing navy/electric/paper palette, one 4px
+     spacing ramp, and one signature element: the provenance seal.
+     =========================================================================== */
   :root{
+    /* brand ramp — unchanged */
     --navy-900:#011F4B; --navy-700:#03396C; --navy-500:#005B96; --navy-300:#6497B1; --navy-100:#B3CDE0;
     --electric:#00C2FF; --electric-deep:#0086C9;
     --paper:#FAF8F4; --cream:#ECE5DE; --taupe:#B3A197; --umber:#6E493E;
-    --ink:#12233B; --verified:#12A150; --stale:#B7791F;
+    --ink:#12233B; --stale:#B7791F;
+
+    /* AA corrections: same hues, darkened until they pass as text on --paper.
+       navy-300 3.00:1 and taupe 2.34:1 fail; they survive as border/dark-band
+       tokens above. verified darkened from #12A150 (3.17:1) to 5.12:1. */
+    --muted:#556E88;      /* metadata text        4.98:1 */
+    --dim-ink:#6B5F57;    /* placeholder text     5.82:1 */
+    --verified:#0D7A3D;   /* the provenance mark  5.12:1 */
+
+    /* surfaces */
+    --row-hover:#F6F1EA; --row-open:#F1EAE1; --tint:#EEF4F9; --hair:#F1ECE5;
+
+    /* spacing ramp — no raw pixel spacing below */
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+    --s6:32px; --s7:48px; --s8:72px; --s9:104px;
+
+    /* type scale */
+    --t-display:clamp(32px,5vw,52px);
+    --t-section:26px; --t-rate:21px; --t-name:16px;
+    --t-body:15.5px; --t-meta:12.5px; --t-micro:11px;
+
+    --ring:2px solid var(--electric);
+    --ease:cubic-bezier(.2,.6,.2,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:112px} /* clears sticky header (~65px) + sticky table head (~45px) */
-  body{font-family:Inter,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16px}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  html{scroll-behavior:smooth;scroll-padding-top:112px} /* clears sticky header + sticky table head */
+  body{font-family:Inter,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--paper);color:var(--ink);line-height:1.6;font-size:16px;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 var(--s5)}
   a{color:var(--navy-500)}
   .num{font-variant-numeric:tabular-nums}
 
-  /* header */
-  header{position:sticky;top:0;z-index:30;background:rgba(250,248,244,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--cream)}
-  .bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:14px}
-  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--navy-900);font-weight:800;font-size:21px;letter-spacing:-.4px;flex-shrink:0}
-  nav{display:flex;gap:20px;align-items:center;font-size:14.5px;font-weight:600}
+  /* one global focus treatment — never removed anywhere */
+  :focus-visible{outline:var(--ring);outline-offset:2px;border-radius:4px}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:30;background:rgba(250,248,244,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--cream)}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:var(--s4)}
+  .logo{display:flex;align-items:center;gap:var(--s2);text-decoration:none;color:var(--navy-900);
+    font-weight:800;font-size:21px;letter-spacing:-.04em;flex-shrink:0}
+  nav{display:flex;gap:var(--s5);align-items:center;font-size:14.5px;font-weight:600}
   nav a{text-decoration:none;color:var(--navy-700)}
   nav a:hover{color:var(--navy-500)}
   nav a.tab.on{color:var(--navy-900);position:relative}
-  nav a.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-21px;height:3px;background:var(--electric);border-radius:3px}
-  .btn{background:var(--navy-500);color:#fff !important;padding:8px 16px;border-radius:8px;border:none;font-weight:600;font-size:14.5px;cursor:pointer;text-decoration:none;display:inline-block}
+  nav a.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-21px;height:3px;
+    background:var(--electric);border-radius:3px}  /* electric use 1 of 2 */
+  .btn{background:var(--navy-500);color:#fff !important;padding:var(--s2) var(--s4);border-radius:8px;
+    border:none;font-weight:600;font-size:14.5px;cursor:pointer;text-decoration:none;display:inline-block;
+    transition:background 90ms var(--ease)}
   .btn:hover{background:var(--navy-700)}
-  .navlinks{display:flex;gap:20px;align-items:center}
-  @media (max-width:640px){ .navlinks .hidemobile{display:none} nav{gap:14px} }
+  .navlinks{display:flex;gap:var(--s5);align-items:center}
+  @media (max-width:640px){ .navlinks .hidemobile{display:none} nav{gap:var(--s4)} }
   @media (max-width:760px){ .logo{font-size:18px} .logo svg{width:28px;height:28px} }
-  @media (max-width:430px){ .logo{font-size:0;gap:0} .logo svg{width:30px;height:30px} nav{gap:12px;font-size:13.5px} }
+  @media (max-width:430px){ .logo{font-size:0;gap:0} .logo svg{width:30px;height:30px} nav{gap:var(--s3);font-size:13.5px} }
 
-  /* hero */
-  .hero{padding:54px 0 26px;text-align:left}
-  .hero h1{font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.03em;color:var(--navy-900);line-height:1.12}
+  /* ---------- hero ---------- */
+  .hero{padding:var(--s8) 0 var(--s5);text-align:left}
+  .hero h1{font-size:var(--t-display);font-weight:800;letter-spacing:-.035em;color:var(--navy-900);line-height:1.08}
   .hero h1 em{font-style:normal;color:var(--navy-500)}
-  .hero p.sub{margin-top:16px;max-width:660px;font-size:18px;color:var(--navy-700)}
-  .stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px}
-  .stat b{display:block;font-size:26px;font-weight:800;color:var(--navy-900);letter-spacing:-.02em}
-  .stat span{font-size:13px;color:var(--navy-300);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+  .hero p.sub{margin-top:var(--s4);max-width:660px;font-size:17.5px;color:var(--navy-700);line-height:1.6}
+  .stats{display:flex;gap:var(--s7);flex-wrap:wrap;margin-top:var(--s6)}
+  .stat b{display:block;font-size:26px;font-weight:800;color:var(--navy-900);letter-spacing:-.02em;line-height:1.2}
+  .stat span{font-size:var(--t-micro);color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
 
-  /* controls */
-  .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:20px 0 14px}
-  .search{flex:1;min-width:220px;position:relative}
-  .search input{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--navy-100);border-radius:10px;background:#fff;font:inherit;font-size:15px;color:var(--ink)}
-  .search input:focus{outline:2px solid var(--electric);border-color:transparent}
-  .search>svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
-  .chips{display:flex;gap:8px;flex-wrap:wrap}
-  .chip{padding:9px 15px;border-radius:999px;border:1.5px solid var(--navy-100);background:#fff;font:inherit;font-size:14px;font-weight:600;color:var(--navy-700);cursor:pointer}
+  /* ---------- controls ---------- */
+  .controls{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center;margin:var(--s5) 0 var(--s4)}
+  .search{flex:1 1 260px;min-width:220px;position:relative}
+  .search input{width:100%;padding:var(--s3) var(--s4) var(--s3) 40px;border:1.5px solid var(--navy-100);
+    border-radius:10px;background:#fff;font:inherit;font-size:15px;color:var(--ink)}
+  .search input::placeholder{color:var(--dim-ink);opacity:1}
+  .search>svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.55;pointer-events:none}
+  .chips{display:flex;gap:var(--s2);flex-wrap:wrap}
+  .chip{padding:9px var(--s4);border-radius:999px;border:1.5px solid var(--navy-100);background:#fff;
+    font:inherit;font-size:14px;font-weight:600;color:var(--navy-700);cursor:pointer;
+    transition:background 90ms var(--ease),border-color 90ms var(--ease),color 90ms var(--ease)}
+  .chip:hover{background:var(--tint)}
   .chip.on{background:var(--navy-900);border-color:var(--navy-900);color:#fff}
-  .toggle{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--navy-700);cursor:pointer;user-select:none;padding:9px 4px}
+  .toggle{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--navy-700);
+    cursor:pointer;user-select:none;padding:9px var(--s1)}
   .toggle input{width:16px;height:16px;accent-color:var(--navy-500);cursor:pointer}
-  select{padding:10px 12px;border:1.5px solid var(--navy-100);border-radius:10px;background:#fff;font:inherit;font-size:14px;font-weight:600;color:var(--navy-700);cursor:pointer}
-  .count{font-size:13.5px;color:var(--navy-300);font-weight:600;margin-left:auto}
+  select{padding:10px var(--s3);border:1.5px solid var(--navy-100);border-radius:10px;background:#fff;
+    font:inherit;font-size:14px;font-weight:600;color:var(--navy-700);cursor:pointer}
+  .count{font-size:var(--t-meta);color:var(--muted);font-weight:700;margin-left:auto;
+    text-transform:uppercase;letter-spacing:.06em;font-variant-numeric:tabular-nums}
 
-  /* autocomplete */
+  /* ---------- autocomplete ---------- */
   .ac{position:relative;flex:1;min-width:240px}
-  .ac input{width:100%;padding:13px 16px 13px 44px;border:1.5px solid var(--navy-100);border-radius:12px;background:#fff;font:inherit;font-size:16px;color:var(--ink)}
-  .ac input:focus{outline:2px solid var(--electric);border-color:transparent}
-  .ac>svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
-  .ac-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--navy-100);border-radius:12px;box-shadow:0 12px 34px rgba(1,31,75,.14);overflow:hidden;z-index:40;max-height:340px;overflow-y:auto}
-  .ac-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 15px;cursor:pointer;border-top:1px solid #F1ECE5}
+  .ac input{width:100%;padding:13px var(--s4) 13px 44px;border:1.5px solid var(--navy-100);border-radius:12px;
+    background:#fff;font:inherit;font-size:16px;color:var(--ink)}
+  .ac input::placeholder{color:var(--dim-ink);opacity:1}
+  .ac>svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.55;pointer-events:none}
+  .ac-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--navy-100);
+    border-radius:12px;box-shadow:0 12px 34px rgba(1,31,75,.14);overflow:hidden;z-index:40;max-height:340px;overflow-y:auto}
+  .ac-item{display:flex;align-items:center;justify-content:space-between;gap:var(--s2);padding:var(--s3) 15px;
+    cursor:pointer;border-top:1px solid var(--hair)}
   .ac-item:first-child{border-top:none}
-  .ac-item.active,.ac-item:hover{background:#EAF4FB}
+  .ac-item.active,.ac-item:hover{background:var(--tint)}
   .ac-item b{font-weight:600;color:var(--navy-900);font-size:15px}
-  .ac-item .st{font-size:12px;color:var(--navy-300);font-weight:600}
-  .ac-empty{padding:14px 15px;color:var(--taupe);font-size:14px}
+  .ac-item .st{font-size:var(--t-meta);color:var(--muted);font-weight:600}
+  .ac-empty{padding:var(--s4) 15px;color:var(--dim-ink);font-size:14px}
 
-  /* table */
-  /* NOTE: no overflow:hidden here — it would clip the sticky thead's scroll context and stop it pinning. Corners are rounded on the edge cells instead. */
+  /* ---------- table ----------
+     No overflow:hidden — it would clip the sticky thead's scroll context. */
   .tablecard{background:#fff;border:1px solid var(--cream);border-radius:14px;box-shadow:0 1px 3px rgba(1,31,75,.05)}
   table{width:100%;border-collapse:separate;border-spacing:0}
-  thead th{position:sticky;top:64px;background:var(--navy-900);color:#fff;font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;padding:12px 14px;text-align:right;white-space:nowrap;z-index:5}
-  thead th:first-child{text-align:left;padding-left:18px;border-top-left-radius:13px}
+  thead th{position:sticky;top:64px;background:var(--navy-900);color:#fff;font-size:var(--t-micro);
+    text-transform:uppercase;letter-spacing:.07em;font-weight:700;padding:var(--s3) var(--s3);
+    text-align:right;white-space:nowrap;z-index:5}
+  thead th:first-child{text-align:left;padding-left:var(--s5);border-top-left-radius:13px}
   thead th:last-child{border-top-right-radius:13px}
   thead th.l{text-align:left}
   tbody tr:last-child td:first-child{border-bottom-left-radius:13px}
   tbody tr:last-child td:last-child{border-bottom-right-radius:13px}
-  tbody td{padding:13px 14px;border-top:1px solid #F1ECE5;text-align:right;font-size:15px;vertical-align:middle}
-  tbody td:first-child{text-align:left;padding-left:18px}
+  tbody td{padding:var(--s3) var(--s3);border-top:1px solid var(--hair);text-align:right;
+    font-size:14.5px;vertical-align:middle;font-variant-numeric:tabular-nums;color:var(--navy-700)}
+  tbody td:first-child{text-align:left;padding-left:var(--s5)}
   tbody td.l{text-align:left}
-  tbody tr.row{cursor:pointer}
-  tbody tr.row:hover{background:#F6F1EA}
-  tbody tr.row.open{background:#F6F1EA}
-  .school{font-weight:600;color:var(--navy-900);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .meta{font-size:12px;color:var(--navy-300);font-weight:600}
-  .tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:5px;white-space:nowrap}
-  .tag.public{background:#E8F1F7;color:var(--navy-500)}
-  .tag.private{background:var(--cream);color:var(--umber)}
-  .tag.stale{background:#FBF3E4;color:var(--stale)}
-  .tag.note{background:#FBF3E4;color:var(--stale)}
-  .tag.gap{background:#F3F4F6;color:#6B7280}
-  .tag.soon{background:#EAF4FB;color:var(--navy-500)}
-  .ratecell{display:flex;align-items:center;gap:10px;min-width:150px}
-  .ratenum{font-weight:700;color:var(--navy-900);width:56px;text-align:right}
-  .track{flex:1;height:7px;background:#EDF3F8;border-radius:99px;overflow:hidden}
-  .fill{height:100%;background:linear-gradient(90deg,var(--electric-deep),var(--electric));border-radius:99px}
-  .src{white-space:nowrap;font-size:13.5px;font-weight:600;text-decoration:none}
-  .src .ok{color:var(--verified)}
-  .dim{color:var(--taupe)}
 
-  /* apply-via pills + deadline type */
-  .pills{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
-  .pill{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:#EAF4FB;color:var(--navy-700);white-space:nowrap}
-  .pill.own{background:var(--cream);color:var(--umber)}
-  .dtype{display:block;font-size:10.5px;color:var(--navy-300);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-  .nospring{color:var(--taupe);font-weight:600}
-  .subnum{display:block;font-size:11.5px;color:var(--navy-300);font-weight:600;letter-spacing:0;text-transform:none}
+  /* row states — hover / focus / open, per the state matrix */
+  tbody tr.row{cursor:pointer;position:relative}
+  tbody tr.row td:first-child{box-shadow:inset 3px 0 0 transparent;transition:box-shadow 90ms var(--ease)}
+  tbody tr.row:hover td{background:var(--row-hover)}
+  tbody tr.row:hover td:first-child{box-shadow:inset 3px 0 0 var(--navy-500)}
+  tbody tr.row.open td{background:var(--row-open)}
+  tbody tr.row.open td:first-child{box-shadow:inset 3px 0 0 var(--navy-500)}
+  tbody tr.row:focus{outline:none}
+  tbody tr.row:focus-visible{outline:var(--ring);outline-offset:-2px}
+  tbody tr.row:focus-visible td{background:var(--row-hover)}
+
+  /* row typography — three unmistakable tiers */
+  .school{font-weight:600;font-size:var(--t-name);letter-spacing:-.005em;color:var(--navy-900);
+    display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;line-height:1.35}
+  .meta{font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:.01em;margin-top:2px}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 7px;border-radius:5px;white-space:nowrap}
+  .tag.public{background:var(--tint);color:var(--navy-500)}
+  .tag.private{background:var(--cream);color:var(--umber)}
+  .tag.stale{background:#FBF3E4;color:#8A6410}
+  .tag.note{background:#FBF3E4;color:#8A6410}
+  .tag.gap{background:#EFEDEA;color:var(--dim-ink)}
+  .tag.soon{background:var(--tint);color:var(--navy-500)}
+
+  /* the number is the content */
+  .ratewrap{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+  .ratecell{display:flex;align-items:center;gap:var(--s3);min-width:170px}
+  .ratenum{font-size:var(--t-rate);font-weight:700;letter-spacing:-.01em;color:var(--navy-900);
+    width:66px;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums}
+  .track{flex:1;height:7px;background:#E6EEF5;border-radius:99px;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,var(--electric-deep),var(--electric));border-radius:99px} /* electric use 2 of 2 */
+  .dim{color:var(--dim-ink)}
+
+  /* ---------- cycle-year marker (Task 2) ---------- */
+  .cyc{display:inline-block;font-size:var(--t-micro);font-weight:700;letter-spacing:.03em;
+    padding:2px 7px;border-radius:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .cyc-current{background:var(--tint);color:var(--navy-500)}
+  .cyc-behind1{background:#FBF3E4;color:#8A6410}
+  .cyc-behind2{background:#F6E7C8;color:#7A5610;box-shadow:inset 0 0 0 1px rgba(183,121,31,.35)}
+  .cyc-unconfirmed{background:#EFEDEA;color:#5F5449;box-shadow:inset 0 0 0 1px rgba(110,73,62,.22)}
+  .cycline{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:13.5px;
+    color:var(--navy-700);margin-bottom:var(--s3);line-height:1.55}
+
+  /* ===========================================================================
+     SIGNATURE ELEMENT — the provenance seal.
+     "Every number links to the school's own filing" is the differentiator, so
+     it gets the one bold move. Everything around it stays quiet.
+     =========================================================================== */
+  .seal{display:inline-flex;align-items:center;gap:var(--s2);text-decoration:none;
+    color:var(--verified);white-space:nowrap;transition:color 90ms var(--ease)}
+  .seal-ring{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;
+    border:1.5px solid var(--verified);font-size:11px;font-weight:800;line-height:1}
+  .seal-body{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+  .seal-body b{font-size:var(--t-micro);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+  .seal-date{font-size:10.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .seal:hover{color:#0A6231}
+  .seal:hover .seal-body b{text-decoration:underline}
+
+  /* expanded form — the receipt */
+  .receipt{background:#fff;border:1px solid var(--cream);border-left:3px solid var(--verified);
+    border-radius:10px;padding:var(--s5);margin-top:var(--s3);
+    box-shadow:inset 0 0 0 1px rgba(13,122,61,.06)}
+  .receipt-head{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;
+    padding-bottom:var(--s3);border-bottom:1px solid var(--hair)}
+  .receipt-head .seal-ring{width:26px;height:26px;font-size:14px}
+  .receipt-stamp{font-size:var(--t-micro);font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--verified)}
+  .receipt-date{font-size:var(--t-meta);font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:auto}
+  .claim{padding-top:var(--s4)}
+  .claim-what{font-size:13.5px;font-weight:700;color:var(--navy-900);line-height:1.4}
+  /* the connector encodes a real claim -> document chain */
+  .claim-src{display:flex;align-items:baseline;gap:var(--s2);margin-top:var(--s1);padding-left:var(--s3);
+    position:relative;font-size:13.5px}
+  .claim-src::before{content:"└→";color:var(--navy-300);font-weight:700;flex:none;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+  .claim-src a{font-weight:600;text-decoration:none;color:var(--navy-500);
+    overflow-wrap:anywhere;border-bottom:1px solid transparent;transition:border-color 90ms var(--ease)}
+  .claim-src a:hover{border-bottom-color:var(--navy-500)}
+  .claim-more{font-size:var(--t-meta);color:var(--muted);margin-top:var(--s2);padding-left:var(--s3)}
+  .claim-more a{color:var(--navy-500)}
+  .golink{white-space:nowrap;font-size:13.5px;font-weight:600;text-decoration:none;color:var(--navy-500)}
+  .golink:hover{text-decoration:underline}
+
+  /* ---------- deadline type / misc cells ---------- */
+  .dtype{display:block;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .nospring{color:var(--dim-ink);font-weight:600}
+  .subnum{display:block;font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:0;text-transform:none}
   .est{white-space:nowrap}
 
-  /* top-75 tab */
-  .notrank{background:#FBF9F5;border:1px solid var(--cream);border-left:3px solid var(--navy-300);border-radius:10px;padding:14px 16px;margin:16px 0 0;font-size:13.5px;color:var(--navy-700);line-height:1.65}
+  /* ---------- empty + zero-result states ---------- */
+  .empty{padding:var(--s8) var(--s5);text-align:center}
+  .empty h3{font-size:19px;font-weight:700;color:var(--navy-900);letter-spacing:-.01em;margin-bottom:var(--s2)}
+  .empty p{font-size:14.5px;color:var(--navy-700);max-width:440px;margin:0 auto var(--s5);line-height:1.6}
+  .empty .btn{cursor:pointer}
+
+  /* ---------- top-75 note ---------- */
+  .notrank{background:#FBF9F5;border:1px solid var(--cream);border-left:3px solid var(--navy-300);
+    border-radius:10px;padding:var(--s4) var(--s5);margin:var(--s5) 0 0;font-size:13.5px;
+    color:var(--navy-700);line-height:1.65}
   .notrank b{color:var(--navy-900)}
   @media (max-width:900px){ .t75 .hidesm{display:none} }
 
-  /* detail (rates inline expand) */
-  tr.detail td{background:#FBF9F5;border-top:1px dashed var(--navy-100);padding:20px 18px 22px;text-align:left}
-  .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 22px;margin-bottom:14px}
-  .dgrid b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--navy-300);font-weight:700;margin-bottom:2px}
+  /* ---------- inline detail expand ---------- */
+  tr.detail td{background:#FBF9F5;border-top:1px dashed var(--navy-100);
+    padding:var(--s5) var(--s5) var(--s6);text-align:left}
+  tr.detail td>*{animation:rise 180ms var(--ease) both}   /* the one motion moment */
+  .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s4) var(--s5);margin-bottom:var(--s4)}
+  .dgrid b{display:block;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.07em;
+    color:var(--muted);font-weight:700;margin-bottom:2px}
   .dgrid div span{font-size:15px;font-weight:600;color:var(--navy-900)}
-  .prov{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px;color:var(--navy-700);border-top:1px solid var(--cream);padding-top:14px}
-  .prov a{font-weight:700}
-  .foot-note{font-size:12.5px;color:var(--taupe);margin-top:8px}
-  .hist{font-size:13.5px;color:var(--navy-700);margin-bottom:12px}
-  .detaillink{display:inline-block;margin-top:6px;font-weight:700;font-size:13.5px;text-decoration:none}
+  .foot-note{font-size:var(--t-meta);color:var(--muted);margin-top:var(--s2);line-height:1.55}
+  .hist{font-size:13.5px;color:var(--navy-700);margin-bottom:var(--s3)}
+  .detaillink{display:inline-block;margin-top:var(--s3);font-weight:700;font-size:13.5px;text-decoration:none}
+  .detaillink:hover{text-decoration:underline}
 
-  /* school page */
-  .sp{padding:26px 0 10px}
-  .sp-back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;text-decoration:none;color:var(--navy-500);margin-bottom:18px}
-  .sp-back:hover{color:var(--navy-700)}
-  .sp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:6px}
-  .sp-head h1{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.02em;color:var(--navy-900);line-height:1.15}
-  .sp-chips{display:flex;gap:8px;align-items:center;margin:10px 0 4px;flex-wrap:wrap}
-  .sp-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
-  .statcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:22px 0 8px}
-  .statcard{background:#fff;border:1px solid var(--cream);border-radius:12px;padding:16px 18px}
-  .statcard b{display:block;font-size:26px;font-weight:800;color:var(--navy-900);letter-spacing:-.02em}
-  .statcard.hl b{color:var(--electric-deep)}
-  .statcard span{font-size:12px;color:var(--navy-300);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-  .sp-section{background:#fff;border:1px solid var(--cream);border-radius:14px;padding:22px 22px 24px;margin-top:18px}
-  .sp-section h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy-500);font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-  .fieldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px 24px}
-  .fieldgrid .f b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy-300);font-weight:700;margin-bottom:3px}
+  /* ---------- school page ---------- */
+  .sp{padding:var(--s6) 0 var(--s3);animation:rise 180ms var(--ease) both}  /* same single motion moment */
+  .sp-back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;
+    text-decoration:none;color:var(--navy-500);margin-bottom:var(--s5)}
+  .sp-back:hover{color:var(--navy-700);text-decoration:underline}
+  .sp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;margin-bottom:6px}
+  .sp-head h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.03em;color:var(--navy-900);line-height:1.1}
+  .sp-chips{display:flex;gap:var(--s2);align-items:center;margin:var(--s3) 0 var(--s1);flex-wrap:wrap}
+  .sp-links{display:flex;gap:var(--s3);flex-wrap:wrap;margin-top:var(--s1)}
+  .statcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--s3);margin:var(--s5) 0 var(--s3)}
+  .statcard{background:#fff;border:1px solid var(--cream);border-radius:12px;padding:var(--s4) var(--s5)}
+  .statcard b{display:block;font-size:26px;font-weight:800;color:var(--navy-900);letter-spacing:-.025em;
+    line-height:1.15;font-variant-numeric:tabular-nums}
+  .statcard span{font-size:var(--t-micro);color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  /* the rate is the largest number on the page */
+  .statcard.hl{background:var(--navy-900);border-color:var(--navy-900)}
+  .statcard.hl b{color:#fff;font-size:32px}
+  .statcard.hl span{color:var(--navy-100)}
+  .statcard .cyc{margin-top:var(--s2)}
+  .sp-section{background:#fff;border:1px solid var(--cream);border-radius:14px;padding:var(--s5);margin-top:var(--s5)}
+  .sp-section h2{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+    font-weight:700;margin-bottom:var(--s4);display:flex;align-items:center;gap:var(--s2)}
+  .fieldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--s4) var(--s5)}
+  .fieldgrid .f b{display:block;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.07em;
+    color:var(--muted);font-weight:700;margin-bottom:3px}
   .fieldgrid .f span{font-size:15.5px;font-weight:600;color:var(--navy-900)}
-  .fieldgrid .f .sub{font-size:12px;color:var(--navy-300);font-weight:600;text-transform:none;letter-spacing:0}
-  .sp-hist{font-size:14px;color:var(--navy-700);margin-top:4px}
-  .sp-hist div{padding:4px 0}
-  .notecard{background:#FBF9F5;border:1px solid var(--cream);border-left:3px solid var(--stale);border-radius:8px;padding:12px 15px;margin-top:10px;font-size:13.5px;color:var(--navy-700)}
-  .comingsoon{background:#EAF4FB;border:1px solid var(--navy-100);border-radius:10px;padding:16px 18px;font-size:14.5px;color:var(--navy-700)}
+  .fieldgrid .f .sub{font-size:var(--t-meta);color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
+  .sp-hist{font-size:14px;color:var(--navy-700);margin-top:var(--s1)}
+  .sp-hist div{padding:var(--s1) 0}
+  .notecard{background:#FBF9F5;border:1px solid var(--cream);border-left:3px solid var(--stale);
+    border-radius:8px;padding:var(--s3) 15px;margin-top:var(--s3);font-size:13.5px;color:var(--navy-700)}
+  .comingsoon{background:var(--tint);border:1px solid var(--navy-100);border-radius:10px;
+    padding:var(--s4) var(--s5);font-size:14.5px;color:var(--navy-700)}
 
-  /* sections */
-  .band{background:var(--navy-900);color:#fff;margin-top:64px;padding:52px 0}
-  .band h2{font-size:26px;font-weight:800;letter-spacing:-.02em}
-  .band p{color:var(--navy-100);margin-top:8px;max-width:540px}
-  .capture{display:flex;gap:10px;margin-top:22px;max-width:460px}
-  .capture input{flex:1;padding:12px 14px;border-radius:9px;border:none;font:inherit;font-size:15px}
-  .capture .btn{background:var(--electric);color:var(--navy-900) !important;font-weight:800}
-  .capture .btn:hover{background:#5AD5FF}
-  .tiny{font-size:12.5px;color:var(--navy-300);margin-top:10px}
-  .method{padding:60px 0 8px}
-  .method h2{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--navy-900);margin-bottom:22px}
-  .method-lead{font-size:16.5px;line-height:1.7;color:var(--navy-700);max-width:730px;margin:-8px 0 24px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-  .card{background:#fff;border:1px solid var(--cream);border-radius:14px;padding:22px}
-  .card h3{font-size:16.5px;color:var(--navy-900);margin-bottom:6px}
-  .card p{font-size:14.5px;color:var(--navy-700)}
-  footer{padding:44px 0 60px;border-top:1px solid var(--cream);margin-top:60px;font-size:14px;color:var(--navy-300)}
-  footer .cols{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  /* primary outbound action — the answer to "how do I apply" */
+  .applycta{display:flex;align-items:center;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;
+    margin-top:var(--s5);padding:var(--s5);background:var(--tint);border:1.5px solid var(--navy-100);border-radius:12px}
+  .applycta-copy{flex:1;min-width:240px}
+  .applycta-copy b{display:block;font-size:15.5px;font-weight:700;color:var(--navy-900);margin-bottom:3px;line-height:1.35}
+  .applycta-copy span{font-size:13.5px;color:var(--navy-700);line-height:1.55}
+  .btn-primary{background:var(--navy-900);font-size:15px;padding:var(--s3) var(--s5);white-space:nowrap}
+  .btn-primary:hover{background:var(--navy-700)}
+
+  /* ---------- sections ---------- */
+  .method{padding:var(--s8) 0 var(--s2)}
+  .method h2{font-size:var(--t-section);font-weight:800;letter-spacing:-.025em;color:var(--navy-900);margin-bottom:var(--s5)}
+  .method-lead{font-size:16.5px;line-height:1.7;color:var(--navy-700);max-width:730px;margin:0 0 var(--s5)}
+  .method-sub{font-size:17px;font-weight:700;color:var(--navy-900);margin:var(--s6) 0 var(--s3);letter-spacing:-.01em}
+  .method-lead .cyc{vertical-align:baseline}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--s4)}
+  .card{background:#fff;border:1px solid var(--cream);border-radius:14px;padding:var(--s5)}
+  .card h3{font-size:16.5px;color:var(--navy-900);margin-bottom:6px;letter-spacing:-.01em}
+  .card p{font-size:14.5px;color:var(--navy-700);line-height:1.6}
+  footer{padding:var(--s7) 0 var(--s8);border-top:1px solid var(--cream);margin-top:var(--s8);
+    font-size:14px;color:var(--muted)}
+  footer .cols{display:flex;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;align-items:center}
   footer b{color:var(--navy-700)}
 
-  @media (max-width:760px){
+  /* ===========================================================================
+     TRACKER (Task 4). Quiet by design — the seal is the site's one loud element
+     and this must not compete with it.
+     =========================================================================== */
+  .trkhint{font-size:13.5px;color:var(--muted);margin:0 0 var(--s4);line-height:1.55}
+  .trklist{list-style:none;display:flex;flex-direction:column;gap:var(--s3)}
+  .trkrow{display:grid;grid-template-columns:auto 1fr auto;gap:var(--s4);align-items:start;
+    background:#fff;border:1px solid var(--cream);border-radius:12px;padding:var(--s4) var(--s5);
+    box-shadow:0 1px 3px rgba(1,31,75,.05)}
+  .trkrow.dragging{opacity:.45}
+  .trkrow.dragover{border-color:var(--navy-500);box-shadow:0 0 0 3px rgba(0,91,150,.12)}
+  .trkrow-missing{background:#FBF9F5}
+  .trkrank{font-size:19px;font-weight:800;color:var(--navy-100);line-height:1.2;
+    font-variant-numeric:tabular-nums;min-width:24px;text-align:right;padding-top:1px}
+  .trkmain{min-width:0}
+  .trkhead{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap}
+  .trkname{font-size:var(--t-name);font-weight:600;color:var(--navy-900);text-decoration:none;letter-spacing:-.005em}
+  .trkname:hover{text-decoration:underline}
+  .trkstats{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;margin-top:var(--s1)}
+  .trkrate{font-size:var(--t-rate);font-weight:700;color:var(--navy-900);letter-spacing:-.01em;
+    font-variant-numeric:tabular-nums}
+  .trknote-l{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--muted);font-weight:700;margin:var(--s3) 0 var(--s1)}
+  .trknote{width:100%;border:1.5px solid var(--navy-100);border-radius:9px;padding:var(--s2) var(--s3);
+    font:inherit;font-size:14px;color:var(--ink);background:#fff;resize:vertical;line-height:1.5}
+  .trknote::placeholder{color:var(--dim-ink);opacity:1}
+  .trksaved{display:inline-block;min-height:15px;font-size:11px;font-weight:700;color:var(--verified);
+    text-transform:uppercase;letter-spacing:.07em;margin-top:var(--s1)}
+  .trknote-ro{font-size:14px;color:var(--navy-700);margin-top:var(--s2);white-space:pre-wrap}
+  .trkacts{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+  .iconbtn{border:1.5px solid var(--navy-100);background:#fff;border-radius:8px;padding:5px 10px;
+    font:inherit;font-size:12.5px;font-weight:700;color:var(--navy-700);cursor:pointer;
+    transition:background 90ms var(--ease),border-color 90ms var(--ease)}
+  .iconbtn:hover:not(:disabled){background:var(--tint);border-color:var(--navy-500)}
+  .iconbtn:disabled{opacity:.4;cursor:default}
+  .trkadd{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;margin-top:var(--s5);
+    padding:var(--s4) var(--s5);background:#fff;border:1px solid var(--cream);border-radius:12px}
+  .trkadd label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.08em;
+    color:var(--muted);font-weight:700}
+  .trkadd select{flex:1;min-width:200px}
+  .trktoggle{background:#fff;color:var(--navy-700) !important;border:1.5px solid var(--navy-100);
+    font-weight:700;white-space:nowrap}
+  .trktoggle:hover{background:var(--tint)}
+  .trktoggle.on{background:var(--navy-900);color:#fff !important;border-color:var(--navy-900)}
+
+  /* deadlines view */
+  .dllist{list-style:none;display:flex;flex-direction:column;gap:var(--s2)}
+  .dlrow{display:grid;grid-template-columns:130px 1fr auto;gap:var(--s4);align-items:center;
+    background:#fff;border:1px solid var(--cream);border-radius:10px;padding:var(--s3) var(--s4)}
+  .dlwhen b{display:block;font-size:14px;font-weight:700;color:var(--navy-900);
+    font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .dlwhen span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .dlrow-unclear{background:#FBF9F5;border-left:3px solid var(--stale)}
+  .dlrow-unclear .dlwhen b{color:var(--stale)}
+  .dlunclear{margin-top:var(--s7)}
+  .dlunclear h3{font-size:17px;font-weight:700;color:var(--navy-900);margin-bottom:var(--s2);
+    display:flex;align-items:center;gap:var(--s2);letter-spacing:-.01em}
+  .dlcount{font-size:12px;font-weight:700;background:#F6E7C8;color:#7A5610;padding:1px 8px;border-radius:999px}
+  .dlunclear>p{font-size:13.5px;color:var(--navy-700);max-width:640px;margin-bottom:var(--s4);line-height:1.6}
+
+  /* locked state — a real view, not a modal and not a blur overlay */
+  .lockgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s4)}
+  .lockcard{background:#fff;border:1px solid var(--cream);border-radius:14px;padding:var(--s5)}
+  .lockcard h3{font-size:16px;color:var(--navy-900);margin-bottom:6px;letter-spacing:-.01em}
+  .lockcard p{font-size:14px;color:var(--navy-700);line-height:1.6}
+  .lockcta{display:flex;align-items:center;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;
+    margin-top:var(--s5);padding:var(--s5);background:var(--tint);
+    border:1.5px solid var(--navy-100);border-radius:12px}
+  .lockcta b{display:block;font-size:16px;font-weight:700;color:var(--navy-900)}
+  .lockcta span{font-size:13.5px;color:var(--navy-700);line-height:1.55}
+
+  @media (max-width:700px){
+    .trkrow{grid-template-columns:auto 1fr;gap:var(--s3)}
+    .trkacts{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}
+    .iconbtn{flex:1;min-width:64px}
+    .dlrow{grid-template-columns:1fr auto;gap:var(--s2) var(--s3)}
+    .dlwhen{grid-column:1/-1}
+  }
+
+  /* ---------- motion: exactly one keyframe, one situation ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* ===========================================================================
+     MOBILE — real card layout below 700px, not a horizontal scroll and not a
+     squashed table. Rows become grids: name and rate full-bleed, volume figures
+     paired two-up, the seal on its own line.
+     =========================================================================== */
+  @media (max-width:700px){
+    .wrap{padding:0 var(--s4)}
+    .hero{padding:var(--s7) 0 var(--s5)}
+    .stats{gap:var(--s5)}
+    .tablecard{background:none;border:none;box-shadow:none}
     thead{display:none}
-    table,tbody,tr,td{display:block;width:100%}
-    tbody tr.row{border-top:1px solid var(--cream);padding:14px 16px}
-    tbody tr.row.open{border-bottom:none}
-    tbody td{border:none;padding:2px 0;text-align:left !important}
-    tbody td .pills{justify-content:flex-start}
-    tbody td.ratecol .ratecell{min-width:0}
-    tbody td[data-l]::before{content:attr(data-l) ": ";font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy-300);font-weight:700}
-    .stats{gap:22px}
-    thead th{top:0}
-    .sp-head h1{font-size:26px}
+    table,tbody{display:block;width:100%}
+
+    tbody tr.row{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3) var(--s4);
+      background:#fff;border:1px solid var(--cream);border-radius:12px;
+      padding:var(--s4);margin-bottom:var(--s3);box-shadow:0 1px 3px rgba(1,31,75,.05)}
+    tbody tr.row:hover td,tbody tr.row.open td,tbody tr.row:focus-visible td{background:transparent}
+    tbody tr.row:hover{border-color:var(--navy-100);box-shadow:0 4px 14px rgba(1,31,75,.09)}
+    tbody tr.row.open{border-color:var(--navy-500);background:#FFFDFA}
+    tbody tr.row:focus-visible{outline:var(--ring);outline-offset:2px}
+    tbody tr.row td:first-child{box-shadow:none !important}
+
+    tbody td{display:block;border:none;padding:0;text-align:left !important;font-size:14px}
+    tbody td:first-child{grid-column:1/-1;padding-left:0}
+    tbody td.ratecol{grid-column:1/-1}
+    tbody td:last-child{grid-column:1/-1;padding-top:var(--s3);border-top:1px solid var(--hair)}
+    tbody tr:last-child td:first-child,tbody tr:last-child td:last-child{border-radius:0}
+
+    /* the rate dominates the card */
+    .ratewrap{gap:var(--s2)}
+    .ratecell{min-width:0;flex-direction:column;align-items:flex-start;gap:var(--s2);width:100%}
+    .ratenum{font-size:30px;width:auto;text-align:left;letter-spacing:-.02em}
+    .track{width:100%;flex:none;height:6px}
+    .school{font-size:17px}
+
+    /* labelled quiet stats */
+    tbody td[data-l]:not(.ratecol):not(:first-child):not(:last-child)::before{
+      content:attr(data-l);display:block;font-size:10px;text-transform:uppercase;
+      letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:1px}
+    tbody td[data-l]:not(.ratecol):not(:first-child):not(:last-child){
+      font-weight:600;color:var(--navy-900);font-size:15px}
+
+    tr.detail{display:block;margin:calc(var(--s3) * -1) 0 var(--s3)}
+    tr.detail td{display:block;border-radius:0 0 12px 12px;border-top:1px dashed var(--navy-100);
+      padding:var(--s4);background:#FFFDFA;border-left:1px solid var(--cream);
+      border-right:1px solid var(--cream);border-bottom:1px solid var(--cream)}
+    .dgrid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:var(--s3) var(--s4)}
+
+    .sp-head h1{font-size:27px}
+    .sp-section{padding:var(--s4)}
+    .receipt{padding:var(--s4)}
+    .applycta{padding:var(--s4)}
+    .btn-primary{width:100%;text-align:center}
+      }
+
+  /* ---------- reduced motion: everything still works, nothing moves ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;scroll-behavior:auto !important}
+    html{scroll-behavior:auto}
   }
 </style>
 </head>
@@ -220,6 +486,7 @@
       <a class="tab" href="#/" data-tab="top">Top 75</a>
       <a class="tab" href="#/all" data-tab="rates">All schools</a>
       <a class="tab" href="#/apply" data-tab="apply">Apply</a>
+      <a class="tab" href="#/tracker" data-tab="tracker">Tracker</a>
       <span class="navlinks"><a href="#method">Methodology</a></span>
     </nav>
   </div>
@@ -242,7 +509,49 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const pct = r => r == null ? '—' : (r*100).toFixed(1) + '%';
   const n = v => v == null ? '—' : v.toLocaleString('en-US');
   const yearNum = y => { const m = /20\d\d/.exec(y||''); return m ? +m[0] : 0; };
-  const isStale = s => s.applicants != null && yearNum(s.year) < 2024;
+
+  /* ---------- cycle year ----------
+     A rate without its cycle is an unlabeled number, so every rate we print carries
+     the cycle it came from. The reference cycle is the newest one present in the
+     data, computed at runtime — schools publish their Common Data Sets on their own
+     schedules, so when the dataset rolls forward every label re-bases with it. */
+  const REF_CYCLE_NUM = S.reduce((max, s) => Math.max(max, yearNum(s.year)), 0);
+  const REF_CYCLE = (S.find(s => yearNum(s.year) === REF_CYCLE_NUM) || {}).year || '';
+
+  // 'current' | 'behind1' | 'behind2' | 'unconfirmed'
+  function cycleState(s){
+    const y = yearNum(s.year);
+    if(!y) return 'unconfirmed';
+    const gap = REF_CYCLE_NUM - y;
+    if(gap <= 0) return 'current';
+    if(gap === 1) return 'behind1';
+    return 'behind2';
+  }
+  // reader-facing label. Written the way a student reads it: "2023-24 data", not "STALE".
+  function cycleLabel(s){
+    return cycleState(s) === 'unconfirmed' ? 'Cycle year unconfirmed' : s.year + ' data';
+  }
+  // the inline year marker that rides alongside every displayed rate
+  function cycleTag(s){
+    const st = cycleState(s);
+    const title = {
+      current:    'From the most recent cycle in our data (' + REF_CYCLE + ')',
+      behind1:    'One cycle behind the newest data we hold — this is the newest edition this school publishes',
+      behind2:    'Two or more cycles behind the newest data we hold — this is the newest edition this school publishes',
+      unconfirmed:'This record does not state which admissions cycle it covers'
+    }[st];
+    return `<span class="cyc cyc-${st}" title="${esc(title)}">${esc(cycleLabel(s))}</span>`;
+  }
+  // one plain sentence explaining what this record's cycle means, for detail views
+  function cycleSentence(s){
+    return {
+      current:    'These figures cover the ' + s.year + ' admissions cycle — the most recent cycle in our data.',
+      behind1:    'These figures cover the ' + s.year + ' cycle, one behind the newest data we hold. It is the most recent edition this school has published.',
+      behind2:    'These figures cover the ' + s.year + ' cycle, two or more behind the newest data we hold. It is still the most recent edition this school has published.',
+      unconfirmed:'This record does not state which admissions cycle it covers, so we do not claim one.'
+    }[cycleState(s)];
+  }
+  const isStale = s => s.applicants != null && (cycleState(s) === 'behind2');
   const isGap = s => s.flags.includes('not_published_official');
   const asPublished = s => s.flags.some(f => f.includes('implausible'));
   const fromArchive = s => s.flags.some(f => f.includes('refresh_from_live'));
@@ -261,10 +570,10 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return false;
   }
 
-  const PLATFORM = {common_app:'Common App', coalition:'Coalition', own_portal:'Own portal',
-    uc_app:'UC App', calstate_apply:'Cal State Apply', applytexas:'ApplyTexas', other:'Other'};
-  const PLATFILTERS = [['all','All'],['common_app','Common App'],['own_portal','Own portal'],
-    ['coalition','Coalition'],['uc_app','UC'],['calstate_apply','CSU'],['applytexas','ApplyTexas']];
+  /* Application platform (Common App / own portal / Coalition / UC / CSU / ApplyTexas)
+     is deliberately NOT surfaced. Schools state it on their own transfer pages and we
+     link straight there, so carrying our own copy is one more thing to keep true.
+     `reqs.applyVia` stays in the data untouched — it is still used upstream. */
 
   // flag -> reader-facing honesty note (curated; unknown flags render nothing)
   const FLAG_NOTES = {
@@ -273,8 +582,6 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     residency_rule_only:'The school states a residency rule (credits you must complete on campus) rather than a numeric cap on transfer credits.',
     no_numeric_cap_published:'No numeric transfer-credit cap is published.',
     cds_d7_conflict:'The school’s transfer page and its Common Data Set list different deadlines — we show the school-page value.',
-    commonapp_corroborated:'Application platform corroborated against the Common App school directory.',
-    commonapp_transfer_unconfirmed:'Common App listing exists but transfer availability there was not fully confirmed.',
     js_blocked:'Some official pages require a browser to render; values were verified from the sources we could reach.',
     js_blocked_deadline_table:'The deadline table is script-rendered; deadlines were verified from the reachable text.',
     waf_blocked:'The school’s server blocks automated access; values were verified from alternate official sources.',
@@ -291,12 +598,66 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     cap_in_courses:'The cap is stated in courses rather than credit hours.',
     cap_stated_in_years:'The limit is expressed as a year-standing rule rather than a credit number.',
     priority_then_rolling:'These are priority dates, not hard closing dates — the school keeps reviewing applications on a rolling basis afterward.',
-    no_common_app_for_transfers:'Transfer applicants cannot use the Common App here — the school requires its own application.',
     university_wide_policy:'Deadlines and credit-transfer limits are set university-wide across campuses; we confirmed them against this campus\u2019s own dates page.',
     gpa_stats_2023_24_cycle:'',
     gpa_stats_fall_2023_cycle:'',
   };
   const flagNotes = flags => (flags||[]).map(f => FLAG_NOTES[f]).filter(Boolean);
+
+  /* ===================== SIGNATURE ELEMENT: the provenance seal =====================
+     The differentiator is that every number links to the school's own filing, so this
+     is the one element that raises its voice. Compressed in list rows; expanded on a
+     school page into a receipt whose connectors trace claim -> document. */
+  const verifiedOn = s => (s.reqs && s.reqs.reqVerified) || s.lastVerified || TT_DATA.generated;
+
+  function seal(s){
+    const what = isGap(s) ? 'Checked against this school’s official pages'
+                          : 'Extracted from this school’s own official filing';
+    return `<a class="seal" href="${esc(s.sourceUrl)}" target="_blank" rel="noopener"
+      onclick="event.stopPropagation()" title="${esc(what)} · last verified ${esc(verifiedOn(s))}"
+      aria-label="${esc(what)}, last verified ${esc(verifiedOn(s))}. Opens the source in a new tab.">
+      <span class="seal-ring" aria-hidden="true">✓</span>
+      <span class="seal-body"><b>source</b><span class="seal-date">${esc(s.lastVerified||TT_DATA.generated)}</span></span></a>`;
+  }
+
+  // the expanded receipt: which claims each document backs, not a flat list of links
+  function receipt(s){
+    const r = s.reqs;
+    const claims = [];
+    if(s.sourceUrl){
+      claims.push([ isGap(s) ? 'Transfer admission counts — confirmed not published'
+                             : 'Transfer admit rate, applicants, admitted, enrolled',
+                    [['Common Data Set' + (s.year ? ' ' + s.year : ''), s.sourceUrl]] ]);
+    }
+    if(r && (r.reqSources||[]).length){
+      const src = r.reqSources.slice();
+      const head = src.slice(0,2).map((u,i) => [i===0?'Transfer admissions page':'Supporting page', u]);
+      claims.push(['Deadlines, credit cap, and GPA requirements', head, src.slice(2)]);
+    }
+    const body = claims.map(([what, links, more]) => `
+      <div class="claim">
+        <div class="claim-what">${esc(what)}</div>
+        ${links.map(([label,u]) => `<div class="claim-src"><a href="${esc(u)}" target="_blank" rel="noopener">${esc(label)} ↗</a></div>`).join('')}
+        ${(more&&more.length)?`<div class="claim-more">${more.length} further source${more.length>1?'s':''} checked: ${more.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">${i+1}↗</a>`).join(' ')}</div>`:''}
+      </div>`).join('');
+    return `<div class="receipt">
+      <div class="receipt-head">
+        <span class="seal-ring" aria-hidden="true">✓</span>
+        <span class="receipt-stamp">Verified</span>
+        <span class="receipt-date">${esc(verifiedOn(s))}</span>
+      </div>
+      ${body || '<div class="claim"><div class="claim-what">No source on file.</div></div>'}
+    </div>`;
+  }
+
+  /* zero-result and not-found states name the next action rather than reporting absence */
+  function emptyRow(cols, query, clearId){
+    return `<tr><td colspan="${cols}"><div class="empty">
+      <h3>No school matches “${esc(query)}”.</h3>
+      <p>Try a state instead — “Texas” or “TX” both work — or clear the filters to see all ${S.length}.</p>
+      <button class="btn" type="button" id="${clearId}">Clear search</button>
+    </div></td></tr>`;
+  }
 
   const isoKey = s => (s.reqs && s.reqs.fallDeadlineIso) ? s.reqs.fallDeadlineIso : 'zz';
   const admitsSpring = s => {
@@ -304,13 +665,6 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const sd = (r.springDeadline||'').toLowerCase();
     if(sd === 'none' || r.springType === 'none') return false;
     return !!(r.springDeadline || ['priority','final','rolling'].includes(r.springType));
-  };
-  const platformPills = (via, align) => {
-    if(!via || !via.length) return '<span class="dim">—</span>';
-    const show = via.slice(0,2), extra = via.length - show.length;
-    let h = show.map(t => `<span class="pill ${t==='own_portal'?'own':''}">${esc(PLATFORM[t]||t)}</span>`).join('');
-    if(extra>0) h += `<span class="pill">+${extra}</span>`;
-    return `<span class="pills" style="${align==='left'?'justify-content:flex-start':''}">${h}</span>`;
   };
   const typeLabel = t => (t && t!=='none') ? `<span class="dtype">${esc(t)}</span>` : '';
   const springCell = r => {
@@ -341,6 +695,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <div class="card"><h3>Verified, not scraped-and-prayed</h3><p>Numbers are cross-footed against the school's own totals and independently spot-checked. Anything that fails QA is quarantined, not published. When a page and a filing disagree, we show the school-page value and say so.</p></div>
         <div class="card"><h3>Honest about gaps</h3><p>Blank beats guessed. If a school only publishes a minimum GPA, we don't invent an average. If it doesn't publish transfer counts (Syracuse — we checked), we say so. Older editions are labeled, not hidden.</p></div>
       </div>
+      <h3 class="method-sub">What the cycle year means</h3>
+      <p class="method-lead">Every admit rate on this site carries the admissions cycle it came from — <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span>, for example. Schools publish their Common Data Sets on their own schedules, so at any moment some are a cycle or two behind the rest. That is the school's timing, not a gap in our checking: what you see is the newest edition that school has actually made public. We label the older ones <span class="cyc cyc-behind1">one cycle behind</span> or <span class="cyc cyc-behind2">two or more behind</span> rather than hiding them, because an older real number beats a current invented one. Where a record doesn't state its cycle at all, we say <span class="cyc cyc-unconfirmed">Cycle year unconfirmed</span> instead of guessing. Nothing is ever filtered out or pushed down the page for being older — you decide what it's worth.</p>
     </section>
     <footer><div class="wrap cols">
       <div><b>TransferVerified</b> · Built by Batu Yetki — a transfer applicant, for transfers.</div>
@@ -377,7 +733,6 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   }
   function topDetail(s){
     const f = [
-      ['Cohort', s.year||'—'],
       ['Enrolled from transfer', s.enrolled!=null?n(s.enrolled):'—'],
       ['Founded', s.founded||'—'],
       ['Undergraduates', s.undergrads!=null?n(s.undergrads)+' ('+(s.profileYear||'')+')':'—'],
@@ -398,6 +753,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     if(asPublished(s)) notes.push('Figures shown exactly as published by the school; an internal inconsistency in their filing is on our review list.');
     if(isGap(s)) notes.push('This school does not publish transfer admission counts in any official public document we could find. We’ll add it the day they do.');
     return `<td colspan="7">
+      <div class="cycline">${cycleTag(s)} <span>${esc(cycleSentence(s))}</span></div>
       <div class="dgrid">${f}</div>
       ${hist?`<div class="hist num"><b style="font-weight:700;color:var(--navy-300);font-size:11px;text-transform:uppercase;letter-spacing:.07em">Prior years&nbsp;</b> ${hist}</div>`:''}
       <div class="prov"><span style="color:var(--verified);font-weight:800">✓</span>
@@ -454,24 +810,37 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function drawTop(){
     const list = topFiltered();
     $('#tcount').textContent = list.length + ' schools';
+    if(!list.length){ $('#trows').innerHTML = emptyRow(7, tQuery || 'these filters', 'tclear');
+      wireClear('#tclear', () => { tQuery=''; tControl='all'; const b=$('#tq'); if(b) b.value=''; renderTop(); }); return; }
     $('#trows').innerHTML = list.map(s => {
       const open = tOpen===s.slug, gap = isGap(s);
-      const row = `<tr class="row num ${open?'open':''}" data-slug="${esc(s.slug)}">
+      const row = `<tr class="row num ${open?'open':''}" data-slug="${esc(s.slug)}" tabindex="0" role="button" aria-expanded="${open}" aria-label="${esc(s.name)} — press Enter for details">
         <td class="l"><div class="school">${esc(s.name)} ${chips(s)}</div>
           <div class="meta">${esc(s.state)} · ${s.control}${s.founded?` · <span class="est">founded ${s.founded}</span>`:''}</div></td>
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
-        <td class="l ratecol" data-l="Rate">${gap?`<span class="dim">not published — we checked</span>`
-          :`<div class="ratecell"><span class="ratenum">${pct(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}</td>
+        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim">not published — we checked</span>`
+          :`<div class="ratecell"><span class="ratenum">${pct(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Tuition">${tuitionCell(s)}</td>
         <td class="hidesm" data-l="Undergrads">${n(s.undergrads)}</td>
-        <td data-l="Source"><a class="src" href="${esc(s.sourceUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="ok">✓</span> source ↗</a></td>
+        <td data-l="Source">${seal(s)}</td>
       </tr>`;
       return row + (open?`<tr class="detail">${topDetail(s)}</tr>`:'');
     }).join('');
-    $('#trows').querySelectorAll('tr.row').forEach(tr => tr.addEventListener('click', () => {
-      tOpen = tOpen===tr.dataset.slug ? null : tr.dataset.slug; drawTop(); }));
+    wireRows('#trows', slug => { tOpen = tOpen===slug ? null : slug; drawTop(); });
+    wireClear('#tclear', () => { tQuery=''; const b=$('#tq'); if(b) b.value=''; drawTop(); });
   }
+
+  /* rows are operable by mouse and by keyboard — this is a data tool people arrow through */
+  function wireRows(sel, toggle){
+    $(sel).querySelectorAll('tr.row').forEach(tr => {
+      tr.addEventListener('click', () => toggle(tr.dataset.slug));
+      tr.addEventListener('keydown', e => {
+        if(e.key==='Enter' || e.key===' ' || e.key==='Spacebar'){ e.preventDefault(); toggle(tr.dataset.slug); }
+      });
+    });
+  }
+  function wireClear(sel, fn){ const b = $(sel); if(b) b.addEventListener('click', fn); }
 
   /* ============ RATES TAB (v1 behavior, inline expand) ============ */
   let rControl='all', rQuery='', rSort='rate_asc', rOpen=null;
@@ -501,8 +870,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     if(isStale(s)) notes.push('This is the newest edition the school makes public.');
     if(asPublished(s)) notes.push('Figures shown exactly as published by the school; an internal inconsistency in their filing is on our review list.');
     if(isGap(s)) notes.push('This school does not publish transfer admission counts in any official public document we could find. We’ll add it the day they do.');
-    return `<td colspan="7">
-
+    return `<td colspan="6">
+      <div class="cycline">${cycleTag(s)} <span>${esc(cycleSentence(s))}</span></div>
       ${hist?`<div class="hist num"><b style="font-weight:700;color:var(--navy-300);font-size:11px;text-transform:uppercase;letter-spacing:.07em">Prior years&nbsp;</b> ${hist}</div>`:''}
       <div class="prov"><span style="color:var(--verified);font-weight:800">✓</span>
         <span>${isGap(s)?'Checked against the school’s official pages':'Extracted from the school’s official filing'} · last verified ${esc(s.lastVerified||TT_DATA.generated)}</span>
@@ -529,7 +898,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <span class="count" id="count"></span>
         </div>
         <div class="tablecard"><table>
-          <thead><tr><th>School</th><th>Year</th><th>Applied</th><th>Admitted</th><th>Enrolled</th><th class="l">Transfer admit rate</th><th>Source</th></tr></thead>
+          <thead><tr><th>School</th><th>Applied</th><th>Admitted</th><th>Enrolled</th><th class="l">Transfer admit rate</th><th>Source</th></tr></thead>
           <tbody id="rows"></tbody>
         </table></div>
       </main>` + bandAndMethod();
@@ -543,29 +912,29 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function drawRates(){
     const list = ratesFiltered();
     $('#count').textContent = (list.length === S.length ? '150+' : list.length) + ' schools';
+    if(!list.length){ $('#rows').innerHTML = emptyRow(6, rQuery || 'these filters', 'rclear');
+      wireClear('#rclear', () => { rQuery=''; rControl='all'; const b=$('#q'); if(b) b.value=''; renderRates(); }); return; }
     $('#rows').innerHTML = list.map(s => {
       const open = rOpen===s.slug, gap = isGap(s);
-      const row = `<tr class="row num ${open?'open':''}" data-slug="${esc(s.slug)}">
+      const row = `<tr class="row num ${open?'open':''}" data-slug="${esc(s.slug)}" tabindex="0" role="button" aria-expanded="${open}" aria-label="${esc(s.name)} — press Enter for details">
         <td class="l"><div class="school">${esc(s.name)} ${chips(s)}</div><div class="meta">${esc(s.state)}</div></td>
-        <td data-l="Year">${esc(s.year)||'—'}</td>
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
         <td data-l="Enrolled">${n(s.enrolled)}</td>
-        <td class="l ratecol" data-l="Rate">${gap?`<span class="dim">not published — we checked</span>`
-          :`<div class="ratecell"><span class="ratenum">${pct(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}</td>
-        <td data-l="Source"><a class="src" href="${esc(s.sourceUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="ok">✓</span> source ↗</a></td>
+        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim">not published — we checked</span>`
+          :`<div class="ratecell"><span class="ratenum">${pct(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
+        <td data-l="Source">${seal(s)}</td>
       </tr>`;
       return row + (open?`<tr class="detail">${ratesDetail(s)}</tr>`:'');
     }).join('');
-    $('#rows').querySelectorAll('tr.row').forEach(tr => tr.addEventListener('click', () => {
-      rOpen = rOpen===tr.dataset.slug ? null : tr.dataset.slug; drawRates(); }));
+    wireRows('#rows', slug => { rOpen = rOpen===slug ? null : slug; drawRates(); });
+    wireClear('#rclear', () => { rQuery=''; const b=$('#q'); if(b) b.value=''; drawRates(); });
   }
 
   /* ============ APPLY TAB (autocomplete + requirements table) ============ */
-  let aPlat='all', aQuery='', aSpring=false, aSort='fall', acActive=-1;
+  let aQuery='', aSpring=false, aSort='fall', acActive=-1;
   function applyFiltered(){
     let list = S.slice();
-    if(aPlat!=='all') list = list.filter(s => s.reqs && s.reqs.applyVia.includes(aPlat));
     if(aSpring) list = list.filter(admitsSpring);
     if(aQuery) list = list.filter(s => matchQuery(s, aQuery));
     const key = aSort==='name' ? (a,b)=>a.name.localeCompare(b.name)
@@ -608,6 +977,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function drawApply(){
     const list = applyFiltered();
     $('#acount').textContent = (list.length === S.length ? '150+' : list.length) + ' schools';
+    if(!list.length){ $('#arows').innerHTML = `<tr><td colspan="6"><div class="empty">
+      <h3>No school matches these filters.</h3>
+      <p>Only some schools take spring transfers. Turn off “Spring intake only” to see all ${S.length}.</p>
+      <button class="btn" type="button" id="aclear">Show all schools</button></div></td></tr>`;
+      wireClear('#aclear', () => { aSpring=false; const t=$('#springtog'); if(t) t.checked=false; drawApply(); }); return; }
     $('#arows').innerHTML = list.map(s => {
       const r = s.reqs;
       if(!r) return `<tr class="row" data-slug="${esc(s.slug)}">
@@ -622,7 +996,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <td class="l" data-l="Fall deadline">${fall}</td>
         <td class="l" data-l="Spring deadline">${springCell(r)}</td>
         <td data-l="Credit cap">${cap}</td>
-        <td data-l="Page">${r.transferUrl?`<a class="src" href="${esc(r.transferUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>`:'<span class="dim">—</span>'}</td>
+        <td data-l="Page">${r.transferUrl?`<a class="golink" href="${esc(r.transferUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>`:'<span class="dim">—</span>'}</td>
       </tr>`;
     }).join('');
     $('#arows').querySelectorAll('tr.row').forEach(tr => tr.addEventListener('click', () => go('#/school/'+tr.dataset.slug)));
@@ -660,17 +1034,24 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   }
   function renderSchool(slug){
     const s = BY_SLUG[slug];
-    if(!s){ $('#view').innerHTML = `<div class="wrap sp"><a class="sp-back" href="#/all">← All schools</a><h1>School not found</h1><p class="sub">That link doesn't match a school in our dataset.</p></div>` + bandAndMethod(); return; }
+    if(!s){ $('#view').innerHTML = `<div class="wrap sp">
+      <a class="sp-back" href="#/all">← All schools</a>
+      <div class="empty" style="text-align:left;padding:var(--s6) 0">
+        <h3>We don't have a school at that link.</h3>
+        <p>It may have been renamed, or the link may be mistyped. All ${S.length} schools are listed on the All schools tab, and the search there matches state names too.</p>
+        <a class="btn btn-primary" href="#/all">Browse all schools</a>
+      </div></div>` + bandAndMethod(); return; }
     const r = s.reqs, gap = isGap(s);
     const stat = gap
-      ? `<div class="comingsoon">This school does not publish transfer admission counts in any official public document we could find. We'll add them the day they do.</div>`
+      ? `<div class="comingsoon">This school does not publish transfer admission counts in any official public document we could find. We'll add them the day they do.</div>
+         <div class="cycline">${cycleTag(s)} <span>${esc(cycleSentence(s))}</span></div>`
       : `<div class="statcards">
           <div class="statcard"><b class="num">${n(s.applicants)}</b><span>Applied</span></div>
           <div class="statcard"><b class="num">${n(s.admits)}</b><span>Admitted</span></div>
           <div class="statcard"><b class="num">${n(s.enrolled)}</b><span>Enrolled</span></div>
-          <div class="statcard hl"><b class="num">${pct(s.rate)}</b><span>Transfer admit rate</span></div>
-          <div class="statcard"><b class="num" style="font-size:20px">${esc(s.year)||'—'}</b><span>Cohort</span></div>
-        </div>`;
+          <div class="statcard hl"><b class="num">${pct(s.rate)}</b><span>Transfer admit rate</span>${cycleTag(s)}</div>
+        </div>
+        <div class="cycline"><span>${esc(cycleSentence(s))}</span></div>`;
     const profileSection = (s.founded!=null || s.tuition!=null || s.undergrads!=null) ? `
       <div class="sp-section"><h2>At a glance</h2>
         <div class="fieldgrid">
@@ -691,19 +1072,24 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           ${(r.admittedGpa && r.admittedGpa!=='No set minimum') ? field('Minimum GPA to apply', r.admittedGpa, r.admittedGpaBasis, '') : ''}
           ${field('Credit transfer cap', r.creditCap ? r.creditCap+' '+r.creditCapUnit : '')}
         </div>
-        ${r.transferUrl?`<div style="margin-top:16px"><a class="btn" href="${esc(r.transferUrl)}" target="_blank" rel="noopener">School's transfer page ↗</a></div>`:''}
+        ${r.transferUrl?`
+        <div class="applycta">
+          <div class="applycta-copy">
+            <b>Apply on ${esc(s.name)}'s own transfer page</b>
+            <span>The school states its own application steps and platform there — we send you straight to it rather than keeping a second copy.</span>
+          </div>
+          <a class="btn btn-primary" href="${esc(r.transferUrl)}" target="_blank" rel="noopener">Open transfer page ↗</a>
+        </div>`:''}
       </div>`
-      : `<div class="sp-section"><h2>How to apply</h2><div class="comingsoon">Deadlines, platform, and requirements for ${esc(s.name)} are being verified now — check back soon.</div></div>`;
+      : `<div class="sp-section"><h2>How to apply</h2><div class="comingsoon">Deadlines and requirements for ${esc(s.name)} are being verified now — check back soon.</div></div>`;
     const hist = s.history.filter(h => h.applicants!=null);
     const histSection = hist.length ? `
       <div class="sp-section"><h2>Prior years</h2><div class="sp-hist num">
         ${hist.map(h=>`<div>${esc(h.year)}: <b>${n(h.applicants)}</b> applied · <b>${n(h.admits)}</b> admitted · ${pct(h.rate)}</div>`).join('')}
       </div></div>` : '';
     // provenance sources
-    const sources = [];
-    if(s.sourceUrl) sources.push(['Common Data Set', s.sourceUrl]);
-    if(r){ (r.reqSources||[]).slice(0,6).forEach((u,i) => sources.push([i===0?'Transfer page':'Source '+(i+1), u])); }
-    const notes = [...new Set([...(gap?[]:[]), ...flagNotes(r?r.reqFlags:[]), ...(isStale(s)?['This is the newest rate edition the school makes public.']:[]), ...(fromArchive(s)?['The rate figures were retrieved from an archived copy of the school’s official file.']:[]), ...(asPublished(s)?['Rate figures are shown exactly as the school published them; an internal inconsistency in their filing is on our review list.']:[])])];
+    // source links are now assembled by receipt(), which groups them by the claim they back
+    const notes =[...new Set([...(gap?[]:[]), ...flagNotes(r?r.reqFlags:[]), ...(isStale(s)?['This is the newest rate edition the school makes public.']:[]), ...(fromArchive(s)?['The rate figures were retrieved from an archived copy of the school’s official file.']:[]), ...(asPublished(s)?['Rate figures are shown exactly as the school published them; an internal inconsistency in their filing is on our review list.']:[])])];
     const verified = (r&&r.reqVerified) || s.lastVerified || TT_DATA.generated;
 
     $('#view').innerHTML = `
@@ -719,19 +1105,444 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
               ${gap?'<span class="tag gap">rate not published</span>':''}
             </div>
           </div>
+          ${trackerToggleBtn(s)}
         </div>
         ${stat}
         ${profileSection}
         ${reqSection}
         ${cdsFields}
         ${histSection}
-        <div class="sp-section"><h2><span style="color:var(--verified)">✓</span> Provenance</h2>
-          <p style="font-size:14px;color:var(--navy-700);margin-bottom:12px">Last verified ${esc(verified)}. Every value above is taken from an official source:</p>
-          <div class="sp-links">${sources.map(([l,u])=>`<a class="btn" style="background:#fff;color:var(--navy-700)!important;border:1.5px solid var(--navy-100)" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')||'<span class="dim">—</span>'}</div>
+        <div class="sp-section"><h2>Where these numbers come from</h2>
+          ${receipt(s)}
           ${notes.length?`<div class="notecard">${notes.map(esc).join('<br>')}</div>`:''}
           <p class="foot-note">Always verify dates and requirements directly with the school before applying.</p>
         </div>
       </div>` + bandAndMethod();
+    wireTrackerToggle();
+  }
+
+  /* ================================================================================
+     PERSONAL TRACKER — Work Order 01, Task 4.
+     Interface and client-side data model only. No auth, no payments, no server:
+     those are Work Order 02.
+     ================================================================================ */
+
+  /* ---------- the single storage module ----------
+     Nothing else in this codebase calls localStorage. Work Order 02 swaps the
+     internals of these three functions for authenticated server-side storage and
+     everything above this line keeps working unchanged.
+     TODO(WO-02): swap for server-backed storage */
+  const Store = (function(){
+    const KEY = 'transferverified.tracker.v1';
+    const VERSION = 1;
+    const empty = () => ({ schemaVersion:VERSION, updatedAt:null, saved:[] });
+
+    function load(){
+      let raw = null;
+      try{ raw = window.localStorage.getItem(KEY); }
+      catch(e){ return empty(); }            // private mode / storage disabled
+      if(!raw) return empty();
+      let parsed;
+      try{ parsed = JSON.parse(raw); }
+      catch(e){ return empty(); }            // corrupt payload: start clean, don't destroy it
+      if(!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.saved)) return empty();
+      if(typeof parsed.schemaVersion !== 'number' || parsed.schemaVersion > VERSION) return empty();
+      // normalise: drop malformed entries, keep ranks dense and ordered
+      const saved = parsed.saved
+        .filter(e => e && typeof e.slug === 'string')
+        .map(e => ({ slug:e.slug, rank:Number(e.rank)||0, note:typeof e.note==='string'?e.note:'',
+                     addedAt:e.addedAt || null }))
+        .sort((a,b) => a.rank - b.rank)
+        .map((e,i) => Object.assign({}, e, {rank:i}));
+      return Object.assign({}, parsed, { schemaVersion:VERSION, saved });
+    }
+    function save(state){
+      const prev = load();
+      // merge so a newer client's unknown keys survive a round-trip through this one
+      const next = Object.assign({}, prev, state, {
+        schemaVersion: VERSION,
+        updatedAt: new Date().toISOString()
+      });
+      try{ window.localStorage.setItem(KEY, JSON.stringify(next)); }
+      catch(e){ return false; }              // quota or disabled — caller surfaces it
+      return true;
+    }
+    function clear(){
+      try{ window.localStorage.removeItem(KEY); }catch(e){}
+    }
+    return { load, save, clear, KEY, VERSION };
+  })();
+
+  /* ---------- the single entitlement seam ----------
+     Every gate in the UI calls this one function. It is a UI convenience only:
+     it decides what to draw, and nothing more. Real enforcement is server-side and
+     does not exist yet.
+     TODO(WO-02): replace with real entitlement check */
+  function hasTrackerAccess(){
+    return true;
+  }
+
+  // PLACEHOLDER — no price is specified anywhere in the work order or the site.
+  // Single constant so setting the real one is a one-line change. See NOTES.md.
+  const TRACKER_PRICE = { amount:'$9', period:'one-time' };
+
+  /* ---------- tracker state ---------- */
+  let trkTab = 'list';        // 'list' | 'deadlines'
+  let trkState = null;        // lazily loaded from Store
+  let trkDrag = null;         // slug being dragged
+
+  const trk = () => (trkState || (trkState = Store.load()));
+  function trkCommit(saved){
+    saved.forEach((e,i) => { e.rank = i; });
+    trkState = Object.assign({}, trk(), {saved});
+    Store.save(trkState);
+  }
+  const isSaved = slug => trk().saved.some(e => e.slug === slug);
+  function trkAdd(slug){
+    if(isSaved(slug) || !BY_SLUG[slug]) return;
+    const saved = trk().saved.slice();
+    saved.push({slug, rank:saved.length, note:'', addedAt:new Date().toISOString()});
+    trkCommit(saved);
+  }
+  function trkRemove(slug){ trkCommit(trk().saved.filter(e => e.slug !== slug)); }
+  function trkMove(slug, delta){
+    const saved = trk().saved.slice();
+    const i = saved.findIndex(e => e.slug === slug);
+    const j = i + delta;
+    if(i < 0 || j < 0 || j >= saved.length) return;
+    saved.splice(j, 0, saved.splice(i,1)[0]);
+    trkCommit(saved);
+  }
+  function trkNote(slug, text){
+    const saved = trk().saved.map(e => e.slug===slug ? Object.assign({}, e, {note:text}) : e);
+    trkCommit(saved);
+  }
+  // saved entries joined to live TT_DATA; a slug we no longer carry is reported, not dropped
+  function trkRows(){
+    return trk().saved.map(e => ({ entry:e, school:BY_SLUG[e.slug] || null }));
+  }
+
+  /* ---------- deadline resolution ----------
+     fallDeadlineIso is stored MM-DD with no year, so it is resolved to the next
+     occurrence relative to today purely so the list can sort. No synthesised year is
+     ever displayed. Anything that will not parse goes to an explicit group with a
+     link to the school's own page — never dropped, never guessed. */
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const MONTH_NUM = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12,
+    january:1,february:2,march:3,april:4,june:6,july:7,august:8,september:9,october:10,november:11,december:12};
+
+  // Returns {mo, da, yr|null} for a single unambiguous date, else null.
+  // Anything with a range, a qualifier, or more than one date stays null on purpose —
+  // those belong in "date needs confirming", not in a date we invented.
+  function parseDate(txt){
+    const t = txt.trim().replace(/\s+/g,' ');
+    let m;
+    // "October 1, 2025" / "Oct 1 2025" / "September 15"
+    m = /^([A-Za-z]{3,9})\.?\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s*(\d{4}))?$/.exec(t);
+    if(m && MONTH_NUM[m[1].toLowerCase()]) return {mo:MONTH_NUM[m[1].toLowerCase()], da:+m[2], yr:m[3]?+m[3]:null};
+    // "1 October 2025"
+    m = /^(\d{1,2})\s+([A-Za-z]{3,9})\.?(?:,?\s*(\d{4}))?$/.exec(t);
+    if(m && MONTH_NUM[m[2].toLowerCase()]) return {mo:MONTH_NUM[m[2].toLowerCase()], da:+m[1], yr:m[3]?+m[3]:null};
+    // "12/1" / "10/15/2025"
+    m = /^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/.exec(t);
+    if(m){
+      const mo=+m[1], da=+m[2];
+      if(mo>=1 && mo<=12 && da>=1 && da<=31){
+        let yr = m[3] ? +m[3] : null;
+        if(yr!=null && yr<100) yr += 2000;
+        return {mo, da, yr};
+      }
+    }
+    return null;
+  }
+
+  function resolveDeadline(s, which){
+    const r = s.reqs || {};
+    const raw = which==='fall' ? (r.fallDeadline || s.fallDeadline) : (r.springDeadline || s.springDeadline);
+    const txt = (raw || '').trim();
+    if(!txt || txt.toLowerCase()==='none') return {kind:'none'};
+
+    let parsed = null;
+    // the ISO field is the most reliable source where it exists (MM-DD, no year)
+    if(which==='fall' && /^\d{2}-\d{2}$/.test(r.fallDeadlineIso || '')){
+      const [mo,da] = r.fallDeadlineIso.split('-').map(Number);
+      parsed = {mo, da, yr:null};
+    }
+    if(!parsed) parsed = parseDate(txt);
+    if(!parsed) return {kind:'unparsed', text:txt};
+
+    // Only a year the source actually stated is ever displayed. Where none was
+    // stated we resolve to the next occurrence purely so the list can sort, and
+    // we show the date without a year.
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let y = parsed.yr;
+    if(y == null){
+      y = now.getFullYear();
+      if(new Date(y, parsed.mo-1, parsed.da) < today) y += 1;
+    }
+    const when = new Date(y, parsed.mo-1, parsed.da);
+    return {
+      kind:'date', text:txt, when, hasYear: parsed.yr != null,
+      label: MONTHS[parsed.mo-1] + ' ' + parsed.da + (parsed.yr != null ? ', ' + parsed.yr : ''),
+      sortKey: `${y}-${String(parsed.mo).padStart(2,'0')}-${String(parsed.da).padStart(2,'0')}`
+    };
+  }
+  function daysAway(d){
+    const t = new Date(); t.setHours(0,0,0,0);
+    return Math.round((d - t) / 86400000);
+  }
+
+  /* ---------- views ---------- */
+  function trackerLocked(){
+    return `
+      <section class="hero wrap">
+        <h1>Your transfer list, <em>in one place.</em></h1>
+        <p class="sub">Everything else on TransferVerified is free and stays free. This one tool is paid — it's the only thing we charge for.</p>
+      </section>
+      <main class="wrap">
+        <div class="lockgrid">
+          <div class="lockcard">
+            <h3>Save the schools you're serious about</h3>
+            <p>Pull any of the ${S.length} schools into one list you own, instead of keeping fourteen tabs open.</p>
+          </div>
+          <div class="lockcard">
+            <h3>Rank them by where you actually want to go</h3>
+            <p>You set the order. We never reorder your list by admit rate — your reach school stays at the top if that's where you put it.</p>
+          </div>
+          <div class="lockcard">
+            <h3>Keep your notes with the numbers</h3>
+            <p>A note per school, saved as you type, sitting next to the rate and the deadline it refers to.</p>
+          </div>
+          <div class="lockcard">
+            <h3>See every deadline on one timeline</h3>
+            <p>All your saved schools' deadlines in date order. Anything a school hasn't clearly published is listed as needing confirmation, with a link to check.</p>
+          </div>
+        </div>
+        <div class="lockcta">
+          <div>
+            <b>Personal Tracker</b>
+            <span>${esc(TRACKER_PRICE.amount)} ${esc(TRACKER_PRICE.period)}. The database, the deadlines, and every source link stay free.</span>
+          </div>
+          <a class="btn btn-primary" href="mailto:batuyetki@transferverified.com?subject=Personal%20Tracker">Ask about the tracker</a>
+        </div>
+      </main>` + bandAndMethod();
+  }
+
+  function renderTracker(){
+    if(!hasTrackerAccess()){ $('#view').innerHTML = trackerLocked(); return; }
+    $('#view').innerHTML = `
+      <section class="hero wrap">
+        <h1>Your tracker.</h1>
+        <p class="sub">The schools you're applying to, in the order you want them, with your notes and every deadline in one place. Saved on this device.</p>
+      </section>
+      <main class="wrap">
+        <div class="controls">
+          <div class="chips" id="trktabs">
+            <button class="chip ${trkTab==='list'?'on':''}" data-v="list">My list</button>
+            <button class="chip ${trkTab==='deadlines'?'on':''}" data-v="deadlines">Deadlines</button>
+          </div>
+          <span class="count" id="trkcount"></span>
+        </div>
+        <div id="trkbody"></div>
+      </main>` + bandAndMethod();
+    drawTracker();
+    $('#trktabs').addEventListener('click', e => {
+      const b = e.target.closest('.chip'); if(!b) return;
+      trkTab = b.dataset.v;
+      [...$('#trktabs').children].forEach(x => x.classList.toggle('on', x===b));
+      drawTracker();
+    });
+  }
+
+  function drawTracker(){
+    const rows = trkRows();
+    $('#trkcount').textContent = rows.length + (rows.length===1?' school':' schools');
+    $('#trkbody').innerHTML = trkTab==='deadlines' ? trackerDeadlines(rows) : trackerList(rows);
+    if(trkTab==='deadlines') return wireTrackerDeadlines();
+    wireTrackerList();
+  }
+
+  function trackerEmpty(){
+    return `<div class="empty">
+      <h3>Nothing saved yet.</h3>
+      <p>Open any school and choose “Save to tracker”, or add one from the list below. Your list is ranked in the order you add them — you can reorder it any time.</p>
+      <a class="btn btn-primary" href="#/all">Find schools to add</a>
+    </div>`;
+  }
+
+  function trackerList(rows){
+    if(!rows.length) return `<div class="tablecard">${trackerEmpty()}</div>` + trackerAdder();
+    const items = rows.map(({entry, school}, i) => {
+      if(!school){
+        return `<li class="trkrow trkrow-missing" data-slug="${esc(entry.slug)}">
+          <div class="trkrank">${i+1}</div>
+          <div class="trkmain">
+            <div class="trkname">${esc(entry.slug)}</div>
+            <div class="meta">This school is no longer in our dataset, so we can't show its figures. Your note is kept.</div>
+            ${entry.note?`<div class="trknote-ro">${esc(entry.note)}</div>`:''}
+          </div>
+          <div class="trkacts"><button class="iconbtn" data-act="remove" data-slug="${esc(entry.slug)}" aria-label="Remove ${esc(entry.slug)} from your list">Remove</button></div>
+        </li>`;
+      }
+      const d = resolveDeadline(school,'fall');
+      return `<li class="trkrow" draggable="true" data-slug="${esc(school.slug)}">
+        <div class="trkrank" aria-hidden="true">${i+1}</div>
+        <div class="trkmain">
+          <div class="trkhead">
+            <a class="trkname" href="#/school/${esc(school.slug)}">${esc(school.name)}</a>
+            <span class="tag ${school.control}">${school.control}</span>
+          </div>
+          <div class="trkstats">
+            <span class="trkrate num">${isGap(school)?'not published':pct(school.rate)}</span>
+            ${cycleTag(school)}
+            <span class="meta">${esc(school.state)}</span>
+            <span class="meta">Fall: ${d.kind==='date'?esc(d.text):(d.kind==='unparsed'?esc(d.text):'not published')}</span>
+          </div>
+          <label class="trknote-l" for="note-${esc(school.slug)}">Your note</label>
+          <textarea class="trknote" id="note-${esc(school.slug)}" data-slug="${esc(school.slug)}"
+            rows="2" placeholder="Anything you want to remember about ${esc(school.name)}…">${esc(entry.note)}</textarea>
+          <span class="trksaved" data-for="${esc(school.slug)}" aria-live="polite"></span>
+        </div>
+        <div class="trkacts">
+          <button class="iconbtn" data-act="up" data-slug="${esc(school.slug)}" ${i===0?'disabled':''} aria-label="Move ${esc(school.name)} up to rank ${i}">↑</button>
+          <button class="iconbtn" data-act="down" data-slug="${esc(school.slug)}" ${i===rows.length-1?'disabled':''} aria-label="Move ${esc(school.name)} down to rank ${i+2}">↓</button>
+          <button class="iconbtn" data-act="remove" data-slug="${esc(school.slug)}" aria-label="Remove ${esc(school.name)} from your list">Remove</button>
+        </div>
+      </li>`;
+    }).join('');
+    return `<p class="trkhint">Ranked by where you most want to go. Drag a row, or use the ↑ ↓ buttons — both do the same thing.</p>
+      <ol class="trklist" id="trklist">${items}</ol>` + trackerAdder();
+  }
+
+  function trackerAdder(){
+    const options = S.filter(s => !isSaved(s.slug))
+      .slice().sort((a,b)=>a.name.localeCompare(b.name))
+      .map(s => `<option value="${esc(s.slug)}">${esc(s.name)} — ${esc(s.state)}</option>`).join('');
+    if(!options) return `<p class="trkhint" style="margin-top:var(--s5)">All ${S.length} schools are on your list.</p>`;
+    return `<div class="trkadd">
+      <label for="trkpick">Add a school</label>
+      <select id="trkpick"><option value="">Choose a school…</option>${options}</select>
+      <button class="btn" type="button" id="trkaddbtn">Add to list</button>
+    </div>`;
+  }
+
+  function trackerDeadlines(rows){
+    if(!rows.length) return `<div class="tablecard">${trackerEmpty()}</div>`;
+    const dated = [], unclear = [];
+    rows.forEach(({school}) => {
+      if(!school) return;
+      ['fall','spring'].forEach(which => {
+        const d = resolveDeadline(school, which);
+        if(d.kind === 'date') dated.push({school, which, d});
+        else if(d.kind === 'unparsed') unclear.push({school, which, d});
+      });
+    });
+    dated.sort((a,b) => a.d.sortKey.localeCompare(b.d.sortKey) || a.school.name.localeCompare(b.school.name));
+
+    const datedHtml = dated.map(({school, which, d}) => {
+      const away = daysAway(d.when);
+      return `<li class="dlrow">
+        <div class="dlwhen"><b>${esc(d.label)}</b><span>${away<0?'date has passed':(away===0?'today':away+' day'+(away===1?'':'s')+' away')}</span></div>
+        <div class="dlmain">
+          <a class="trkname" href="#/school/${esc(school.slug)}">${esc(school.name)}</a>
+          <div class="meta">${which==='fall'?'Fall':'Spring'} transfer · as published: ${esc(d.text)}</div>
+        </div>
+        <a class="golink" href="${esc((school.reqs&&school.reqs.transferUrl)||school.sourceUrl)}" target="_blank" rel="noopener">check ↗</a>
+      </li>`;
+    }).join('');
+
+    const unclearHtml = unclear.map(({school, which, d}) => `<li class="dlrow dlrow-unclear">
+      <div class="dlwhen"><b>—</b><span>needs confirming</span></div>
+      <div class="dlmain">
+        <a class="trkname" href="#/school/${esc(school.slug)}">${esc(school.name)}</a>
+        <div class="meta">${which==='fall'?'Fall':'Spring'} transfer · the school publishes “${esc(d.text)}”, which isn't a single date we can place on a calendar.</div>
+      </div>
+      <a class="golink" href="${esc((school.reqs&&school.reqs.transferUrl)||school.sourceUrl)}" target="_blank" rel="noopener">confirm ↗</a>
+    </li>`).join('');
+
+    return `
+      ${dated.length?`<ol class="dllist">${datedHtml}</ol>`
+        :`<div class="tablecard"><div class="empty"><h3>No dated deadlines yet.</h3>
+           <p>None of your saved schools publishes a deadline we can place on a calendar. Anything we couldn't read is listed below with a link to the school's own page.</p></div></div>`}
+      ${unclear.length?`<div class="dlunclear">
+        <h3>Date needs confirming <span class="dlcount">${unclear.length}</span></h3>
+        <p>These schools publish something other than one fixed date — a rolling window, a priority date, or a per-programme rule. We won't guess a date for you. Check each one on the school's own page.</p>
+        <ol class="dllist">${unclearHtml}</ol>
+      </div>`:''}`;
+  }
+
+  function wireTrackerList(){
+    const list = $('#trklist');
+    if(list){
+      list.addEventListener('click', e => {
+        const b = e.target.closest('.iconbtn'); if(!b || b.disabled) return;
+        const slug = b.dataset.slug;
+        if(b.dataset.act==='up') trkMove(slug,-1);
+        else if(b.dataset.act==='down') trkMove(slug,1);
+        else if(b.dataset.act==='remove') trkRemove(slug);
+        drawTracker();
+        const next = $('#trklist') && $('#trklist').querySelector(`.iconbtn[data-slug="${slug}"][data-act="${b.dataset.act}"]`);
+        if(next && !next.disabled) next.focus();
+      });
+      // notes autosave
+      list.querySelectorAll('.trknote').forEach(t => {
+        let timer = null;
+        t.addEventListener('input', () => {
+          const slug = t.dataset.slug;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            trkNote(slug, t.value);
+            const flag = list.querySelector(`.trksaved[data-for="${slug}"]`);
+            if(flag){ flag.textContent = 'Saved'; setTimeout(()=>{ flag.textContent=''; }, 1600); }
+          }, 400);
+        });
+      });
+      // drag to reorder — the keyboard path above is equivalent, not a lesser fallback
+      list.querySelectorAll('.trkrow[draggable]').forEach(row => {
+        row.addEventListener('dragstart', e => { trkDrag = row.dataset.slug; row.classList.add('dragging');
+          if(e.dataTransfer){ e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain', trkDrag); }catch(_){} } });
+        row.addEventListener('dragend', () => { trkDrag=null; row.classList.remove('dragging'); });
+        row.addEventListener('dragover', e => { e.preventDefault(); row.classList.add('dragover'); });
+        row.addEventListener('dragleave', () => row.classList.remove('dragover'));
+        row.addEventListener('drop', e => {
+          e.preventDefault(); row.classList.remove('dragover');
+          const from = trkDrag, to = row.dataset.slug;
+          if(!from || from===to) return;
+          const saved = trk().saved.slice();
+          const i = saved.findIndex(x=>x.slug===from), j = saved.findIndex(x=>x.slug===to);
+          if(i<0||j<0) return;
+          saved.splice(j, 0, saved.splice(i,1)[0]);
+          trkCommit(saved); drawTracker();
+        });
+      });
+    }
+    const pick = $('#trkpick'), add = $('#trkaddbtn');
+    if(add) add.addEventListener('click', () => {
+      const v = pick && pick.value; if(!v) return;
+      trkAdd(v); drawTracker();
+    });
+  }
+  function wireTrackerDeadlines(){ /* deadline rows are plain links; nothing to wire */ }
+
+  /* save/remove control shown on a school page — the tracker's only reach into the
+     free site, and it never gates or interrupts anything that was already there */
+  function trackerToggleBtn(s){
+    if(!hasTrackerAccess()) return '';
+    const on = isSaved(s.slug);
+    return `<button class="btn trktoggle ${on?'on':''}" type="button" id="trksave" data-slug="${esc(s.slug)}" aria-pressed="${on}">
+      ${on?'✓ Saved to tracker':'+ Save to tracker'}</button>`;
+  }
+  function wireTrackerToggle(){
+    const b = $('#trksave'); if(!b) return;
+    b.addEventListener('click', () => {
+      const slug = b.dataset.slug;
+      if(isSaved(slug)) trkRemove(slug); else trkAdd(slug);
+      const on = isSaved(slug);
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', String(on));
+      b.textContent = on ? '✓ Saved to tracker' : '+ Save to tracker';
+    });
   }
 
   /* ============ ROUTER ============ */
@@ -741,6 +1552,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const h = location.hash || '#/';
     const m = h.match(/^#\/school\/(.+)$/);
     if(m){ setActiveTab('apply'); renderSchool(decodeURIComponent(m[1])); }
+    else if(h.startsWith('#/tracker')){ setActiveTab('tracker'); renderTracker(); }
     else if(h.startsWith('#/apply')){ setActiveTab('apply'); renderApply(); }
     else if(h.startsWith('#/all')||h.startsWith('#/rates')){ setActiveTab('rates'); renderRates(); }
     else if(h.startsWith('#method')){ /* in-page anchor on current view */ return; }
