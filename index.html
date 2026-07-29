@@ -54,8 +54,8 @@
     /* --- WO3 Task 1: the type scale as named tiers.
        Tracking is a function of size — display type tightens as it grows, label type
        opens up, and nothing sits between the two regimes. See NOTES.md §1. --- */
-    --t-display-1:clamp(44px,6.9vw,92px);    /* hero h1        850 / wdth 118 */
-    --t-display-2:clamp(32px,4.4vw,56px);    /* section h2     850 / wdth 114 */
+    --t-display-1:clamp(31px,5.5vw,84px);    /* hero h1        850 / wdth 118 */
+    --t-display-2:clamp(26px,3.6vw,50px);    /* section h2     850 / wdth 114 */
     --t-display-3:clamp(22px,2.4vw,30px);    /* panel titles   780 / wdth 108 */
     --t-display-4:19px;                      /* h3, sub-heads  750 / wdth 104 */
     --t-lead:clamp(17px,1.5vw,20px);
@@ -117,7 +117,18 @@
        Only .wrap may consume these. Section rules use padding-block so they
        can never reset horizontal padding again. --- */
     --container:1180px;
-    --gutter:32px;
+    /* One fluid gutter instead of three hard steps. The old 32/24/16 ladder shrank the
+       margin exactly as the display type stayed large — at a 693px viewport that put
+       50px type against a 16px margin, which is what "too close to the borders" was.
+       This scales the margin WITH the viewport so the ratio stays constant. */
+    --gutter:clamp(20px,4vw,52px);
+
+    /* ---- selectivity scale: one colour per Task-2 band, darkest = hardest.
+       Every stop is on the existing navy->electric ramp, so this is a new DIMENSION
+       of the brand palette rather than a new palette. Used as fills only — never as
+       text — and never on an estimate, which keeps its violet identity. ---- */
+    --sel-1:#011F4B; --sel-2:#0B4A8F; --sel-3:#0071B8;
+    --sel-4:#0092D6; --sel-5:#26B4EE; --sel-6:#83D8F7;
 
     /* the estimate identity — deliberately outside the sourced-figure palette */
     --estimate:#6D4AA6; --estimate-soft:#F4F0FA; --estimate-line:#C9B6E8;
@@ -141,15 +152,36 @@
   body::before{
     content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
     background:
-      radial-gradient(1100px 620px at 88% -8%, rgba(0,194,255,.14), transparent 62%),
-      radial-gradient(900px 700px at -6% 8%, rgba(1,31,75,.10), transparent 60%),
-      linear-gradient(178deg,#FCFAF7 0%, var(--paper) 44%, #F3EDE5 100%);
+      radial-gradient(1100px 620px at 88% -8%, rgba(0,194,255,.20), transparent 62%),
+      radial-gradient(900px 700px at -6% 8%, rgba(1,31,75,.12), transparent 60%),
+      radial-gradient(760px 520px at 18% 92%, rgba(110,73,62,.09), transparent 64%),
+      linear-gradient(178deg,#FCFAF7 0%, var(--paper) 44%, #F1EAE1 100%);
   }
   body::after{
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .wrap{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+
+  /* ===================== pattern language =====================
+     Three patterns, each meaning something. Nothing is decorative-only.
+       .dark      -> a ledger grid, because these panels carry filed figures
+       .hatch     -> diagonal rule, for a value the school does not publish
+       .receipt   -> engraved arcs, the visual language of an official document */
+  .dark::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:
+      linear-gradient(to right, rgba(0,194,255,.09) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,194,255,.06) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(120% 90% at 82% -10%, #000 0%, transparent 72%);
+    mask-image:radial-gradient(120% 90% at 82% -10%, #000 0%, transparent 72%)}
+  .hatch{background-image:repeating-linear-gradient(135deg,
+      rgba(110,73,62,.13) 0 2px, transparent 2px 8px);
+    border-radius:4px;padding:2px 8px}
+  .receipt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    border-radius:inherit;
+    background-image:repeating-radial-gradient(circle at 100% 0,
+      transparent 0 13px, rgba(13,122,61,.07) 13px 14px);}
   a{color:var(--navy-500)}
   .num{font-variant-numeric:tabular-nums}
   /* WO3 §6: the unit is demoted so the eye lands on the digits. The % is decorative
@@ -172,7 +204,7 @@
     background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden}
   .dark::before{content:"";position:absolute;inset:0;pointer-events:none;
     background-image:var(--grain);opacity:.06;mix-blend-mode:overlay}
-  .dark>*{position:relative}
+  .dark>*{position:relative;z-index:1}
   /* text inside a dark surface: navy-100 is 9.8:1 on navy-900, white is 17:1 */
   .dark a{color:#fff}
 
@@ -342,7 +374,9 @@
   .logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;color:var(--navy-900);
     font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.03em;
     font-variation-settings:'wdth' 112;flex-shrink:0}
-  nav{display:flex;gap:var(--s6);align-items:center;font-size:14.5px;font-weight:600}
+  nav{display:flex;gap:var(--s6);align-items:center;font-size:14.5px;font-weight:600;
+    min-width:0;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  nav::-webkit-scrollbar{display:none}
   nav a{text-decoration:none;color:var(--navy-700);position:relative;padding:6px 0;
     white-space:nowrap;transition:color 140ms var(--ease)}
   nav a:hover{color:var(--navy-900)}
@@ -372,7 +406,8 @@
   .eyebrow::before{content:"";width:32px;height:2px;background:var(--electric);border-radius:2px;
     box-shadow:0 0 10px rgba(0,194,255,.8)}
   .hero h1{font-size:var(--t-display-1);font-weight:850;letter-spacing:var(--tr-tight);
-    color:var(--navy-900);line-height:.92;font-variation-settings:'wdth' 118;text-wrap:balance}
+    color:var(--navy-900);line-height:.94;font-variation-settings:'wdth' 118;text-wrap:balance;
+    max-width:min(100%,13em)}
   .hero h1 em{font-style:normal;
     background:linear-gradient(96deg,var(--navy-500),var(--electric-deep) 55%,var(--electric));
     -webkit-background-clip:text;background-clip:text;color:transparent}
@@ -500,8 +535,8 @@
   .meta{font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:.02em;margin-top:3px}
   .tag{font-size:10px;font-weight:800;letter-spacing:var(--tr-chip);text-transform:uppercase;
     padding:3px 8px;border-radius:5px;white-space:nowrap}
-  .tag.public{background:var(--tint);color:var(--navy-500)}
-  .tag.private{background:var(--cream);color:var(--umber)}
+  .tag.public{background:#DCEEFA;color:#0A5C8E;box-shadow:inset 0 0 0 1px rgba(0,113,184,.18)}
+  .tag.private{background:#F3E7DE;color:#7A4433;box-shadow:inset 0 0 0 1px rgba(122,68,51,.15)}
   .tag.stale,.tag.note{background:#FBF3E4;color:#8A6410}
   .tag.gap{background:#EFEDEA;color:var(--dim-ink)}
   .tag.soon{background:var(--tint);color:var(--navy-500)}
@@ -512,12 +547,29 @@
   .ratenum{font-family:var(--font-display);font-size:var(--t-rate);font-weight:800;
     letter-spacing:-.035em;color:var(--navy-900);min-width:84px;text-align:right;line-height:1;
     white-space:nowrap;font-variant-numeric:tabular-nums;font-variation-settings:'wdth' 104}
-  .track{flex:1;height:8px;background:rgba(1,31,75,.07);border-radius:99px;overflow:hidden;
+  .track{flex:1;height:9px;background:rgba(1,31,75,.07);border-radius:99px;overflow:hidden;
     box-shadow:inset 0 1px 2px rgba(1,31,75,.09)}
+  /* The FILL length is the rate, so a 4% school gets a 4px bar and its band colour is
+     invisible. Tinting the full-width TRACK carries the colour across every row without
+     touching what the bar actually encodes. */
+  .track.sel-1{background:rgba(1,31,75,.17)}
+  .track.sel-2{background:rgba(11,74,143,.17)}
+  .track.sel-3{background:rgba(0,113,184,.16)}
+  .track.sel-4{background:rgba(0,146,214,.16)}
+  .track.sel-5{background:rgba(38,180,238,.18)}
+  .track.sel-6{background:rgba(131,216,247,.28)}
   .fill{height:100%;border-radius:99px;transform-origin:left;
     background:linear-gradient(90deg,var(--electric-deep),var(--electric));
     box-shadow:0 0 12px rgba(0,194,255,.55);
     animation:barGrow 900ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 62ms + 120ms)}
+  /* the bar is now coloured by selectivity band — darkest is hardest to transfer into,
+     so a column of rows reads as a gradient and the hard schools are findable at a glance */
+  .fill.sel-1{background:linear-gradient(90deg,var(--sel-1),#0B3D74);box-shadow:0 0 10px rgba(1,31,75,.45)}
+  .fill.sel-2{background:linear-gradient(90deg,var(--sel-2),#1160AC);box-shadow:0 0 10px rgba(11,74,143,.45)}
+  .fill.sel-3{background:linear-gradient(90deg,var(--sel-3),#0086C9);box-shadow:0 0 10px rgba(0,113,184,.45)}
+  .fill.sel-4{background:linear-gradient(90deg,var(--sel-4),#12A6E4);box-shadow:0 0 11px rgba(0,146,214,.5)}
+  .fill.sel-5{background:linear-gradient(90deg,var(--sel-5),#5CCBF4);box-shadow:0 0 12px rgba(38,180,238,.5)}
+  .fill.sel-6{background:linear-gradient(90deg,var(--sel-6),#A8E6FA);box-shadow:0 0 12px rgba(131,216,247,.55)}
   .dim{color:var(--dim-ink)}
 
   /* ---------- cycle marker ---------- */
@@ -546,6 +598,7 @@
   .receipt{position:relative;background:var(--surface);
     border-left:3px solid var(--verified);border-radius:var(--r-md);padding:var(--s6);
     margin-top:var(--s4);box-shadow:var(--edge),var(--lift),var(--e2)}
+  .receipt>*{position:relative;z-index:1}
   .receipt-head{display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap;
     padding-bottom:var(--s4);border-bottom:1px dashed rgba(1,31,75,.16)}
   .receipt-head .seal-ring{width:30px;height:30px;font-size:15px}
@@ -709,8 +762,15 @@
   /* asymmetric card rail — deliberately unequal, offset on the vertical */
   .cards{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:var(--s5);align-items:start}
   .card{background:var(--surface);border-radius:var(--r-lg);
-    padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);
+    padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);position:relative;overflow:hidden;
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;
+    background:linear-gradient(90deg,var(--sel-2),var(--sel-4))}
+  .card:nth-child(2)::before{background:linear-gradient(90deg,var(--sel-3),var(--sel-5))}
+  .card:nth-child(3)::before{background:linear-gradient(90deg,var(--sel-5),var(--sel-6))}
+  .card::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;
+    border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle, rgba(0,194,255,.10), transparent 68%)}
   .card:nth-child(2){margin-top:var(--s6)}
   .card:nth-child(3){margin-top:var(--s8)}
   .card:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
@@ -722,6 +782,51 @@
     margin-top:var(--sec-y);font-size:14px;color:var(--muted)}
   footer .cols{display:flex;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;align-items:center}
   footer b{color:var(--navy-700)}
+
+  /* ---------- selectivity distribution chart ---------- */
+  .distcard{background:var(--surface);border-radius:var(--r-xl);padding:var(--s7);
+    box-shadow:var(--edge),var(--lift),var(--e2);margin-top:var(--s7);position:relative;overflow:hidden}
+  .distcard::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+    background-image:linear-gradient(to bottom, rgba(1,31,75,.05) 1px, transparent 1px);
+    background-size:100% 34px}
+  .distcard>*{position:relative;z-index:1}
+  .dist-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s5);
+    flex-wrap:wrap;margin-bottom:var(--s6)}
+  .dist-title{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
+    color:var(--navy-900);letter-spacing:var(--tr-snug);line-height:1.15;max-width:20ch}
+  .dist-key{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;
+    text-transform:uppercase;letter-spacing:var(--tr-chip);color:var(--muted);flex:none}
+  .dist-key i{width:18px;height:10px;border-radius:2px;display:block}
+  .dist-bars{display:flex;flex-direction:column;gap:var(--s3)}
+  .dist-row{display:grid;grid-template-columns:88px minmax(0,1fr) 34px;align-items:center;gap:var(--s4)}
+  .dist-l{font-size:12.5px;font-weight:700;color:var(--navy-700);white-space:nowrap;
+    font-variant-numeric:tabular-nums;text-align:right}
+  .dist-t{height:22px;background:rgba(1,31,75,.05);border-radius:6px;overflow:hidden;
+    box-shadow:inset 0 1px 2px rgba(1,31,75,.07)}
+  .dist-b{display:block;height:100%;border-radius:6px;transform-origin:left;
+    animation:barGrow 1000ms var(--ease-out) both;animation-delay:180ms}
+  .dist-n{font-size:13px;font-weight:800;color:var(--navy-900);text-align:right;
+    font-variant-numeric:tabular-nums}
+  .dist-foot{margin-top:var(--s6);font-size:13.5px;line-height:1.7;color:var(--navy-700);max-width:76ch}
+  .dist-foot b{color:var(--navy-900);font-variant-numeric:tabular-nums}
+  /* scoped to the chart and the key so they cannot override .fill.sel-N, which is
+     declared earlier in the sheet — the exact trap the .plan/.dark bug came from */
+  .dist-b.sel-1,.dist-key i.sel-1{background:var(--sel-1)}
+  .dist-b.sel-2,.dist-key i.sel-2{background:var(--sel-2)}
+  .dist-b.sel-3,.dist-key i.sel-3{background:var(--sel-3)}
+  .dist-b.sel-4,.dist-key i.sel-4{background:var(--sel-4)}
+  .dist-b.sel-5,.dist-key i.sel-5{background:var(--sel-5)}
+  .dist-b.sel-6,.dist-key i.sel-6{background:var(--sel-6)}
+  @media (max-width:768px){
+    .distcard{padding:var(--s6)}
+    .dist-row{grid-template-columns:74px minmax(0,1fr) 28px;gap:var(--s3)}
+    .dist-l{font-size:11.5px}
+  }
+
+  /* ---------- inline icons ---------- */
+  .ico{flex:none;width:22px;height:22px;stroke:var(--navy-500);stroke-width:1.7;fill:none;
+    stroke-linecap:round;stroke-linejoin:round;transition:stroke var(--t-fast) var(--ease)}
+  .inside:hover .ico{stroke:var(--electric-deep)}
 
   /* ===================== HOME (WO3 Task 3) ===================== */
   .hm-sec{padding-block:var(--sec-y-sm)}
@@ -740,7 +845,7 @@
 
   /* what's inside — rows, so they use the RAIL gesture rather than LIFT */
   .insidelist{display:flex;flex-direction:column}
-  .inside{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--s5);
+  .inside{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:var(--s5);
     align-items:start;padding:var(--s6) var(--s4);text-decoration:none;color:inherit;
     border-top:1px solid var(--hair);
     box-shadow:inset 3px 0 0 transparent;
@@ -806,7 +911,7 @@
     .hm-lead h2{max-width:none}
     .plans{grid-template-columns:1fr;gap:var(--s5)}
     .plan{padding:var(--s6)}
-    .inside{grid-template-columns:auto minmax(0,1fr);gap:var(--s4);padding:var(--s5) var(--s3)}
+    .inside{grid-template-columns:auto auto minmax(0,1fr);gap:var(--s3) var(--s4);padding:var(--s5) var(--s3)}
     .inside-go{display:none}
     .signin{padding:var(--s6);flex-direction:column;align-items:stretch}
     .signin-btn{width:100%}
@@ -884,9 +989,11 @@
   .dlunclear>p{font-size:13.5px;color:var(--navy-700);max-width:64ch;margin-bottom:var(--s5);line-height:1.65}
 
   .lockgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--s5)}
-  .lockcard{background:var(--surface);border-radius:var(--r-lg);
+  .lockcard{background:var(--surface);border-radius:var(--r-lg);position:relative;overflow:hidden;
     padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .lockcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;
+    background:linear-gradient(90deg,var(--sel-3),var(--sel-5))}
   .lockcard:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
   .lockcard:nth-child(even){margin-top:var(--s5)}
   .lockcard h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
@@ -902,9 +1009,8 @@
      RESPONSIVE — tablet at 1024, card layout + touch targets at 768, phone 430.
      =========================================================================== */
   @media (max-width:1024px){
-    :root{--gutter:24px}
-    /* --sec-y / --sec-y-sm are clamped on vw, so they scale down on their own and are
-       not overridden here. Only layout changes below this width. */
+    /* --gutter, --sec-y and the display scale are all clamped on vw, so they scale on
+       their own. Only LAYOUT changes below this width — never type size or spacing. */
     .hero-grid{grid-template-columns:minmax(0,1fr);gap:var(--s7)}
     .heropanel{margin-top:0;max-width:560px;padding:var(--s6)}
     .cards{grid-template-columns:1fr 1fr}
@@ -925,15 +1031,19 @@
   }
 
 
+  @media (max-width:640px){
+    .logo{font-size:0;gap:0}
+    .logo svg{width:32px;height:32px}
+    nav{gap:var(--s4);font-size:13.5px;justify-content:flex-end;flex:1}
+  }
+
   @media (max-width:768px){
-    :root{--gutter:16px}
     .bar{height:64px;gap:var(--s3)}
     nav{gap:var(--s4);font-size:14px}
     nav a{padding:14px 0;min-height:44px;display:inline-flex;align-items:center}
     .logo{min-height:44px}
     .navlinks{display:none}   /* Methodology moves to the footer below 768 */
     thead th{top:64px}
-    .hero h1{font-size:clamp(34px,9.4vw,50px);line-height:.98;letter-spacing:-.038em}
     .hero p.sub{font-size:16.5px;margin-top:var(--s5)}
     .stats{gap:var(--s5)}
     .stat b{font-size:28px}
@@ -1019,13 +1129,10 @@
   }
 
   @media (max-width:430px){
-    .logo{font-size:0;gap:0}
-    .logo svg{width:32px;height:32px}
     nav{gap:var(--s3);font-size:13px}
     .navlinks .hidemobile{display:none}
     .stats{gap:var(--s4) var(--s5)}
     .stat b{font-size:23px}
-    .hero h1{font-size:clamp(30px,8.8vw,40px)}
     .trkrank{font-size:19px;min-width:22px}
   }
 
@@ -1314,6 +1421,47 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
              from: dates[0] || TT_DATA.generated, to: dates[dates.length-1] || TT_DATA.generated };
   }
 
+  /* ---- the selectivity distribution. 148 published rates, bucketed into the same
+     bands the estimate model uses, so the chart and the model tell one story. ---- */
+  function rateDistribution(){
+    const withRate = S.filter(x => x.rate != null);
+    const rows = EST.SEL.map(([lo,hi], i) => {
+      const inBand = withRate.filter(x => x.rate >= lo && x.rate < hi);
+      return { i:i+1, lo, hi, n:inBand.length,
+               label: lo === 0 ? `under ${ratePct(hi)}` : hi > 1 ? `${ratePct(lo)}+` : `${ratePct(lo)}\u2013${ratePct(hi)}` };
+    });
+    const sorted = withRate.map(x => x.rate).sort((a,b) => a-b);
+    const mid = sorted.length % 2 ? sorted[(sorted.length-1)/2]
+                                  : (sorted[sorted.length/2-1] + sorted[sorted.length/2]) / 2;
+    return { rows, max: Math.max(...rows.map(r => r.n)), counted: withRate.length,
+             median: mid, hardest: sorted[0], easiest: sorted[sorted.length-1] };
+  }
+
+  function distChart(){
+    const d = rateDistribution();
+    const bars = d.rows.map(r => `
+      <div class="dist-row">
+        <span class="dist-l">${esc(r.label)}</span>
+        <span class="dist-t"><span class="dist-b sel-${r.i}" style="width:${Math.round(r.n/d.max*100)}%"></span></span>
+        <span class="dist-n num">${r.n}</span>
+      </div>`).join('');
+    return `<div class="distcard">
+      <div class="dist-head">
+        <div>
+          <div class="eyebrow">Shape of the database</div>
+          <h3 class="dist-title">Most transfer doors are wider than you think.</h3>
+        </div>
+        <div class="dist-key" aria-hidden="true">
+          <span>harder</span>
+          ${[1,2,3,4,5,6].map(i => `<i class="sel-${i}"></i>`).join('')}
+          <span>easier</span>
+        </div>
+      </div>
+      <div class="dist-bars">${bars}</div>
+      <p class="dist-foot">Transfer admit rate across the <b>${d.counted}</b> schools that publish one. The middle school of the set sits at <b>${estPct(d.median)}</b> — the hardest at <b>${estPct(d.hardest)}</b>, the most open at <b>${estPct(d.easiest)}</b>. The same six bands drive the estimate model.</p>
+    </div>`;
+  }
+
   /* ---- the four hero cards. Same visual container; page-relevant content. ---- */
   function panelHowItWorks(){
     return `<aside class="dark heropanel rv" style="--i:3">
@@ -1419,6 +1567,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const median = n ? (n % 2 ? gpas[(n-1)/2] : (gpas[n/2-1] + gpas[n/2]) / 2) : null;
     return { lo, hi, schools: inBand.length, n, median, usable: n >= EST.MIN_SAMPLE };
   });
+  // 1-based band index for the selectivity colour scale; 0 when there is no rate
+  const selIndex = r => r == null ? 0 : (EST.SEL.findIndex(([lo,hi]) => r >= lo && r < hi) + 1);
   const selBandOf = s => s.rate == null ? null
     : (SEL_BENCH.find(b => s.rate >= b.lo && s.rate < b.hi) || null);
   const bandRange = b => b.lo === 0 ? `under ${ratePct(b.hi)}`
@@ -1866,8 +2016,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <div class="meta">${esc(s.state)} · ${s.control}${s.founded?` · <span class="est">founded ${s.founded}</span>`:''}</div></td>
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
-        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim">not published — we checked</span>`
-          :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
+        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim hatch">not published — we checked</span>`
+          :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track sel-${selIndex(s.rate)}"><div class="fill sel-${selIndex(s.rate)}" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Tuition">${tuitionCell(s)}</td>
         <td class="hidesm" data-l="Undergrads">${n(s.undergrads)}</td>
         <td data-l="Source">${seal(s)}</td>
@@ -1968,8 +2118,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
         <td data-l="Enrolled">${n(s.enrolled)}</td>
-        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim">not published — we checked</span>`
-          :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
+        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim hatch">not published — we checked</span>`
+          :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track sel-${selIndex(s.rate)}"><div class="fill sel-${selIndex(s.rate)}" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Source">${seal(s)}</td>
       </tr>`;
       return row + (open?`<tr class="detail">${ratesDetail(s)}</tr>`:'');
@@ -2395,6 +2545,16 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
      ================================================================================ */
 
   /* What a visitor gets from each tab. Counts are derived, never typed in. */
+  /* One glyph per tab. Hand-written inline SVG — no icon font, no dependency. */
+  const ICONS = {
+    top:'<path d="M4 19h4v-7H4zM10 19h4V5h-4zM16 19h4v-10h-4z"/>',
+    all:'<path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19.5" cy="18" r="1.6"/>',
+    apply:'<rect x="4" y="5" width="16" height="16" rx="2.5"/><path d="M4 10h16M9 3v4M15 3v4M9 15l2 2 4-4"/>',
+    tracker:'<path d="M6 4h12v16l-6-4-6 4z"/>',
+    method:'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.6-4.6M11 8v3l2 1.6"/>'
+  };
+  const icon = k => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
+
   function insideItems(){
     const withFall = S.filter(x => x.reqs && x.reqs.fallDeadline).length;
     // a real ceiling on transferable credit — NOT the 67 records whose "cap" is an
@@ -2405,11 +2565,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       return c != null && CAP_UNITS.includes((r.creditCapUnit||'').trim());
     }).length;
     return [
-      ['#/top',     'Top 75',      `The universities that consistently sit at the top of the national rankings, sorted by how hard they actually are to transfer into — with tuition, size, and founding year alongside.`],
-      ['#/all',     'All schools', `Every one of the ${S.length} records: transfer applicants, admitted, enrolled, and the admit rate, each carrying the cycle it covers and a link to the filing it came from.`],
-      ['#/apply',   'Apply',       `Application opening dates and deadlines for all ${S.length} schools — ${withFall} publish a fall date — plus the ${withCap} that publish a numeric ceiling on how much credit will transfer in. Each row links to the school's own transfer page.`],
-      ['#/tracker', 'Tracker',     `Save the schools you are serious about, rank them yourself, keep a note on each, and see every deadline on one timeline.`],
-      ['#method',   'Methodology', `How every number is sourced, what the cycle-year labels mean, and the estimate formula written out in full — including the figures it is currently using.`]
+      ['#/top',     'Top 75',      'top',     `The universities that consistently sit at the top of the national rankings, sorted by how hard they actually are to transfer into — with tuition, size, and founding year alongside.`],
+      ['#/all',     'All schools', 'all',     `Every one of the ${S.length} records: transfer applicants, admitted, enrolled, and the admit rate, each carrying the cycle it covers and a link to the filing it came from.`],
+      ['#/apply',   'Apply',       'apply',   `Application opening dates and deadlines for all ${S.length} schools — ${withFall} publish a fall date — plus the ${withCap} that publish a numeric ceiling on how much credit will transfer in. Each row links to the school's own transfer page.`],
+      ['#/tracker', 'Tracker',     'tracker', `Save the schools you are serious about, rank them yourself, keep a note on each, and see every deadline on one timeline.`],
+      ['#method',   'Methodology', 'method',  `How every number is sourced, what the cycle-year labels mean, and the estimate formula written out in full — including the figures it is currently using.`]
     ];
   }
 
@@ -2489,9 +2649,10 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       [String(c.total - c.current), 'labelled as an older cycle']
     ].map(([b,l]) => `<div class="stat"><b class="num">${b}</b><span>${l}</span></div>`).join('');
 
-    const inside = insideItems().map(([href,name,what],i) => `
+    const inside = insideItems().map(([href,name,ico,what],i) => `
       <a class="inside" href="${esc(href)}">
         <span class="inside-n">${String(i+1).padStart(2,'0')}</span>
+        ${icon(ico)}
         <span class="inside-b"><b>${esc(name)}</b><span>${esc(what)}</span></span>
         <span class="inside-go" aria-hidden="true">→</span>
       </a>`).join('');
@@ -2524,6 +2685,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <p class="method-lead">There are no user numbers or reviews to show yet, so here is the only credibility that matters: how much is actually covered, and how current it is. These figures are counted from the dataset every time this page loads.</p>
         </div>
         <div class="stats hm-stats">${covCells}</div>
+        ${distChart()}
         <p class="hm-covnote">Every one of the ${c.total} records was checked by hand between <b>${esc(c.from)}</b> and <b>${esc(c.to)}</b>. Records from an older cycle are labelled and kept — an older real number beats a current invented one — and nothing is filtered out or pushed down the page for being older.</p>
       </section>
 
