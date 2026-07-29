@@ -51,18 +51,38 @@
     --font-display:'Archivo','Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
     --font-ui:'Inter',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
 
-    --t-hero:clamp(38px,6.4vw,86px);
-    --t-h2:clamp(26px,3.2vw,40px);
-    --t-h3:19px;
+    /* --- WO3 Task 1: the type scale as named tiers.
+       Tracking is a function of size — display type tightens as it grows, label type
+       opens up, and nothing sits between the two regimes. See NOTES.md §1. --- */
+    --t-display-1:clamp(44px,6.9vw,92px);    /* hero h1        850 / wdth 118 */
+    --t-display-2:clamp(32px,4.4vw,56px);    /* section h2     850 / wdth 114 */
+    --t-display-3:clamp(22px,2.4vw,30px);    /* panel titles   780 / wdth 108 */
+    --t-display-4:19px;                      /* h3, sub-heads  750 / wdth 104 */
+    --t-lead:clamp(17px,1.5vw,20px);
     --t-rate:22px;
     --t-name:16px;
     --t-body:15.5px;
     --t-meta:12.5px;
     --t-micro:11px;
+    /* legacy aliases — the tiers above are the system; these keep older rules honest */
+    --t-hero:var(--t-display-1);
+    --t-h2:var(--t-display-2);
+    --t-h3:var(--t-display-4);
 
-    /* --- spacing ramp --- */
+    /* three tracking values, not five. --tr-wide is THE small-caps value and every
+       eyebrow, column head, and stat label uses it. */
+    --tr-tight:-.042em;
+    --tr-snug:-.022em;
+    --tr-wide:.2em;
+    --tr-chip:.09em;   /* inline objects inside a line of text; .2em would break it */
+
+    /* --- spacing ramp (unchanged — ~400 declarations depend on it) --- */
     --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
     --s6:32px; --s7:48px; --s8:72px; --s9:104px; --s10:144px;
+    /* section rhythm. Vertical only: per the WO2 container standard, section rules
+       use padding-block and may never touch horizontal padding. */
+    --sec-y:clamp(88px,9vw,168px);
+    --sec-y-sm:clamp(52px,5.5vw,96px);
 
     /* --- depth: layered surfaces, not flat fills --- */
     --surface:#FFFFFF;
@@ -75,6 +95,23 @@
     --e3:0 10px 30px -8px rgba(1,31,75,.16), 0 2px 6px rgba(1,31,75,.06);
     --e4:0 28px 70px -18px rgba(1,31,75,.34), 0 6px 18px rgba(1,31,75,.12);
     --glow:0 0 0 1px rgba(0,194,255,.28), 0 0 34px -6px rgba(0,194,255,.45);
+    /* WO3: a raised surface is a top highlight + a hairline + a shadow, not a 1px
+       stroke. Both are inset shadows so they compose in one box-shadow and cost no
+       layout. This is what replaces `border:1px solid` on cards, tables, and controls. */
+    --lift:inset 0 1px 0 rgba(255,255,255,.72);
+    --edge:inset 0 0 0 1px rgba(1,31,75,.07);
+    --edge-strong:inset 0 0 0 1px rgba(1,31,75,.13);
+    --sunk:inset 0 1px 2px rgba(1,31,75,.06);
+    /* the dark panel's own gradient, defined once so every .dark surface is identical */
+    --dark-bg:radial-gradient(460px 250px at 86% -14%, rgba(0,194,255,.28), transparent 66%),
+              linear-gradient(158deg,var(--navy-800) 0%, var(--navy-900) 58%, #010F27 100%);
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+
+    /* two durations for two gestures, plus the page-load reveal. Replaces eleven
+       ad-hoc values. See NOTES.md §5. */
+    --t-fast:150ms;   /* colour and background only */
+    --t-mid:240ms;    /* transform and shadow — anything that moves */
+    --t-slow:680ms;   /* the single orchestrated entrance */
 
     /* --- the container standard: one max-width, one gutter, defined once.
        Only .wrap may consume these. Section rules use padding-block so they
@@ -115,9 +152,37 @@
   .wrap{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
   a{color:var(--navy-500)}
   .num{font-variant-numeric:tabular-nums}
+  /* WO3 §6: the unit is demoted so the eye lands on the digits. The % is decorative
+     repetition of an adjacent accessible label, so navy-300 (3.0:1) is acceptable here
+     and nowhere else. */
+  .pct-u{font-size:.56em;font-weight:700;letter-spacing:0;margin-left:.06em;white-space:nowrap;
+    vertical-align:baseline;color:var(--navy-300);-webkit-text-fill-color:currentColor}
+  .dark .pct-u,.statcard.hl .pct-u{color:var(--navy-100)}
   :focus-visible{outline:var(--ring);outline-offset:3px;border-radius:var(--r-sm)}
 
   h1,h2,h3,.display{font-family:var(--font-display);font-variation-settings:'wdth' 108}
+
+  /* ===================== WO3: the dark panel, as architecture =====================
+     Promoted from five separate components to one named element. Two rules govern it:
+       1. At most one dark surface per screenful, never two adjacent.
+       2. It always carries real evidence — a real record, a real count, a real source
+          link. Never decoration, never a marketing claim.
+     .heropanel / .coverpanel / .applycta / .lockcta / .statcard.hl all inherit from it. */
+  .dark{position:relative;border-radius:var(--r-xl);color:#fff;
+    background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden}
+  .dark::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:var(--grain);opacity:.06;mix-blend-mode:overlay}
+  .dark>*{position:relative}
+  /* text inside a dark surface: navy-100 is 9.8:1 on navy-900, white is 17:1 */
+  .dark a{color:#fff}
+
+  /* the one small-caps treatment. Every eyebrow, column head, and stat label. */
+  .sc{font-family:var(--font-ui);font-size:var(--t-micro);font-weight:800;
+    text-transform:uppercase;letter-spacing:var(--tr-wide);line-height:1.4}
+
+  /* the two hover gestures, named. Nothing gets both. */
+  .lift{transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .lift:hover{transform:translateY(-2px)}
 
   /* ===================== orchestrated page load =====================
      ONE reveal, sequenced by an --i index. Not scattered micro-interactions:
@@ -148,23 +213,20 @@
     font-variant-numeric:tabular-nums}
 
   /* coverage panel inside the methodology section */
-  .coverpanel{position:relative;border-radius:var(--r-xl);padding:var(--s6);color:#fff;margin:var(--s6) 0 var(--s7);
-    background:radial-gradient(460px 240px at 88% -14%, rgba(0,194,255,.26), transparent 66%),
-      linear-gradient(158deg,var(--navy-800) 0%, var(--navy-900) 58%, #010F27 100%);
-    box-shadow:var(--e4);overflow:hidden}
-  .cov-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s5);margin:var(--s5) 0 var(--s4)}
-  .cov-cell b{display:block;font-family:var(--font-display);font-size:clamp(26px,3vw,38px);font-weight:850;
-    letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;
+  .coverpanel{padding:var(--s7);margin:var(--sec-y-sm) 0}
+  .cov-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s6);margin:var(--s6) 0 var(--s5)}
+  .cov-cell b{display:block;font-family:var(--font-display);font-size:clamp(30px,3.4vw,46px);font-weight:850;
+    letter-spacing:var(--tr-tight);line-height:1;font-variant-numeric:tabular-nums;
     background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .cov-cell span{display:block;margin-top:var(--s2);font-size:var(--t-micro);font-weight:700;
-    text-transform:uppercase;letter-spacing:.1em;color:var(--navy-100)}
+  .cov-cell>span{display:block;margin-top:var(--s3);font-size:var(--t-micro);font-weight:800;
+    text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--navy-100)}
   .coverpanel .heropanel-meta{border-top:1px solid rgba(179,205,224,.22);padding-top:var(--s4);margin-top:0}
   .coverpanel .heropanel-meta b{color:#fff}
 
   /* footer socials */
   .social{display:flex;gap:var(--s5);align-items:center;flex-wrap:wrap}
   .social a{font-weight:700;font-size:14px;color:var(--navy-700);text-decoration:none;
-    border-bottom:1.5px solid transparent;padding:6px 0;transition:color 160ms var(--ease),border-color 160ms var(--ease)}
+    border-bottom:1.5px solid transparent;padding:6px 0;transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
   .social a:hover{color:var(--navy-900);border-bottom-color:var(--electric)}
   .foot-legal{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid rgba(1,31,75,.08);font-size:13.5px}
 
@@ -180,18 +242,22 @@
      THE governing rule: an estimate must never be mistakable for a sourced figure.
      Sourced = Archivo, heavy, tabular-nums, navy/white on dark.
      Estimate = Inter, medium, PROPORTIONAL figures, violet, dashed container. */
-  .profcard{background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-lg);
-    padding:var(--s6);margin-bottom:var(--s5);box-shadow:var(--e1)}
+  .profcard{background:var(--surface);border-radius:var(--r-lg);
+    padding:var(--s7);margin-bottom:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
   .prof-head{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap}
-  .prof-head h2{font-family:var(--font-display);font-size:19px;font-weight:750;letter-spacing:-.025em;color:var(--navy-900)}
+  .prof-head h2{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
+    letter-spacing:var(--tr-snug);color:var(--navy-900)}
   .prof-sub{font-size:13.5px;color:var(--navy-700);line-height:1.6;margin-top:var(--s2);max-width:70ch}
   .prof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s4);margin-top:var(--s5)}
   .prof-f{display:flex;flex-direction:column;gap:6px}
-  .prof-f>span{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}
-  .prof-f input,.prof-f select{width:100%;padding:var(--s3) var(--s4);border:1.5px solid rgba(1,31,75,.14);
-    border-radius:var(--r-sm);font:inherit;font-size:15px;color:var(--ink);background:var(--surface);min-height:44px}
-  .prof-f input:focus,.prof-f select:focus{outline:none;border-color:var(--electric);box-shadow:var(--glow)}
-  .est-badge{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  .prof-f>span{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800}
+  .prof-f input,.prof-f select{width:100%;padding:var(--s3) var(--s4);border:none;
+    border-radius:var(--r-sm);font:inherit;font-size:15px;color:var(--ink);background:var(--surface);
+    min-height:44px;box-shadow:var(--edge-strong),var(--lift),var(--e1);
+    transition:box-shadow var(--t-fast) var(--ease)}
+  .prof-f input:hover,.prof-f select:hover{box-shadow:var(--edge-strong),var(--lift),var(--e2)}
+  .prof-f input:focus,.prof-f select:focus{outline:none;box-shadow:var(--glow),var(--e2)}
+  .est-badge{font-size:10px;font-weight:800;letter-spacing:var(--tr-wide);text-transform:uppercase;
     padding:3px 9px;border-radius:999px;background:var(--estimate-soft);color:var(--estimate);
     box-shadow:inset 0 0 0 1px var(--estimate-line)}
   .est-wrap{margin-top:var(--s4);padding-top:var(--s4);border-top:1px dashed rgba(1,31,75,.14)}
@@ -204,24 +270,40 @@
   .est-gates .g-hard{background:#FDF2F2;color:#8A2020;box-shadow:inset 0 0 0 1px rgba(138,32,32,.16)}
   .est-gates .g-info{background:var(--surface-2);color:var(--navy-700);box-shadow:inset 0 0 0 1px rgba(1,31,75,.07)}
   .est-cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--s3);margin-bottom:var(--s3)}
-  .est-cmp>div{background:var(--surface-2);border:1px solid rgba(1,31,75,.07);border-radius:var(--r-sm);padding:var(--s3)}
-  .est-cmp b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}
+  .est-cmp>div{background:var(--surface-2);border-radius:var(--r-sm);padding:var(--s4);
+    box-shadow:var(--edge),var(--lift)}
+  .est-cmp b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800}
   .est-cmp span{display:block;margin-top:3px;font-size:16px;font-weight:700;color:var(--navy-900);font-variant-numeric:tabular-nums}
   .est-cmp i{display:block;margin-top:2px;font-size:11px;font-style:normal;color:var(--muted);font-weight:600}
   .estimate{background:var(--estimate-soft);border:1.5px dashed var(--estimate-line);
     border-radius:var(--r-md);padding:var(--s4)}
-  .est-label{display:flex;align-items:center;gap:var(--s2);font-size:10.5px;font-weight:800;
-    text-transform:uppercase;letter-spacing:.14em;color:var(--estimate)}
+  .est-label{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;font-size:10.5px;font-weight:800;
+    text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--estimate)}
   .est-dot{width:7px;height:7px;border-radius:50%;background:var(--estimate);flex:none}
   .est-range{margin-top:6px;font-family:var(--font-ui);font-size:19px;font-weight:600;
     color:var(--estimate);letter-spacing:-.005em;font-variant-numeric:proportional-nums}
+  /* WO3 Task 2 — the confidence tier, stated on the estimate itself. A peer-derived
+     estimate is marked structurally (chip + statement + a visibly wider range), never
+     by a footnote. Both tiers stay inside the violet/dashed estimate identity so
+     neither can be mistaken for a sourced figure. */
+  .est-tierchip{margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:var(--tr-chip);
+    text-transform:uppercase;padding:2px 7px;border-radius:999px;
+    background:rgba(109,74,166,.12);color:var(--estimate)}
+  .est-tier{margin-top:var(--s3);font-size:12px;line-height:1.6;color:var(--navy-700);
+    padding:var(--s3);border-radius:var(--r-sm);background:rgba(255,255,255,.6);
+    box-shadow:inset 0 0 0 1px rgba(109,74,166,.18)}
+  .est-tier b{display:block;color:var(--estimate);font-weight:800;font-size:11px;
+    text-transform:uppercase;letter-spacing:var(--tr-chip);margin-bottom:3px}
+  .est-tier-peer{background:rgba(109,74,166,.09);box-shadow:inset 0 0 0 1px var(--estimate-line)}
+  .estimate-peer{border-style:dashed;border-width:2px}
+  .estimate-peer .est-range{letter-spacing:0}
   .est-stale{display:inline-flex;align-items:center;gap:var(--s2);margin-top:var(--s2);
     font-size:12px;color:#7A5610;font-weight:600;flex-wrap:wrap}
   .est-break{margin-top:var(--s3);border-top:1px dashed var(--estimate-line);padding-top:var(--s2)}
   .est-break summary{cursor:pointer;font-size:12px;font-weight:750;color:var(--estimate);
     padding:var(--s2) 0;min-height:44px;display:flex;align-items:center;list-style:none}
   .est-break summary::-webkit-details-marker{display:none}
-  .est-break summary::before{content:"\25b8";display:inline-block;margin-right:var(--s2);transition:transform 160ms var(--ease)}
+  .est-break summary::before{content:"\25b8";display:inline-block;margin-right:var(--s2);transition:transform var(--t-mid) var(--ease)}
   .est-break[open] summary::before{transform:rotate(90deg)}
   .est-model{font-size:12.5px;color:var(--navy-700);line-height:1.6;margin-bottom:var(--s3)}
   .est-table{width:100%;border-collapse:collapse;font-size:12px}
@@ -266,7 +348,7 @@
   nav a:hover{color:var(--navy-900)}
   nav a.tab::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
     background:var(--electric);border-radius:2px;transform:scaleX(0);transform-origin:left;
-    transition:transform 220ms var(--ease)}
+    transition:transform var(--t-mid) var(--ease)}
   nav a.tab:hover::after{transform:scaleX(.4)}
   nav a.tab.on{color:var(--navy-900);font-weight:700}
   nav a.tab.on::after{transform:scaleX(1);box-shadow:0 0 12px rgba(0,194,255,.7)}
@@ -275,96 +357,101 @@
   .btn{display:inline-block;background:var(--navy-500);color:#fff !important;
     padding:var(--s3) var(--s5);border-radius:var(--r-sm);border:none;font:inherit;
     font-weight:650;font-size:14.5px;cursor:pointer;text-decoration:none;
-    transition:transform 160ms var(--ease),box-shadow 160ms var(--ease),background 160ms var(--ease)}
-  .btn:hover{background:var(--navy-700);transform:translateY(-1px);box-shadow:var(--e3)}
+    transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease),
+      background var(--t-fast) var(--ease)}
+  .btn:hover{background:var(--navy-700);transform:translateY(-2px);box-shadow:var(--e3)}
   .btn:active{transform:translateY(0)}
 
   /* ===================== asymmetric hero ===================== */
-  .hero{padding-block:var(--s9) var(--s7)}
+  .hero{padding-block:var(--sec-y) var(--sec-y-sm)}
   .hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
     gap:var(--s8);align-items:start}
-  .eyebrow{display:inline-flex;align-items:center;gap:var(--s2);
-    font-family:var(--font-ui);font-size:var(--t-micro);font-weight:700;text-transform:uppercase;
-    letter-spacing:.16em;color:var(--navy-500);margin-bottom:var(--s4)}
-  .eyebrow::before{content:"";width:26px;height:2px;background:var(--electric);border-radius:2px;
+  .eyebrow{display:inline-flex;align-items:center;gap:var(--s3);
+    font-family:var(--font-ui);font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--navy-500);margin-bottom:var(--s5)}
+  .eyebrow::before{content:"";width:32px;height:2px;background:var(--electric);border-radius:2px;
     box-shadow:0 0 10px rgba(0,194,255,.8)}
-  .hero h1{font-size:var(--t-hero);font-weight:850;letter-spacing:-.045em;color:var(--navy-900);
-    line-height:.95;font-variation-settings:'wdth' 118;text-wrap:balance}
+  .hero h1{font-size:var(--t-display-1);font-weight:850;letter-spacing:var(--tr-tight);
+    color:var(--navy-900);line-height:.92;font-variation-settings:'wdth' 118;text-wrap:balance}
   .hero h1 em{font-style:normal;
     background:linear-gradient(96deg,var(--navy-500),var(--electric-deep) 55%,var(--electric));
     -webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero p.sub{margin-top:var(--s5);max-width:52ch;font-size:clamp(16px,1.35vw,18.5px);
-    color:var(--navy-700);line-height:1.62}
-  .stats{display:grid;grid-template-columns:repeat(4,minmax(0,auto));justify-content:start;
-    gap:var(--s5) var(--s6);margin-top:var(--s7)}
-  .stat b{display:block;font-family:var(--font-display);font-size:clamp(26px,2.6vw,36px);
-    font-weight:800;color:var(--navy-900);letter-spacing:-.035em;line-height:1;
-    font-variation-settings:'wdth' 112;font-variant-numeric:tabular-nums}
-  .stat span{display:block;margin-top:6px;font-size:var(--t-micro);color:var(--muted);font-weight:700;
-    text-transform:uppercase;letter-spacing:.11em}
+  .hero p.sub{margin-top:var(--s6);max-width:52ch;font-size:var(--t-lead);
+    color:var(--navy-700);line-height:1.68;letter-spacing:-.006em}
+  .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--s6) var(--s7);margin-top:var(--sec-y-sm);max-width:min(100%,520px)}
+  .stat b{display:block;font-family:var(--font-display);font-size:clamp(28px,2.9vw,42px);
+    font-weight:850;color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1;
+    font-variation-settings:'wdth' 112;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .stat>span{display:block;margin-top:var(--s2);font-size:var(--t-micro);color:var(--muted);
+    font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide)}
 
   /* the hero's right column: a dark provenance panel. High contrast against the
      paper ground, and it shows the actual differentiator rather than describing it. */
-  .heropanel{position:relative;border-radius:var(--r-xl);padding:var(--s6);color:#fff;
-    background:
-      radial-gradient(420px 240px at 85% -12%, rgba(0,194,255,.30), transparent 66%),
-      linear-gradient(158deg,var(--navy-800) 0%, var(--navy-900) 58%, #010F27 100%);
-    box-shadow:var(--e4);overflow:hidden;margin-top:var(--s5)}
-  .heropanel::before{content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
-    opacity:.06;mix-blend-mode:overlay}
+  .heropanel{padding:var(--s7);margin-top:var(--s5)}
   .heropanel-k{display:flex;align-items:center;gap:var(--s2);font-size:var(--t-micro);
-    font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:var(--electric)}
-  .heropanel-school{font-family:var(--font-display);font-size:23px;font-weight:750;
-    letter-spacing:-.025em;margin-top:var(--s4);line-height:1.15;font-variation-settings:'wdth' 106}
-  .heropanel-rate{display:flex;align-items:baseline;gap:var(--s3);margin-top:var(--s4)}
-  .heropanel-rate b{font-family:var(--font-display);font-size:clamp(44px,5vw,64px);font-weight:850;
-    letter-spacing:-.05em;line-height:.9;font-variant-numeric:tabular-nums;
+    font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--electric)}
+  .heropanel-school{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
+    letter-spacing:var(--tr-snug);margin-top:var(--s5);line-height:1.15;font-variation-settings:'wdth' 108}
+  .heropanel-rate{display:flex;align-items:baseline;gap:var(--s4);margin-top:var(--s5)}
+  .heropanel-rate b{font-family:var(--font-display);font-size:clamp(48px,5.6vw,74px);font-weight:850;
+    letter-spacing:-.05em;line-height:.88;font-variant-numeric:tabular-nums;
     background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .heropanel-rate span{font-size:var(--t-meta);color:var(--navy-100);font-weight:600}
-  .heropanel-meta{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid rgba(179,205,224,.22);
-    font-size:13px;color:var(--navy-100);line-height:1.55}
+  .heropanel-rate>span{font-size:var(--t-meta);color:var(--navy-100);font-weight:600}
+  .heropanel-meta{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid rgba(179,205,224,.22);
+    font-size:13px;color:var(--navy-100);line-height:1.6}
   .heropanel-meta a{color:#fff;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4);
-    overflow-wrap:anywhere}
+    overflow-wrap:anywhere;transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
   .heropanel-meta a:hover{border-bottom-color:var(--electric);color:var(--electric)}
 
-  /* ---------- controls ---------- */
-  .controls{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center;margin:var(--s7) 0 var(--s5)}
+  /* ---------- controls ----------
+     WO3: every control is an L2 surface (highlight + hairline + shadow), not a stroke.
+     The focus ring therefore reads far stronger against the resting state than it did. */
+  .controls{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center;
+    margin:var(--sec-y-sm) 0 var(--s5)}
   .search{flex:1 1 280px;min-width:220px;position:relative}
-  .search input{width:100%;padding:14px var(--s5) 14px 46px;border:1.5px solid rgba(1,31,75,.14);
+  .search input{width:100%;padding:15px var(--s5) 15px 46px;border:none;
     border-radius:var(--r-md);background:var(--surface);font:inherit;font-size:15px;color:var(--ink);
-    box-shadow:var(--e1);transition:border-color 160ms var(--ease),box-shadow 160ms var(--ease)}
-  .search input:hover{border-color:rgba(1,31,75,.26)}
-  .search input:focus{outline:none;border-color:var(--electric);box-shadow:var(--glow)}
+    box-shadow:var(--edge-strong),var(--lift),var(--e1);
+    transition:box-shadow var(--t-fast) var(--ease)}
+  .search input:hover{box-shadow:var(--edge-strong),var(--lift),var(--e2)}
+  .search input:focus{outline:none;box-shadow:var(--glow),var(--e2)}
   .search input::placeholder{color:var(--dim-ink);opacity:1}
   .search>svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
   .chips{display:flex;gap:var(--s2);flex-wrap:wrap}
-  .chip{padding:11px var(--s5);border-radius:999px;border:1.5px solid rgba(1,31,75,.14);
+  .chip{padding:12px var(--s5);border-radius:999px;border:none;
     background:var(--surface);font:inherit;font-size:14px;font-weight:650;color:var(--navy-700);
-    cursor:pointer;box-shadow:var(--e1);
-    transition:background 160ms var(--ease),border-color 160ms var(--ease),color 160ms var(--ease),transform 160ms var(--ease)}
-  .chip:hover{background:var(--tint);border-color:var(--navy-300);transform:translateY(-1px)}
-  .chip.on{background:var(--navy-900);border-color:var(--navy-900);color:#fff;box-shadow:var(--e3)}
+    cursor:pointer;box-shadow:var(--edge-strong),var(--lift),var(--e1);
+    transition:background var(--t-fast) var(--ease),color var(--t-fast) var(--ease),
+      transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .chip:hover{background:var(--tint);transform:translateY(-2px);
+    box-shadow:var(--edge-strong),var(--lift),var(--e3)}
+  .chip.on{background:var(--navy-900);color:#fff;box-shadow:var(--e3)}
+  .chip.on:hover{background:var(--navy-800)}
   .toggle{display:flex;align-items:center;gap:var(--s2);font-size:14px;font-weight:650;
     color:var(--navy-700);cursor:pointer;user-select:none;padding:11px var(--s2);min-height:44px}
   .toggle input{width:18px;height:18px;accent-color:var(--navy-500);cursor:pointer}
-  select{padding:12px var(--s4);border:1.5px solid rgba(1,31,75,.14);border-radius:var(--r-md);
+  select{padding:13px var(--s4);border:none;border-radius:var(--r-md);
     background:var(--surface);font:inherit;font-size:14px;font-weight:650;color:var(--navy-700);
-    cursor:pointer;box-shadow:var(--e1);min-height:44px}
-  select:focus{outline:none;border-color:var(--electric);box-shadow:var(--glow)}
+    cursor:pointer;box-shadow:var(--edge-strong),var(--lift),var(--e1);min-height:44px;
+    transition:box-shadow var(--t-fast) var(--ease)}
+  select:hover{box-shadow:var(--edge-strong),var(--lift),var(--e2)}
+  select:focus{outline:none;box-shadow:var(--glow),var(--e2)}
   .count{font-size:var(--t-micro);color:var(--muted);font-weight:800;margin-left:auto;
-    text-transform:uppercase;letter-spacing:.13em;font-variant-numeric:tabular-nums}
+    text-transform:uppercase;letter-spacing:var(--tr-wide);font-variant-numeric:tabular-nums}
 
   /* ---------- autocomplete ---------- */
   .ac{position:relative;flex:1;min-width:240px}
-  .ac input{width:100%;padding:16px var(--s5) 16px 50px;border:1.5px solid rgba(1,31,75,.14);
+  .ac input{width:100%;padding:17px var(--s5) 17px 50px;border:none;
     border-radius:var(--r-lg);background:var(--surface);font:inherit;font-size:16px;color:var(--ink);
-    box-shadow:var(--e2)}
-  .ac input:focus{outline:none;border-color:var(--electric);box-shadow:var(--glow)}
+    box-shadow:var(--edge-strong),var(--lift),var(--e2);
+    transition:box-shadow var(--t-fast) var(--ease)}
+  .ac input:hover{box-shadow:var(--edge-strong),var(--lift),var(--e3)}
+  .ac input:focus{outline:none;box-shadow:var(--glow),var(--e3)}
   .ac input::placeholder{color:var(--dim-ink);opacity:1}
   .ac>svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
   .ac-menu{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--surface);
-    border:1px solid rgba(1,31,75,.1);border-radius:var(--r-lg);box-shadow:var(--e4);
+    border-radius:var(--r-lg);box-shadow:var(--edge),var(--lift),var(--e4);
     overflow:hidden;z-index:50;max-height:340px;overflow-y:auto}
   .ac-item{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
     padding:14px var(--s5);cursor:pointer;border-top:1px solid var(--hair);min-height:44px}
@@ -375,26 +462,29 @@
   .ac-empty{padding:var(--s5);color:var(--dim-ink);font-size:14px}
 
   /* ---------- table ---------- */
-  .tablecard{background:var(--surface);border:1px solid rgba(1,31,75,.08);
-    border-radius:var(--r-lg);box-shadow:var(--e2)}
+  .tablecard{background:var(--surface);border-radius:var(--r-lg);
+    box-shadow:var(--edge),var(--lift),var(--e2)}
   table{width:100%;border-collapse:separate;border-spacing:0}
   thead th{position:sticky;top:72px;z-index:5;
     background:linear-gradient(180deg,var(--navy-900),var(--navy-800));
     color:#fff;font-family:var(--font-ui);font-size:var(--t-micro);text-transform:uppercase;
-    letter-spacing:.13em;font-weight:800;padding:var(--s4) var(--s4);text-align:right;white-space:nowrap}
+    letter-spacing:var(--tr-wide);font-weight:800;padding:var(--s5) var(--s4);text-align:right;
+    white-space:nowrap}
   thead th:first-child{text-align:left;padding-left:var(--s6);border-top-left-radius:17px}
   thead th:last-child{border-top-right-radius:17px}
   thead th.l{text-align:left}
   tbody tr:last-child td:first-child{border-bottom-left-radius:17px}
   tbody tr:last-child td:last-child{border-bottom-right-radius:17px}
-  tbody td{padding:var(--s4);border-top:1px solid var(--hair);text-align:right;font-size:14.5px;
-    vertical-align:middle;font-variant-numeric:tabular-nums;color:var(--navy-700)}
+  tbody td{padding:var(--s5) var(--s4);border-top:1px solid var(--hair);text-align:right;
+    font-size:14.5px;vertical-align:middle;font-variant-numeric:tabular-nums;color:var(--navy-700)}
   tbody td:first-child{text-align:left;padding-left:var(--s6)}
   tbody td.l{text-align:left}
 
+  /* rows use the RAIL gesture, never LIFT — they are scan targets and must not move */
   tbody tr.row{cursor:pointer}
-  tbody tr.row td{transition:background 150ms var(--ease)}
-  tbody tr.row td:first-child{box-shadow:inset 3px 0 0 transparent;transition:box-shadow 180ms var(--ease),background 150ms var(--ease)}
+  tbody tr.row td{transition:background var(--t-fast) var(--ease)}
+  tbody tr.row td:first-child{box-shadow:inset 3px 0 0 transparent;
+    transition:box-shadow var(--t-mid) var(--ease),background var(--t-fast) var(--ease)}
   tbody tr.row:hover td{background:var(--surface-2)}
   tbody tr.row:hover td:first-child{box-shadow:inset 3px 0 0 var(--electric)}
   tbody tr.row.open td{background:var(--surface-sunk)}
@@ -402,12 +492,13 @@
   tbody tr.row:focus{outline:none}
   tbody tr.row:focus-visible{outline:var(--ring);outline-offset:-2px}
   tbody tr.row:focus-visible td{background:var(--surface-2)}
+  tbody tr.row:focus-visible td:first-child{box-shadow:inset 3px 0 0 var(--electric)}
 
   .school{font-weight:650;font-size:var(--t-name);letter-spacing:-.012em;color:var(--navy-900);
     display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;line-height:1.32;
     overflow-wrap:anywhere}
   .meta{font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:.02em;margin-top:3px}
-  .tag{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  .tag{font-size:10px;font-weight:800;letter-spacing:var(--tr-chip);text-transform:uppercase;
     padding:3px 8px;border-radius:5px;white-space:nowrap}
   .tag.public{background:var(--tint);color:var(--navy-500)}
   .tag.private{background:var(--cream);color:var(--umber)}
@@ -442,24 +533,24 @@
   /* ---------- signature: provenance seal + receipt ---------- */
   .seal{display:inline-flex;align-items:center;gap:var(--s3);text-decoration:none;
     color:var(--verified);white-space:nowrap;padding:6px 0;
-    transition:color 160ms var(--ease),transform 160ms var(--ease)}
+    transition:color var(--t-fast) var(--ease),transform var(--t-mid) var(--ease)}
   .seal-ring{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
     border:1.5px solid var(--verified);font-size:12px;font-weight:800;line-height:1;
     transition:background 180ms var(--ease),color 180ms var(--ease),box-shadow 180ms var(--ease)}
   .seal-body{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
-  .seal-body b{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em}
+  .seal-body b{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide)}
   .seal-date{font-size:10.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
   .seal:hover{transform:translateY(-1px)}
   .seal:hover .seal-ring{background:var(--verified);color:#fff;box-shadow:0 0 0 4px rgba(13,122,61,.14)}
 
-  .receipt{position:relative;background:var(--surface);border:1px solid rgba(1,31,75,.09);
+  .receipt{position:relative;background:var(--surface);
     border-left:3px solid var(--verified);border-radius:var(--r-md);padding:var(--s6);
-    margin-top:var(--s4);box-shadow:var(--e2)}
+    margin-top:var(--s4);box-shadow:var(--edge),var(--lift),var(--e2)}
   .receipt-head{display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap;
     padding-bottom:var(--s4);border-bottom:1px dashed rgba(1,31,75,.16)}
   .receipt-head .seal-ring{width:30px;height:30px;font-size:15px}
   .receipt-stamp{font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
-    letter-spacing:.2em;color:var(--verified)}
+    letter-spacing:var(--tr-wide);color:var(--verified)}
   .receipt-date{font-size:var(--t-meta);font-weight:650;color:var(--muted);
     font-variant-numeric:tabular-nums;margin-left:auto}
   .claim{padding-top:var(--s5)}
@@ -469,7 +560,7 @@
   .claim-src::before{content:"└→";color:var(--navy-300);font-weight:700;flex:none;
     font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
   .claim-src a{font-weight:650;text-decoration:none;color:var(--navy-500);overflow-wrap:anywhere;
-    border-bottom:1px solid transparent;transition:border-color 160ms var(--ease)}
+    border-bottom:1px solid transparent;transition:border-color var(--t-fast) var(--ease)}
   .claim-src a:hover{border-bottom-color:var(--navy-500)}
   .claim-more{font-size:var(--t-meta);color:var(--muted);margin-top:var(--s2);padding-left:var(--s4);
     display:flex;align-items:center;flex-wrap:wrap;gap:var(--s1)}
@@ -482,22 +573,22 @@
   .golink:hover{text-decoration:underline}
 
   /* ---------- misc cells ---------- */
-  .dtype{display:block;font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+  .dtype{display:block;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-chip)}
   .nospring{color:var(--dim-ink);font-weight:600}
   .subnum{display:block;font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:0;text-transform:none}
   .est{white-space:nowrap}
 
   /* ---------- empty states ---------- */
   .empty{padding:var(--s9) var(--s5);text-align:center}
-  .empty h3{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--navy-900);
-    letter-spacing:-.03em;margin-bottom:var(--s3);text-wrap:balance}
+  .empty h3{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
+    color:var(--navy-900);letter-spacing:var(--tr-snug);margin-bottom:var(--s4);text-wrap:balance}
   .empty p{font-size:14.5px;color:var(--navy-700);max-width:46ch;margin:0 auto var(--s6);line-height:1.62}
 
   /* ---------- top-75 note ---------- */
   .notrank{background:linear-gradient(180deg,var(--surface-2),transparent);
-    border:1px solid rgba(1,31,75,.08);border-left:3px solid var(--navy-300);
-    border-radius:var(--r-md);padding:var(--s5) var(--s6);margin:var(--s6) 0 0;
-    font-size:13.5px;color:var(--navy-700);line-height:1.68}
+    border-left:3px solid var(--navy-300);box-shadow:var(--edge);
+    border-radius:var(--r-md);padding:var(--s6);margin:var(--sec-y-sm) 0 0;
+    font-size:13.5px;color:var(--navy-700);line-height:1.7}
   .notrank b{color:var(--navy-900)}
   @media (max-width:1000px){ .t75 .hidesm{display:none} }
 
@@ -507,8 +598,8 @@
   tr.detail td>*{animation:riseIn 420ms var(--ease-out) both}
   .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
     gap:var(--s5) var(--s6);margin-bottom:var(--s5)}
-  .dgrid b{display:block;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.11em;
-    color:var(--muted);font-weight:800;margin-bottom:3px}
+  .dgrid b{display:block;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);
+    color:var(--muted);font-weight:800;margin-bottom:var(--s2)}
   .dgrid div span{font-size:15px;font-weight:650;color:var(--navy-900)}
   .foot-note{font-size:var(--t-meta);color:var(--muted);margin-top:var(--s3);line-height:1.6}
   .hist{font-size:13.5px;color:var(--navy-700);margin-bottom:var(--s4)}
@@ -517,43 +608,48 @@
   .detaillink:hover{text-decoration:underline}
 
   /* ---------- school page ---------- */
-  .sp{padding-block:var(--s7) var(--s4)}
+  .sp{padding-block:var(--sec-y-sm) var(--s4)}
   .sp-back{display:inline-flex;align-items:center;gap:var(--s2);font-size:14px;font-weight:650;
     text-decoration:none;color:var(--navy-500);margin-bottom:var(--s6);padding:8px 0;
     transition:gap 180ms var(--ease)}
   .sp-back:hover{gap:var(--s3);color:var(--navy-700)}
   .sp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s6);
     flex-wrap:wrap;margin-bottom:var(--s2)}
-  .sp-head h1{font-size:clamp(30px,4.6vw,52px);font-weight:850;letter-spacing:-.042em;
-    color:var(--navy-900);line-height:1.02;font-variation-settings:'wdth' 112;
+  .sp-head h1{font-size:clamp(34px,5.4vw,68px);font-weight:850;letter-spacing:var(--tr-tight);
+    color:var(--navy-900);line-height:.98;font-variation-settings:'wdth' 114;
     max-width:18ch;text-wrap:balance;overflow-wrap:anywhere}
   .sp-chips{display:flex;gap:var(--s2);align-items:center;margin:var(--s4) 0 var(--s1);flex-wrap:wrap}
-  .statcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));
-    gap:var(--s4);margin:var(--s7) 0 var(--s4)}
-  .statcard{background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-md);
-    padding:var(--s5);box-shadow:var(--e1);transition:transform 200ms var(--ease),box-shadow 200ms var(--ease)}
-  .statcard:hover{transform:translateY(-2px);box-shadow:var(--e3)}
-  .statcard b{display:block;font-family:var(--font-display);font-size:30px;font-weight:800;
-    color:var(--navy-900);letter-spacing:-.04em;line-height:1.05;font-variant-numeric:tabular-nums}
-  .statcard span{font-size:var(--t-micro);color:var(--muted);font-weight:800;
-    text-transform:uppercase;letter-spacing:.11em}
-  /* the rate is the loudest object on the page */
-  .statcard.hl{border-color:transparent;box-shadow:var(--e4);
-    background:radial-gradient(320px 180px at 82% -20%, rgba(0,194,255,.32), transparent 64%),
-      linear-gradient(158deg,var(--navy-800),var(--navy-900) 62%,#010F27)}
-  .statcard.hl:hover{transform:translateY(-3px)}
-  .statcard.hl b{font-size:40px;
+  .statcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+    gap:var(--s4);margin:var(--sec-y-sm) 0 var(--s5)}
+  /* L2 raised: highlight + hairline + shadow, no stroke */
+  .statcard{background:var(--surface);border-radius:var(--r-md);
+    padding:var(--s5) var(--s5) var(--s6);box-shadow:var(--edge),var(--lift),var(--e1);
+    transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .statcard:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
+  .statcard b{display:block;font-family:var(--font-display);font-size:clamp(28px,2.6vw,34px);
+    font-weight:850;color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1.02;
+    font-variant-numeric:tabular-nums}
+  .statcard>span{display:block;margin-bottom:var(--s3);font-size:var(--t-micro);color:var(--muted);
+    font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide)}
+  /* the rate is the loudest object on the page — L4 dark */
+  .statcard.hl{background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden}
+  .statcard.hl::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:var(--grain);opacity:.06;mix-blend-mode:overlay}
+  .statcard.hl{position:relative}
+  .statcard.hl>*{position:relative}
+  .statcard.hl:hover{transform:translateY(-3px);box-shadow:var(--e4)}
+  .statcard.hl b{font-size:clamp(38px,4vw,50px);
     background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .statcard.hl span{color:var(--navy-100)}
+  .statcard.hl>span{color:var(--navy-100)}
   .statcard .cyc{margin-top:var(--s3)}
-  .sp-section{background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-lg);
-    padding:var(--s6);margin-top:var(--s5);box-shadow:var(--e1)}
+  .sp-section{background:var(--surface);border-radius:var(--r-lg);
+    padding:var(--s7);margin-top:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
   .sp-section h2{font-family:var(--font-ui);font-size:var(--t-micro);text-transform:uppercase;
-    letter-spacing:.18em;color:var(--muted);font-weight:800;margin-bottom:var(--s5);
+    letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800;margin-bottom:var(--s6);
     display:flex;align-items:center;gap:var(--s2)}
-  .fieldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:var(--s5) var(--s6)}
-  .fieldgrid .f b{display:block;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.11em;
-    color:var(--muted);font-weight:800;margin-bottom:3px}
+  .fieldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:var(--s6)}
+  .fieldgrid .f b{display:block;font-size:var(--t-micro);text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800;margin-bottom:var(--s2)}
   .fieldgrid .f span{font-size:15.5px;font-weight:650;color:var(--navy-900);overflow-wrap:anywhere}
   .fieldgrid .f .sub{font-size:var(--t-meta);color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
   .sp-hist{font-size:14px;color:var(--navy-700);margin-top:var(--s1)}
@@ -566,54 +662,167 @@
 
   /* primary outbound action */
   .applycta{display:flex;align-items:center;justify-content:space-between;gap:var(--s6);
-    flex-wrap:wrap;margin-top:var(--s6);padding:var(--s6);border-radius:var(--r-lg);color:#fff;
-    background:radial-gradient(420px 200px at 88% -20%, rgba(0,194,255,.26), transparent 66%),
-      linear-gradient(150deg,var(--navy-800),var(--navy-900) 66%,#010F27);
-    box-shadow:var(--e4)}
+    flex-wrap:wrap;margin-top:var(--s6);padding:var(--s7)}
   .applycta-copy{flex:1;min-width:min(100%,260px)}
-  .applycta-copy b{display:block;font-family:var(--font-display);font-size:19px;font-weight:750;
-    color:#fff;margin-bottom:var(--s2);line-height:1.2;letter-spacing:-.02em;overflow-wrap:anywhere}
-  .applycta-copy span{font-size:13.5px;color:var(--navy-100);line-height:1.6}
+  .applycta-copy b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);
+    font-weight:780;color:#fff;margin-bottom:var(--s2);line-height:1.2;
+    letter-spacing:var(--tr-snug);overflow-wrap:anywhere}
+  .applycta-copy span{font-size:13.5px;color:var(--navy-100);line-height:1.65}
   .btn-primary{background:var(--electric);color:var(--navy-900) !important;font-size:15px;
     font-weight:800;padding:var(--s4) var(--s6);white-space:nowrap;border-radius:var(--r-sm);
     box-shadow:0 0 0 1px rgba(0,194,255,.5),0 10px 30px -8px rgba(0,194,255,.6)}
   .btn-primary:hover{background:#5AD7FF;color:var(--navy-900) !important}
 
   /* ---------- method ---------- */
-  .method{padding-block:var(--s10) var(--s6)}
-  .method h2{font-size:var(--t-h2);font-weight:850;letter-spacing:-.04em;color:var(--navy-900);
-    margin-bottom:var(--s5);font-variation-settings:'wdth' 112;max-width:20ch;text-wrap:balance}
-  .method-lead{font-size:16.5px;line-height:1.72;color:var(--navy-700);max-width:68ch;margin:0 0 var(--s6)}
-  .method-sub{font-family:var(--font-display);font-size:21px;font-weight:750;color:var(--navy-900);
-    margin:var(--s8) 0 var(--s4);letter-spacing:-.028em}
+  .method{padding-block:var(--sec-y) var(--s6)}
+  .method h2{font-size:var(--t-display-2);font-weight:850;letter-spacing:var(--tr-tight);
+    color:var(--navy-900);margin-bottom:var(--s6);font-variation-settings:'wdth' 114;
+    max-width:20ch;text-wrap:balance;line-height:1}
+  .method-lead{font-size:var(--t-lead);line-height:1.72;color:var(--navy-700);max-width:68ch;
+    margin:0 0 var(--s7);letter-spacing:-.006em}
+  .method-sub{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
+    color:var(--navy-900);margin:var(--sec-y-sm) 0 var(--s5);letter-spacing:var(--tr-snug);
+    line-height:1.15}
   .method-lead .cyc{vertical-align:baseline}
+  .method-h4{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
+    color:var(--navy-900);letter-spacing:var(--tr-snug);margin:var(--s7) 0 var(--s4)}
+  /* the band-benchmark panel — the second dark surface in the methodology section,
+     separated from the coverage panel by ~600px of prose (design plan §4, rule 1) */
+  .benchpanel{padding:var(--s7);margin:var(--sec-y-sm) 0}
+  .benchtable{width:100%;border-collapse:collapse;margin-top:var(--s5);font-size:13px}
+  .benchtable th{text-align:right;font-family:var(--font-ui);font-size:10px;font-weight:800;
+    text-transform:uppercase;letter-spacing:var(--tr-chip);color:var(--navy-100);
+    padding:0 0 var(--s3);border-bottom:1px solid rgba(179,205,224,.28);white-space:nowrap}
+  .benchtable th:first-child,.benchtable td:first-child{text-align:left}
+  .benchtable th:last-child,.benchtable td:last-child{text-align:left;padding-left:var(--s4)}
+  .benchtable td{text-align:right;padding:var(--s3) 0;color:#fff;font-weight:650;
+    border-bottom:1px solid rgba(179,205,224,.14);font-variant-numeric:tabular-nums}
+  .benchtable tr.bench-out td{color:var(--navy-100);font-weight:500}
+  .bench-ok{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-chip);
+    color:#9FE4FF;white-space:nowrap}
+  .bench-no{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-chip);
+    color:#F0C97A;white-space:nowrap}
+  @media (max-width:768px){
+    .benchtable{font-size:12px}
+    .benchtable th:nth-child(2),.benchtable td:nth-child(2){display:none}
+  }
   /* asymmetric card rail — deliberately unequal, offset on the vertical */
   .cards{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:var(--s5);align-items:start}
-  .card{background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-lg);
-    padding:var(--s6);box-shadow:var(--e1);
-    transition:transform 220ms var(--ease),box-shadow 220ms var(--ease)}
+  .card{background:var(--surface);border-radius:var(--r-lg);
+    padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);
+    transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
   .card:nth-child(2){margin-top:var(--s6)}
   .card:nth-child(3){margin-top:var(--s8)}
-  .card:hover{transform:translateY(-3px);box-shadow:var(--e3)}
-  .card h3{font-family:var(--font-display);font-size:17.5px;font-weight:750;color:var(--navy-900);
-    margin-bottom:var(--s2);letter-spacing:-.022em}
-  .card p{font-size:14.5px;color:var(--navy-700);line-height:1.65}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
+  .card h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
+    color:var(--navy-900);margin-bottom:var(--s3);letter-spacing:var(--tr-snug);line-height:1.25}
+  .card p{font-size:14.5px;color:var(--navy-700);line-height:1.7}
 
   footer{padding:var(--s8) 0 var(--s9);border-top:1px solid rgba(1,31,75,.08);
-    margin-top:var(--s9);font-size:14px;color:var(--muted)}
+    margin-top:var(--sec-y);font-size:14px;color:var(--muted)}
   footer .cols{display:flex;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;align-items:center}
   footer b{color:var(--navy-700)}
+
+  /* ===================== HOME (WO3 Task 3) ===================== */
+  .hm-sec{padding-block:var(--sec-y-sm)}
+  .hm-lead{max-width:64ch;margin-bottom:var(--s7)}
+  .hm-lead h2{font-size:var(--t-display-2);font-weight:850;letter-spacing:var(--tr-tight);
+    color:var(--navy-900);font-variation-settings:'wdth' 114;line-height:1;
+    max-width:18ch;text-wrap:balance}
+  .hm-lead .method-lead{margin-top:var(--s5);margin-bottom:0}
+  .hm-split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s8);align-items:start}
+  .hm-split .hm-lead{margin-bottom:0}
+  .hm-body p{font-size:var(--t-lead);line-height:1.75;color:var(--navy-700);letter-spacing:-.006em}
+  .hm-body p + p{margin-top:var(--s5)}
+  .hm-stats{grid-template-columns:repeat(4,minmax(0,1fr));max-width:none;margin-top:0}
+  .hm-covnote{margin-top:var(--s7);font-size:14.5px;line-height:1.7;color:var(--navy-700);max-width:74ch}
+  .hm-covnote b{color:var(--navy-900);font-variant-numeric:tabular-nums}
+
+  /* what's inside — rows, so they use the RAIL gesture rather than LIFT */
+  .insidelist{display:flex;flex-direction:column}
+  .inside{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--s5);
+    align-items:start;padding:var(--s6) var(--s4);text-decoration:none;color:inherit;
+    border-top:1px solid var(--hair);
+    box-shadow:inset 3px 0 0 transparent;
+    transition:background var(--t-fast) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .insidelist .inside:last-child{border-bottom:1px solid var(--hair)}
+  .inside:hover{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--electric)}
+  .inside:focus-visible{outline:var(--ring);outline-offset:-2px;background:var(--surface-2)}
+  .inside-n{font-family:var(--font-display);font-size:13px;font-weight:850;color:var(--muted);
+    font-variant-numeric:tabular-nums;letter-spacing:var(--tr-chip);padding-top:4px}
+  .inside-b b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);
+    font-weight:780;color:var(--navy-900);letter-spacing:var(--tr-snug);margin-bottom:var(--s2)}
+  .inside-b span{display:block;font-size:14.5px;line-height:1.7;color:var(--navy-700);max-width:72ch}
+  .inside-go{color:var(--navy-500);font-weight:800;font-size:16px;padding-top:2px;
+    transition:transform var(--t-mid) var(--ease)}
+  .inside:hover .inside-go{transform:translateX(4px)}
+
+  /* plans — Pro is favoured by SURFACE, not by badges or crossed-out prices */
+  .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s6);align-items:start}
+  .plan{border-radius:var(--r-xl);padding:var(--s7);display:flex;flex-direction:column}
+  .plan:not(.dark){background:var(--surface);box-shadow:var(--edge),var(--lift),var(--e1)}
+  .plan-k{font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--muted)}
+  .plan-pro .plan-k{color:var(--electric)}
+  .plan-price{display:flex;align-items:baseline;gap:var(--s3);margin-top:var(--s4);flex-wrap:wrap}
+  .plan-price b{font-family:var(--font-display);font-size:clamp(40px,4.6vw,60px);font-weight:850;
+    color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1;font-variant-numeric:tabular-nums}
+  .plan-pro .plan-price b{background:linear-gradient(180deg,#fff,#9FE4FF);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .plan-price span{font-size:13px;font-weight:700;text-transform:uppercase;
+    letter-spacing:var(--tr-chip);color:var(--navy-100)}
+  .plan-note{margin-top:var(--s4);font-size:13.5px;line-height:1.65;color:var(--navy-700)}
+  .plan-pro .plan-note{color:var(--navy-100)}
+  .plan-once b,.plan-pro .plan-once{font-weight:650}
+  .plan-list{list-style:none;margin:var(--s6) 0 var(--s7);display:flex;flex-direction:column;
+    gap:var(--s3);flex:1}
+  .plan-list li{position:relative;padding-left:var(--s5);font-size:14.5px;line-height:1.6;
+    color:var(--navy-700)}
+  .plan-list li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;
+    border-radius:50%;background:var(--navy-300)}
+  .plan-pro .plan-list li{color:#fff}
+  .plan-pro .plan-list li::before{background:var(--electric);box-shadow:0 0 8px rgba(0,194,255,.7)}
+  .plan-btn{align-self:flex-start;text-align:center}
+  .plan-sub{margin-top:var(--s3);font-size:12px;color:var(--navy-100)}
+  .plan-foot{margin-top:var(--s6);font-size:13px;color:var(--muted);line-height:1.65;max-width:70ch}
+  .cta-said{margin-top:var(--s3);font-size:13px;line-height:1.6;color:var(--navy-100);max-width:44ch}
+  .plan .cta-said{color:var(--navy-100)}
+  .signin .cta-said{color:var(--navy-700)}
+
+  .signin{display:flex;align-items:center;justify-content:space-between;gap:var(--s7);
+    flex-wrap:wrap;background:var(--surface);border-radius:var(--r-lg);padding:var(--s7);
+    box-shadow:var(--edge),var(--lift),var(--e1)}
+  .signin-copy{flex:1;min-width:min(100%,280px)}
+  .signin-copy h2{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
+    color:var(--navy-900);letter-spacing:var(--tr-snug);line-height:1.15}
+  .signin-copy p{margin-top:var(--s3);font-size:14.5px;line-height:1.7;color:var(--navy-700);max-width:62ch}
+  .signin-btn{white-space:nowrap}
+
+  @media (max-width:1024px){
+    .hm-split{grid-template-columns:minmax(0,1fr);gap:var(--s6)}
+    .hm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:768px){
+    .hm-lead h2{max-width:none}
+    .plans{grid-template-columns:1fr;gap:var(--s5)}
+    .plan{padding:var(--s6)}
+    .inside{grid-template-columns:auto minmax(0,1fr);gap:var(--s4);padding:var(--s5) var(--s3)}
+    .inside-go{display:none}
+    .signin{padding:var(--s6);flex-direction:column;align-items:stretch}
+    .signin-btn{width:100%}
+    .plan-btn{align-self:stretch;width:100%}
+  }
 
   /* ===================== TRACKER ===================== */
   .trkhint{font-size:13.5px;color:var(--muted);margin:0 0 var(--s5);line-height:1.6}
   .trklist{list-style:none;display:flex;flex-direction:column;gap:var(--s4)}
   .trkrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--s5);align-items:start;
-    background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-md);
-    padding:var(--s5) var(--s6);box-shadow:var(--e1);
-    transition:transform 200ms var(--ease),box-shadow 200ms var(--ease),border-color 200ms var(--ease)}
-  .trkrow:hover{box-shadow:var(--e3);transform:translateY(-1px)}
+    background:var(--surface);border-radius:var(--r-md);
+    padding:var(--s6);box-shadow:var(--edge),var(--lift),var(--e1);
+    transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .trkrow:hover{box-shadow:var(--edge),var(--lift),var(--e3);transform:translateY(-2px)}
   .trkrow.dragging{opacity:.4}
-  .trkrow.dragover{border-color:var(--electric);box-shadow:var(--glow)}
+  .trkrow.dragover{box-shadow:var(--glow),var(--e3)}
   .trkrow-missing{background:var(--surface-2)}
   .trkrank{font-family:var(--font-display);font-size:24px;font-weight:850;color:rgba(1,31,75,.2);
     line-height:1;font-variant-numeric:tabular-nums;min-width:30px;text-align:right;
@@ -626,77 +835,81 @@
   .trkstats{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;margin-top:6px}
   .trkrate{font-family:var(--font-display);font-size:var(--t-rate);font-weight:800;
     color:var(--navy-900);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
-  .trknote-l{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  .trknote-l{display:block;font-size:10px;text-transform:uppercase;letter-spacing:var(--tr-wide);
     color:var(--muted);font-weight:800;margin:var(--s4) 0 var(--s1)}
-  .trknote{width:100%;border:1.5px solid rgba(1,31,75,.14);border-radius:var(--r-sm);
+  .trknote{width:100%;border:none;border-radius:var(--r-sm);
     padding:var(--s3) var(--s4);font:inherit;font-size:14px;color:var(--ink);
-    background:var(--surface);resize:vertical;line-height:1.55}
-  .trknote:focus{outline:none;border-color:var(--electric);box-shadow:var(--glow)}
+    background:var(--surface);resize:vertical;line-height:1.55;
+    box-shadow:var(--edge-strong),var(--lift),var(--e1);transition:box-shadow var(--t-fast) var(--ease)}
+  .trknote:focus{outline:none;box-shadow:var(--glow),var(--e2)}
   .trknote::placeholder{color:var(--dim-ink);opacity:1}
   .trksaved{display:inline-block;min-height:16px;font-size:10.5px;font-weight:800;
-    color:var(--verified);text-transform:uppercase;letter-spacing:.12em;margin-top:var(--s1)}
+    color:var(--verified);text-transform:uppercase;letter-spacing:var(--tr-wide);margin-top:var(--s1)}
   .trknote-ro{font-size:14px;color:var(--navy-700);margin-top:var(--s2);white-space:pre-wrap}
   .trkacts{display:flex;flex-direction:column;gap:var(--s2);align-items:stretch}
-  .iconbtn{border:1.5px solid rgba(1,31,75,.14);background:var(--surface);border-radius:var(--r-sm);
+  .iconbtn{border:none;background:var(--surface);border-radius:var(--r-sm);
     padding:var(--s2) var(--s4);font:inherit;font-size:12.5px;font-weight:750;color:var(--navy-700);
-    cursor:pointer;min-height:44px;min-width:44px;
-    transition:background 160ms var(--ease),border-color 160ms var(--ease),transform 160ms var(--ease)}
-  .iconbtn:hover:not(:disabled){background:var(--tint);border-color:var(--navy-500);transform:translateY(-1px)}
+    cursor:pointer;min-height:44px;min-width:44px;box-shadow:var(--edge-strong),var(--lift),var(--e1);
+    transition:background var(--t-fast) var(--ease),transform var(--t-mid) var(--ease),
+      box-shadow var(--t-mid) var(--ease)}
+  .iconbtn:hover:not(:disabled){background:var(--tint);transform:translateY(-2px);
+    box-shadow:var(--edge-strong),var(--lift),var(--e3)}
   .iconbtn:disabled{opacity:.35;cursor:default}
-  .trkadd{display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;margin-top:var(--s6);
-    padding:var(--s5) var(--s6);background:var(--surface);border:1px solid rgba(1,31,75,.08);
-    border-radius:var(--r-md);box-shadow:var(--e1)}
-  .trkadd label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;
+  .trkadd{display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;margin-top:var(--sec-y-sm);
+    padding:var(--s6);background:var(--surface);
+    border-radius:var(--r-md);box-shadow:var(--edge),var(--lift),var(--e1)}
+  .trkadd label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);
     color:var(--muted);font-weight:800}
   .trkadd select{flex:1;min-width:min(100%,220px)}
   .trktoggle{background:var(--surface);color:var(--navy-700) !important;
-    border:1.5px solid rgba(1,31,75,.14);font-weight:750;white-space:nowrap;min-height:44px}
+    box-shadow:var(--edge-strong),var(--lift),var(--e1);font-weight:750;white-space:nowrap;min-height:44px}
   .trktoggle:hover{background:var(--tint);color:var(--navy-900) !important}
-  .trktoggle.on{background:var(--navy-900);color:#fff !important;border-color:var(--navy-900)}
+  .trktoggle.on{background:var(--navy-900);color:#fff !important;box-shadow:var(--e3)}
 
   .dllist{list-style:none;display:flex;flex-direction:column;gap:var(--s3)}
   .dlrow{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:var(--s5);align-items:center;
-    background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-md);
-    padding:var(--s4) var(--s5);box-shadow:var(--e1)}
+    background:var(--surface);border-radius:var(--r-md);
+    padding:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
   .dlwhen b{display:block;font-family:var(--font-display);font-size:15px;font-weight:800;
     color:var(--navy-900);font-variant-numeric:tabular-nums;letter-spacing:-.025em}
-  .dlwhen span{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  .dlwhen span{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted)}
   .dlrow-unclear{background:var(--surface-2);border-left:3px solid var(--stale)}
   .dlrow-unclear .dlwhen b{color:var(--stale)}
-  .dlunclear{margin-top:var(--s8)}
-  .dlunclear h3{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--navy-900);
-    margin-bottom:var(--s3);display:flex;align-items:center;gap:var(--s3);letter-spacing:-.03em}
+  .dlunclear{margin-top:var(--sec-y-sm)}
+  .dlunclear h3{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
+    color:var(--navy-900);margin-bottom:var(--s4);display:flex;align-items:center;gap:var(--s3);
+    letter-spacing:var(--tr-snug)}
   .dlcount{font-family:var(--font-ui);font-size:12px;font-weight:800;background:#F6E7C8;color:#7A5610;
     padding:2px 9px;border-radius:999px}
   .dlunclear>p{font-size:13.5px;color:var(--navy-700);max-width:64ch;margin-bottom:var(--s5);line-height:1.65}
 
   .lockgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--s5)}
-  .lockcard{background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-lg);
-    padding:var(--s6);box-shadow:var(--e1)}
+  .lockcard{background:var(--surface);border-radius:var(--r-lg);
+    padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);
+    transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
+  .lockcard:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
   .lockcard:nth-child(even){margin-top:var(--s5)}
-  .lockcard h3{font-family:var(--font-display);font-size:17px;font-weight:750;color:var(--navy-900);
-    margin-bottom:var(--s2);letter-spacing:-.022em}
+  .lockcard h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
+    color:var(--navy-900);margin-bottom:var(--s3);letter-spacing:var(--tr-snug)}
   .lockcard p{font-size:14px;color:var(--navy-700);line-height:1.65}
   .lockcta{display:flex;align-items:center;justify-content:space-between;gap:var(--s6);flex-wrap:wrap;
-    margin-top:var(--s6);padding:var(--s6);border-radius:var(--r-lg);color:#fff;
-    background:radial-gradient(400px 200px at 85% -20%, rgba(0,194,255,.26), transparent 66%),
-      linear-gradient(150deg,var(--navy-800),var(--navy-900) 66%,#010F27);box-shadow:var(--e4)}
-  .lockcta b{display:block;font-family:var(--font-display);font-size:19px;font-weight:750;color:#fff;
-    letter-spacing:-.022em}
-  .lockcta span{font-size:13.5px;color:var(--navy-100);line-height:1.6}
+    margin-top:var(--sec-y-sm);padding:var(--s7)}
+  .lockcta b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
+    color:#fff;letter-spacing:var(--tr-snug)}
+  .lockcta span{font-size:13.5px;color:var(--navy-100);line-height:1.65}
 
   /* ===========================================================================
      RESPONSIVE — tablet at 1024, card layout + touch targets at 768, phone 430.
      =========================================================================== */
   @media (max-width:1024px){
     :root{--gutter:24px}
-    .hero{padding-block:var(--s8) var(--s6)}
-    .hero-grid{grid-template-columns:minmax(0,1fr);gap:var(--s6)}
-    .heropanel{margin-top:0;max-width:560px}
+    /* --sec-y / --sec-y-sm are clamped on vw, so they scale down on their own and are
+       not overridden here. Only layout changes below this width. */
+    .hero-grid{grid-template-columns:minmax(0,1fr);gap:var(--s7)}
+    .heropanel{margin-top:0;max-width:560px;padding:var(--s6)}
     .cards{grid-template-columns:1fr 1fr}
     .card:nth-child(2){margin-top:var(--s5)}
     .card:nth-child(3){margin-top:0}
-    .method{padding-block:var(--s8) var(--s5)}
 
     /* tablet band (768-1024): the desktop table must still FIT, not scroll.
        Tighter cells, a narrower rate column, and a compact seal. */
@@ -711,7 +924,6 @@
     .school{font-size:15px}
   }
 
-  @media (max-width:680px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
 
   @media (max-width:768px){
     :root{--gutter:16px}
@@ -721,16 +933,17 @@
     .logo{min-height:44px}
     .navlinks{display:none}   /* Methodology moves to the footer below 768 */
     thead th{top:64px}
-    .hero{padding-block:var(--s7) var(--s5)}
-    .hero h1{font-size:clamp(32px,9vw,46px);line-height:1.0;letter-spacing:-.035em}
-    .hero p.sub{font-size:16px;margin-top:var(--s4)}
+    .hero h1{font-size:clamp(34px,9.4vw,50px);line-height:.98;letter-spacing:-.038em}
+    .hero p.sub{font-size:16.5px;margin-top:var(--s5)}
     .stats{gap:var(--s5)}
-    .stat b{font-size:26px}
-    .heropanel{padding:var(--s5);border-radius:var(--r-lg);max-width:none}
+    .stat b{font-size:28px}
+    .heropanel{padding:var(--s6);border-radius:var(--r-lg);max-width:none}
     .cards{grid-template-columns:1fr}
+    .card{padding:var(--s6)}
     .card:nth-child(2),.card:nth-child(3){margin-top:0}
-    .method{padding-block:var(--s7) var(--s4)}
     .method h2{max-width:none}
+    .sp-section,.profcard,.lockcard{padding:var(--s6)}
+    .coverpanel,.applycta,.lockcta{padding:var(--s6)}
 
     /* real cards, not a squashed table */
     .tablecard{background:none;border:none;box-shadow:none}
@@ -760,7 +973,7 @@
     .school{font-size:17px}
     tbody td[data-l]:not(.ratecol):not(:first-child):not(:last-child)::before{
       content:attr(data-l);display:block;font-size:9.5px;text-transform:uppercase;
-      letter-spacing:.12em;color:var(--muted);font-weight:800;margin-bottom:2px}
+      letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800;margin-bottom:var(--s1)}
     tbody td[data-l]:not(.ratecol):not(:first-child):not(:last-child){
       font-weight:650;color:var(--navy-900);font-size:15px}
 
@@ -812,7 +1025,7 @@
     .navlinks .hidemobile{display:none}
     .stats{gap:var(--s4) var(--s5)}
     .stat b{font-size:23px}
-    .hero h1{font-size:clamp(29px,8.6vw,38px)}
+    .hero h1{font-size:clamp(30px,8.8vw,40px)}
     .trkrank{font-size:19px;min-width:22px}
   }
 
@@ -841,7 +1054,8 @@
       TransferVerified
     </a>
     <nav>
-      <a class="tab" href="#/" data-tab="top">Top 75</a>
+      <a class="tab" href="#/" data-tab="home">Home</a>
+      <a class="tab" href="#/top" data-tab="top">Top 75</a>
       <a class="tab" href="#/all" data-tab="rates">All schools</a>
       <a class="tab" href="#/apply" data-tab="apply">Apply</a>
       <a class="tab" href="#/tracker" data-tab="tracker">Tracker</a>
@@ -865,6 +1079,9 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const $ = (s, r=document) => r.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = r => r == null ? '—' : (r*100).toFixed(1) + '%';
+  /* WO3 §6 — the typeset form of a rate: full-weight digits, demoted unit. Used only
+     where the rate is a display object. Inside a sentence, pct() stays plain. */
+  const pctSet = r => r == null ? '—' : `${(r*100).toFixed(1)}<span class="pct-u">%</span>`;
   const n = v => v == null ? '—' : v.toLocaleString('en-US');
   const yearNum = y => { const m = /20\d\d/.exec(y||''); return m ? +m[0] : 0; };
 
@@ -1040,7 +1257,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ['150+','schools covered'],
       ['100%','source-linked'],
       ['150+','with deadlines & caps'],
-      [pct(hardest.rate), 'lowest: ' + hardest.name.replace(' University','')]
+      [pctSet(hardest.rate), 'lowest: ' + hardest.name.replace(' University','')]
     ].map(([b,l]) => `<div class="stat"><b class="num">${b}</b><span>${esc(l)}</span></div>`).join('');
   }
   /* Asymmetric hero. The right column is not decoration: it shows a real record
@@ -1099,7 +1316,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
   /* ---- the four hero cards. Same visual container; page-relevant content. ---- */
   function panelHowItWorks(){
-    return `<aside class="heropanel rv" style="--i:3">
+    return `<aside class="dark heropanel rv" style="--i:3">
       <div class="heropanel-k">How to read this database</div>
       <ol class="hp-steps">
         <li><b>Every rate is the school's own figure.</b> Taken from Section D of its Common Data Set — transfer applicants, admitted, enrolled. Not a freshman rate, and never an estimate.</li>
@@ -1115,7 +1332,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <span class="hp-bar-l">${esc(label)}</span>
         <span class="hp-bar-t"><span style="width:${Math.round(count/f.max*100)}%"></span></span>
         <span class="hp-bar-n">${count}</span></li>`).join('');
-    return `<aside class="heropanel rv" style="--i:3">
+    return `<aside class="dark heropanel rv" style="--i:3">
       <div class="heropanel-k">Patterns across all ${f.total} schools</div>
       <div class="hp-title">The most common fall deadlines</div>
       <ul class="hp-bars">${bars}</ul>
@@ -1135,7 +1352,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       [c.currentPct + '%', 'on the ' + c.refCycle + ' cycle'],
       [c.total - c.current, 'labelled as an older cycle']
     ].map(([b,l]) => `<div class="cov-cell"><b class="num">${esc(String(b))}</b><span>${esc(l)}</span></div>`).join('');
-    return `<div class="coverpanel">
+    return `<div class="dark coverpanel">
       <div class="heropanel-k">Coverage, counted from the data</div>
       <div class="cov-grid">${cells}</div>
       <div class="heropanel-meta">Every one of the ${c.total} records was checked by hand between <b>${esc(c.from)}</b> and <b>${esc(c.to)}</b>. These figures are counted from the dataset each time this page loads, so they cannot drift away from what is actually published above.</div>
@@ -1155,6 +1372,13 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
      Constants below were approved before implementation.
      ================================================================================ */
   const EST = {
+    // Selectivity bands on the school's own published transfer admit rate, [lo, hi).
+    // Fitted to this dataset, not to a generic one: the median rate here is 54.9% and
+    // only 10 schools sit under 5%, so the work order's suggested cutoffs would have
+    // left four of six bands below the minimum sample. See NOTES.md.
+    SEL: [[0, .10], [.10, .25], [.25, .45], [.45, .65], [.65, .85], [.85, 1.0001]],
+    MIN_SAMPLE: 5,                // a band with fewer contributors has no benchmark
+
     BANDS: [                      // [minDelta, maxDelta, multiplier] — discrete, no curve
       [-Infinity, -0.50, 0.40],
       [-0.50,     -0.10, 0.70],
@@ -1162,10 +1386,13 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       [ 0.30,      0.70, 1.25],
       [ 0.70,  Infinity, 1.50]
     ],
-    K: { recommended:1.0, minimum:0.5, '':0.5 },   // basis damping
-    FLOOR: 0.005,   // 0.5% — below the lowest published rate (0.6%), so never pushes up
-    CEIL:  0.95,    // never 100%
-    HALF:  0.25     // +/- 25% range
+    // damping: effective = 1 + (multiplier - 1) * k. The weaker the evidence behind
+    // the comparison point, the less the GPA difference is allowed to move the rate.
+    K: { recommended:1.0, minimum:0.5, unlabelled:0.5, peer:0.4 },
+    FLOOR: 0.005,     // 0.5% — below the lowest published rate (0.6%), so never pushes up
+    CEIL:  0.95,      // never 100%
+    HALF_PUB:  0.25,  // +/- 25% when the comparison point is the school's own figure
+    HALF_PEER: 0.45   // +/- 45% when it is a peer benchmark — the tier IS the width
   };
   // credit-cap units that denote an actual transfer ceiling. "in residence" is a
   // residency requirement and is deliberately absent.
@@ -1174,6 +1401,52 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const estNum = v => { const f = parseFloat(String(v==null?'':v).replace(/[^0-9.]/g,'')); return isFinite(f) ? f : null; };
   const sig2 = x => { if(!(x>0)) return 0; const d = Math.ceil(Math.log10(x)); const f = Math.pow(10, 2-d); return Math.round(x*f)/f; };
   const estPct = x => { const v = x*100; return (v >= 10 ? v.toFixed(0) : v.toFixed(1)) + '%'; };
+  const estBare = x => { const v = x*100; return v >= 10 ? v.toFixed(0) : v.toFixed(1); };
+  const ratePct = x => { const v = x*100; return (Number.isInteger(v) ? v.toFixed(0) : v.toFixed(0)) + '%'; };
+
+  /* ---- selectivity-band benchmarks, computed at runtime ----
+     Most schools publish no GPA figure at all, so a model that requires one produces
+     nothing for the majority of the database. Where a school publishes one we use it.
+     Where it does not, we compare against the MEDIAN of the figures published by
+     schools in the same transfer-selectivity band — and we say so, every time.
+     A band with fewer than MIN_SAMPLE contributors has no benchmark and its schools
+     get no estimate. Nothing here is hardcoded; it re-derives from TT_DATA on load. */
+  const SEL_BENCH = EST.SEL.map(([lo, hi]) => {
+    const inBand = S.filter(x => x.rate != null && x.rate >= lo && x.rate < hi);
+    const gpas = inBand.map(x => estNum((x.reqs||{}).admittedGpa))
+                       .filter(v => v != null).sort((a,b) => a-b);
+    const n = gpas.length;
+    const median = n ? (n % 2 ? gpas[(n-1)/2] : (gpas[n/2-1] + gpas[n/2]) / 2) : null;
+    return { lo, hi, schools: inBand.length, n, median, usable: n >= EST.MIN_SAMPLE };
+  });
+  const selBandOf = s => s.rate == null ? null
+    : (SEL_BENCH.find(b => s.rate >= b.lo && s.rate < b.hi) || null);
+  const bandRange = b => b.lo === 0 ? `under ${ratePct(b.hi)}`
+    : b.hi > 1 ? `${ratePct(b.lo)} and over`
+    : `${ratePct(b.lo)}\u2013${ratePct(b.hi)}`;
+
+  /* The comparison point, and — the part that must never be blurred — where it came
+     from. A benchmark is never presented as though the school published it. */
+  function comparisonPoint(s){
+    const r = s.reqs || {};
+    const own = estNum(r.admittedGpa);
+    if(own != null)
+      return { kind:'published', gpa:own, basis:(r.admittedGpaBasis||'').trim() || 'unlabelled' };
+    const b = selBandOf(s);
+    if(b && b.usable) return { kind:'peer', gpa:b.median, band:b };
+    return null;
+  }
+
+  // how many schools land in each tier — used on the methodology page
+  function tierCoverage(){
+    let published = 0, peer = 0, none = 0;
+    for(const x of S){
+      if(x.rate == null){ none++; continue; }
+      const cp = comparisonPoint(x);
+      if(!cp) none++; else if(cp.kind === 'published') published++; else peer++;
+    }
+    return { published, peer, none, total:S.length };
+  }
 
   function profile(){ return trk().profile || {gpa:null,credits:null,level:''}; }
   function profileComplete(){ const p = profile(); return p.gpa != null && p.credits != null; }
@@ -1201,28 +1474,29 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return gates;
   }
 
-  // Layer 3 — the estimate. Returns null when it must be suppressed.
+  // Layer 3 — the estimate. Returns a {suppressed} marker when it must not be shown.
   function estimate(s, p){
     if(s.rate == null) return {suppressed:'no-rate'};
-    const r = s.reqs || {};
-    const ag = estNum(r.admittedGpa);
-    if(ag == null) return {suppressed:'no-gpa', stated:(r.admittedGpa||'').trim()};
     if(p.gpa == null) return {suppressed:'no-profile'};
-    const delta = p.gpa - ag;
-    const band = EST.BANDS.find(([lo,hi]) => delta >= lo && delta < hi);
-    const m = band[2];
-    const basis = (r.admittedGpaBasis||'').trim();
-    const k = EST.K[basis] != null ? EST.K[basis] : 0.5;
+    const cp = comparisonPoint(s);
+    if(!cp) return {suppressed:'no-benchmark', band:selBandOf(s),
+                    stated:((s.reqs||{}).admittedGpa||'').trim()};
+    const delta = p.gpa - cp.gpa;
+    const m = EST.BANDS.find(([lo,hi]) => delta >= lo && delta < hi)[2];
+    const k = cp.kind === 'peer' ? EST.K.peer
+            : (EST.K[cp.basis] != null ? EST.K[cp.basis] : EST.K.unlabelled);
     const mEff = 1 + (m - 1) * k;
     const point = Math.min(EST.CEIL, Math.max(EST.FLOOR, s.rate * mEff));
-    const lo = sig2(Math.max(EST.FLOOR, point * (1 - EST.HALF)));
-    const hi = sig2(Math.min(EST.CEIL, point * (1 + EST.HALF)));
-    const bare = x => { const v = x*100; return v >= 10 ? v.toFixed(0) : v.toFixed(1); };
-    return { base:s.rate, ag, basis, delta, m, k, mEff, point, lo, hi,
-             range: `${bare(lo)}\u2013${estPct(hi)}` };
+    // the confidence tier IS the range width — a peer benchmark reads visibly wider
+    const half = cp.kind === 'peer' ? EST.HALF_PEER : EST.HALF_PUB;
+    const lo = sig2(Math.max(EST.FLOOR, point * (1 - half)));
+    const hi = sig2(Math.min(EST.CEIL, point * (1 + half)));
+    return { cp, base:s.rate, ag:cp.gpa, basis:cp.basis, delta, m, k, mEff, point, half,
+             lo, hi, range: `${estBare(lo)}\u2013${estPct(hi)}` };
   }
 
-  const MODEL_SENTENCE = "We start from the transfer admit rate the school publishes, then nudge it up or down depending on how far your GPA sits from the GPA figure that school publishes \u2014 and we nudge less when that figure is only a stated minimum, because clearing a minimum tells us less than beating a recommended average.";
+  const MODEL_SENTENCE_PUB = "We start from the transfer admit rate the school publishes, then nudge it up or down depending on how far your GPA sits from the GPA figure that same school publishes \u2014 and we nudge less when that figure is only a stated minimum, because clearing a minimum tells us less than beating a recommendation.";
+  const MODEL_SENTENCE_PEER = "This school publishes no GPA figure, so we start from the transfer admit rate it does publish and compare your GPA against the median of the figures published by schools with a similar transfer admit rate \u2014 nudging the rate up or down by a fixed amount, and showing a wider range because the comparison point is not this school\u2019s own number.";
   const MODEL_DISCLAIMER = "This range is produced by TransferVerified\u2019s own formula. It is not a figure the school publishes and it is not a prediction of a decision. Use it alongside the sourced numbers above, not instead of them, and never as the only reason to apply or not apply.";
 
   /* ---- profile form (Pro) ---- */
@@ -1283,13 +1557,21 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const gateHtml = gates.length ? `<ul class="est-gates">${gates.map(g =>
       `<li class="${g.hard?'g-hard':'g-info'}"><span aria-hidden="true">${g.hard?'\u2715':'\u2139'}</span><span>${g.text} ${src}</span></li>`).join('')}</ul>` : '';
 
-    // layer 2 — entirely sourced
-    const ag = estNum(r.admittedGpa), cap = estNum(r.creditCap), unit=(r.creditCapUnit||'').trim();
+    // layer 2 — the comparison point, and where it came from. A peer benchmark is
+    // never dressed up as the school's own figure.
+    const cp = comparisonPoint(s);
+    const cap = estNum(r.creditCap), unit = (r.creditCapUnit||'').trim();
     const cmp = [];
-    if(ag != null) cmp.push([`Your GPA vs published figure`,
-      `${p.gpa.toFixed(2)} vs ${ag}`, (r.admittedGpaBasis||'unlabelled') + ' \u2014 not an admitted average']);
-    else if((r.admittedGpa||'').trim()) cmp.push([`Published GPA figure`, esc(r.admittedGpa), 'not a number we can compare against']);
-    if(cap != null && CAP_UNITS.includes(unit)) cmp.push([`Your credits vs transfer cap`, `${p.credits} vs ${cap}`, esc(unit)]);
+    if(cp && cp.kind === 'published')
+      cmp.push([`Your GPA vs this school\u2019s published figure`, `${p.gpa.toFixed(2)} vs ${cp.gpa}`,
+        `${esc(cp.basis)} \u2014 ${esc(s.name)}\u2019s own number, not an admitted average`]);
+    else if(cp && cp.kind === 'peer')
+      cmp.push([`Your GPA vs a peer benchmark`, `${p.gpa.toFixed(2)} vs ${cp.gpa}`,
+        `median of ${cp.band.n} schools with a ${bandRange(cp.band)} transfer admit rate \u2014 <b>not</b> ${esc(s.name)}\u2019s figure`]);
+    else if((r.admittedGpa||'').trim())
+      cmp.push([`Published GPA figure`, esc(r.admittedGpa), 'not a number we can compare against']);
+    if(cap != null && CAP_UNITS.includes(unit))
+      cmp.push([`Your credits vs transfer cap`, `${p.credits} vs ${cap}`, esc(unit)]);
     const cmpHtml = cmp.length ? `<div class="est-cmp">${cmp.map(([k,v,sub]) =>
       `<div><b>${k}</b><span class="num">${v}</span><i>${sub}</i></div>`).join('')}</div>` : '';
 
@@ -1300,9 +1582,10 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
     const e = estimate(s, p);
     if(e.suppressed){
-      const why = e.suppressed === 'no-gpa'
-        ? (e.stated ? `${esc(s.name)} publishes \u201c${esc(e.stated)}\u201d rather than a GPA number, so there is nothing here to compare your GPA against.`
-                    : `${esc(s.name)} publishes no GPA figure, so there is nothing here to compare your GPA against.`)
+      const why = e.suppressed === 'no-benchmark'
+        ? (e.band
+            ? `${esc(s.name)} publishes no GPA figure, and too few schools in its selectivity band (${bandRange(e.band)}) publish one to build a benchmark from \u2014 ${e.band.n} of the ${EST.MIN_SAMPLE} we require. We would rather show you nothing than a number resting on ${e.band.n} school${e.band.n===1?'':'s'}.`
+            : `${esc(s.name)} publishes no GPA figure and no benchmark is available for its selectivity band.`)
         : e.suppressed === 'no-rate'
         ? `${esc(s.name)} publishes no transfer admit rate, so there is no base rate to work from.`
         : `Add your GPA above to see an estimate.`;
@@ -1310,27 +1593,43 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <div class="est-suppressed">${why}${r.transferUrl?` <a class="est-src" href="${esc(r.transferUrl)}" target="_blank" rel="noopener">their transfer page \u2197</a>`:''}</div></div>`;
     }
 
+    const peer = e.cp.kind === 'peer';
     const staleMark = cycleState(s) === 'behind2'
       ? `<span class="est-stale">${cycleTag(s)} this school\u2019s figures are two or more cycles behind</span>` : '';
+    // the tier is stated structurally, on the estimate itself — not in a footnote
+    const tier = peer
+      ? `<div class="est-tier est-tier-peer"><b>Compared against similar schools</b>
+           ${esc(s.name)} publishes no GPA figure of its own. The comparison point is the median published figure across the <b>${cp.band.n} schools</b> whose transfer admit rate is <b>${bandRange(cp.band)}</b>. The range below is deliberately wider because of it.</div>`
+      : `<div class="est-tier est-tier-pub"><b>Compared against this school\u2019s own published figure</b>
+           ${esc(s.name)} publishes a ${esc(e.basis)} GPA of ${e.ag}. ${src}</div>`;
+
+    const cpRow = peer
+      ? `<tr><td>Comparison point \u2014 median GPA across ${cp.band.n} schools at ${bandRange(cp.band)}</td><td class="num">${e.ag}</td><td><span class="est-tag-own">peer benchmark</span></td></tr>`
+      : `<tr><td>Comparison point \u2014 this school\u2019s published GPA figure (${esc(e.basis)})</td><td class="num">${e.ag}</td><td><span class="est-tag-src">sourced</span> ${src}</td></tr>`;
+    const kRow = peer
+      ? `<tr><td>Damping, because the comparison point is a peer benchmark rather than this school\u2019s figure</td><td class="num">\u00d7${e.k.toFixed(2)}</td><td><span class="est-tag-own">our weighting</span></td></tr>`
+      : `<tr><td>Damping, because that figure is a ${esc(e.basis)}</td><td class="num">\u00d7${e.k.toFixed(2)}</td><td><span class="est-tag-own">our weighting</span></td></tr>`;
 
     return `<div class="est-wrap">${gateHtml}${cmpHtml}
-      <div class="estimate">
-        <div class="est-label"><span class="est-dot" aria-hidden="true"></span>TransferVerified Estimate</div>
+      <div class="estimate${peer?' estimate-peer':''}">
+        <div class="est-label"><span class="est-dot" aria-hidden="true"></span>TransferVerified Estimate
+          <span class="est-tierchip">${peer?'peer benchmark':'school-published'}</span></div>
         <div class="est-range">roughly ${e.range}</div>
+        ${tier}
         ${staleMark}
         <details class="est-break">
           <summary>How we got this</summary>
           <div class="est-body">
-            <p class="est-model">${MODEL_SENTENCE}</p>
+            <p class="est-model">${peer ? MODEL_SENTENCE_PEER : MODEL_SENTENCE_PUB}</p>
             <table class="est-table">
-              <tr><td>School\u2019s published transfer admit rate</td><td class="num">${estPct(e.base)}</td><td><span class="est-tag-src">sourced</span> ${src}</td></tr>
-              <tr><td>School\u2019s published GPA figure (${esc(e.basis||'unlabelled')})</td><td class="num">${e.ag}</td><td><span class="est-tag-src">sourced</span> ${src}</td></tr>
+              <tr><td>${esc(s.name)}\u2019s published transfer admit rate</td><td class="num">${estPct(e.base)}</td><td><span class="est-tag-src">sourced</span> ${src}</td></tr>
+              ${cpRow}
               <tr><td>Your GPA</td><td class="num">${p.gpa.toFixed(2)}</td><td><span class="est-tag-you">yours</span></td></tr>
               <tr><td>Difference</td><td class="num">${e.delta>=0?'+':''}${e.delta.toFixed(2)}</td><td><span class="est-tag-calc">calculated</span></td></tr>
               <tr><td>Band multiplier for that difference</td><td class="num">\u00d7${e.m.toFixed(2)}</td><td><span class="est-tag-own">our weighting</span></td></tr>
-              <tr><td>Damping, because that figure is a ${esc(e.basis||'unlabelled figure')}</td><td class="num">\u00d7${e.k.toFixed(2)}</td><td><span class="est-tag-own">our weighting</span></td></tr>
+              ${kRow}
               <tr><td>Applied to the base rate</td><td class="num">${estPct(e.base)} \u00d7 ${e.mEff.toFixed(2)}</td><td><span class="est-tag-calc">calculated</span></td></tr>
-              <tr><td>Shown as a range, not a point</td><td class="num">${e.range}</td><td><span class="est-tag-own">ours</span></td></tr>
+              <tr><td>Shown as a range of \u00b1${Math.round(e.half*100)}%, not a point${peer?' \u2014 wider, because the comparison point is not this school\u2019s':''}</td><td class="num">${e.range}</td><td><span class="est-tag-own">ours</span></td></tr>
             </table>
             <p class="est-disc">${MODEL_DISCLAIMER}</p>
           </div>
@@ -1341,11 +1640,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function heroPanel(){
     const pool = S.filter(x => x.applicants != null && x.rate != null);
     const hardest = pool.reduce((a,b) => b.rate < a.rate ? b : a);
-    return `<aside class="heropanel rv" style="--i:3">
+    return `<aside class="dark heropanel rv" style="--i:3">
       <div class="heropanel-k"><span aria-hidden="true">\u2713</span> Verified from the filing</div>
       <div class="heropanel-school">${esc(hardest.name)}</div>
       <div class="heropanel-rate">
-        <b class="num">${pct(hardest.rate)}</b>
+        <b class="num">${pctSet(hardest.rate)}</b>
         <span>transfer admit rate<br>${n(hardest.admits)} admitted of ${n(hardest.applicants)}</span>
       </div>
       <div class="heropanel-meta">${cycleTag(hardest)} &nbsp; Last verified ${esc(hardest.lastVerified||TT_DATA.generated)}<br>
@@ -1365,7 +1664,64 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ${o.aside || ''}
     </div></section>`;
   }
-  function bandAndMethod(){
+  /* ================= the model, documented in public =================
+     Every figure below is computed from TT_DATA at load, so the page cannot drift
+     away from what the model actually does when the dataset moves. */
+  function estimateMethodology(){
+    const cov = tierCoverage();
+    const minG = S.filter(x => x.reqs && (x.reqs.admittedGpaBasis||'') === 'minimum').length;
+    const recG = S.filter(x => x.reqs && (x.reqs.admittedGpaBasis||'') === 'recommended').length;
+
+    const benchRows = SEL_BENCH.map(b => `<tr class="${b.usable?'':'bench-out'}">
+        <td>${esc(bandRange(b))}</td>
+        <td class="num">${b.schools}</td>
+        <td class="num">${b.n}</td>
+        <td class="num">${b.usable ? b.median.toFixed(2) : '\u2014'}</td>
+        <td>${b.usable ? '<span class="bench-ok">in use</span>'
+                       : `<span class="bench-no">no benchmark \u2014 needs ${EST.MIN_SAMPLE}</span>`}</td>
+      </tr>`).join('');
+
+    return `
+      <h3 class="method-sub">How the TransferVerified Estimate works</h3>
+      <p class="method-lead">Saved schools in the Tracker can show an estimate. It is <b>ours, not the school\u2019s</b>, and it is documented here in full because a formula we would not show you is not one worth shipping.</p>
+
+      <h4 class="method-h4">The problem this model has to solve</h4>
+      <p class="method-lead">Only <b>${cov.published} of the ${cov.total}</b> schools in this database publish a GPA figure for transfer applicants at all. A model that requires one produces nothing for the majority of the site. So where a school publishes a figure we use it; where it does not, we compare against a benchmark built from schools of similar transfer selectivity \u2014 and we always say which of the two is in play.</p>
+
+      <div class="dark benchpanel">
+        <div class="heropanel-k">Selectivity bands, computed from the data at load</div>
+        <div class="hp-title">Benchmark GPA by transfer admit rate</div>
+        <table class="benchtable">
+          <thead><tr><th>Transfer admit rate</th><th>Schools</th><th>Publish a GPA</th><th>Median</th><th>Status</th></tr></thead>
+          <tbody>${benchRows}</tbody>
+        </table>
+        <div class="heropanel-meta">A band\u2019s benchmark is the <b>median</b> of the GPA figures published by the schools inside it, and it is only usable when at least <b>${EST.MIN_SAMPLE}</b> schools contribute one. Below that the band has no benchmark and its schools get no estimate \u2014 we would rather show nothing than a number resting on two schools.</div>
+      </div>
+
+      <h4 class="method-h4">The two confidence tiers</h4>
+      <p class="method-lead">The tier is not a footnote. It changes how wide the number is.
+      <br><br><b>School-published comparison</b> \u2014 the school publishes its own GPA figure. Range of <b>\u00b1${Math.round(EST.HALF_PUB*100)}%</b> around the point estimate. <b>${cov.published} schools.</b>
+      <br><br><b>Peer-derived benchmark</b> \u2014 the school publishes none, so the comparison point is the median across its selectivity band. Range of <b>\u00b1${Math.round(EST.HALF_PEER*100)}%</b> \u2014 visibly wider, because the comparison point is not this school\u2019s own number \u2014 and labelled as such on every estimate. <b>${cov.peer} schools.</b>
+      <br><br><b>No estimate at all</b> \u2014 <b>${cov.none} school${cov.none===1?'':'s'}</b>, because ${cov.none===1?'it publishes':'they publish'} no transfer admit rate, so there is no base rate to start from.</p>
+
+      <h4 class="method-h4">The calculation</h4>
+      <p class="method-lead">We start from the transfer admit rate the school publishes. We compare your GPA with the comparison point and apply one of five fixed multipliers, depending on which band the difference falls into:
+      <span class="est-bands">${EST.BANDS.map(([lo,hi,m]) => `<span><b>${lo===-Infinity?'below \u22120.50':hi===Infinity?'+0.70 and above':(lo>0?'+':'')+lo.toFixed(2)+' to '+(hi>0?'+':'')+hi.toFixed(2)}</b>\u00d7${m.toFixed(2)}</span>`).join('')}</span>
+      There is no curve. Five bands is as fine as this data honestly supports.
+      <br><br><b>We then weaken that adjustment</b> according to how much the comparison point is actually worth \u2014 to <b>${EST.K.recommended.toFixed(2)}\u00d7</b> its full effect for a school\u2019s own recommended figure, <b>${EST.K.minimum.toFixed(2)}\u00d7</b> for a school\u2019s own stated minimum, and <b>${EST.K.peer.toFixed(2)}\u00d7</b> for a peer benchmark. Clearing a minimum tells you much less than beating a recommendation, and a benchmark from other schools tells you less still. Across the whole dataset not one school publishes the actual average GPA of admitted transfers; ${minG} publish a minimum and ${recG} publish a recommendation.
+      <br><br>The result is clamped between <b>${estPct(EST.FLOOR)}</b> and <b>${estPct(EST.CEIL)}</b> \u2014 never 0%, never 100% \u2014 and shown as a range rounded to two significant figures, never as a single number. The estimate rises with your GPA and never falls.</p>
+
+      <h4 class="method-h4">What the model does and does not use</h4>
+      <p class="method-lead"><b>It uses:</b> the school\u2019s own published transfer admit rate, its own published GPA figure where one exists, the median published GPA of its selectivity band where one does not, and the GPA and credit count you enter.
+      <br><br><b>It does not use:</b> test scores (the dataset contains none for transfers), essays, recommendations, your major, your residency, your intended term, or anything else about you. It cannot see how you compare with the people you are actually competing against, and it cannot see a school\u2019s internal priorities. Treat it as a rough orientation, not a decision.</p>
+
+    `;
+  }
+
+  /* opts.coverage:false — Home states the coverage figures in its own section, so the
+     methodology block does not repeat them there. Every other route keeps the panel. */
+  function bandAndMethod(opts){
+    const showCoverage = !(opts && opts.coverage === false);
     return `
     <section class="method wrap" id="method">
       <h2>Why you can trust this</h2>
@@ -1375,15 +1731,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <div class="card rv" style="--i:2"><h3>Verified, not scraped-and-prayed</h3><p>Numbers are cross-footed against the school's own totals and independently spot-checked. Anything that fails QA is quarantined, not published. When a page and a filing disagree, we show the school-page value and say so.</p></div>
         <div class="card rv" style="--i:3"><h3>Honest about gaps</h3><p>Blank beats guessed. If a school only publishes a minimum GPA, we don't invent an average. If it doesn't publish transfer counts (Syracuse — we checked), we say so. Older editions are labeled, not hidden.</p></div>
       </div>
-      ${coveragePanel()}
-      <h3 class="method-sub">How the TransferVerified Estimate works</h3>
-      <p class="method-lead">Saved schools in the Tracker can show an estimate. It is <b>ours, not the school\u2019s</b>, and it is published here in full because a formula we would not show you is not one worth shipping.
-      <br><br>We start from the transfer admit rate the school publishes. We then compare your GPA with the GPA figure that school publishes and apply one of five fixed multipliers, depending on which band the difference falls into:
-      <span class="est-bands">${EST.BANDS.map(([lo,hi,m]) => `<span><b>${lo===-Infinity?'below \u22120.50':hi===Infinity?'+0.70 and above':(lo>0?'+':'')+lo.toFixed(2)+' to '+(hi>0?'+':'')+hi.toFixed(2)}</b>\u00d7${m.toFixed(2)}</span>`).join('')}</span>
-      There is no curve. Five bands is as fine as this data honestly supports.
-      <br><br><b>We then weaken that adjustment by half</b> when the school\u2019s published GPA is only a stated minimum rather than a recommendation \u2014 because clearing a minimum tells you much less than beating a recommended average. Across the whole dataset, not one school publishes the actual average GPA of admitted transfers; ${S.filter(x=>x.reqs&&(x.reqs.admittedGpaBasis||'')==='minimum').length} publish a minimum and ${S.filter(x=>x.reqs&&(x.reqs.admittedGpaBasis||'')==='recommended').length} publish a recommendation.
-      <br><br>The result is clamped between ${estPct(EST.FLOOR)} and ${estPct(EST.CEIL)} \u2014 never 0%, never 100% \u2014 and shown as a range of \u00b1${EST.HALF*100}% rounded to two significant figures, never as a single number.
-      <br><br><b>What it does not use:</b> test scores (the dataset contains none for transfers), essays, recommendations, your major, residency, or anything about you beyond the GPA and credits you enter. It cannot see how you compare with the people you are actually competing against. Treat it as a rough orientation, not a decision.</p>
+      ${showCoverage ? coveragePanel() : ''}
+      ${estimateMethodology()}
       <h3 class="method-sub">What the cycle year means</h3>
       <p class="method-lead">Every admit rate on this site carries the admissions cycle it came from — <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span>, for example. Schools publish their Common Data Sets on their own schedules, so at any moment some are a cycle or two behind the rest. That is the school's timing, not a gap in our checking: what you see is the newest edition that school has actually made public. We label the older ones <span class="cyc cyc-behind1">one cycle behind</span> or <span class="cyc cyc-behind2">two or more behind</span> rather than hiding them, because an older real number beats a current invented one. Where a record doesn't state its cycle at all, we say <span class="cyc cyc-unconfirmed">Cycle year unconfirmed</span> instead of guessing. Nothing is ever filtered out or pushed down the page for being older — you decide what it's worth.</p>
     </section>
@@ -1518,7 +1867,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
         <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim">not published — we checked</span>`
-          :`<div class="ratecell"><span class="ratenum">${pct(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
+          :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Tuition">${tuitionCell(s)}</td>
         <td class="hidesm" data-l="Undergrads">${n(s.undergrads)}</td>
         <td data-l="Source">${seal(s)}</td>
@@ -1620,7 +1969,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <td data-l="Admitted">${n(s.admits)}</td>
         <td data-l="Enrolled">${n(s.enrolled)}</td>
         <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim">not published — we checked</span>`
-          :`<div class="ratecell"><span class="ratenum">${pct(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
+          :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track"><div class="fill" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Source">${seal(s)}</td>
       </tr>`;
       return row + (open?`<tr class="detail">${ratesDetail(s)}</tr>`:'');
@@ -1744,10 +2093,10 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ? `<div class="comingsoon">This school does not publish transfer admission counts in any official public document we could find. We'll add them the day they do.</div>
          <div class="cycline">${cycleTag(s)} <span>${esc(cycleSentence(s))}</span></div>`
       : `<div class="statcards rv" style="--i:1">
-          <div class="statcard"><b class="num">${n(s.applicants)}</b><span>Applied</span></div>
-          <div class="statcard"><b class="num">${n(s.admits)}</b><span>Admitted</span></div>
-          <div class="statcard"><b class="num">${n(s.enrolled)}</b><span>Enrolled</span></div>
-          <div class="statcard hl"><b class="num">${pct(s.rate)}</b><span>Transfer admit rate</span>${cycleTag(s)}</div>
+          <div class="statcard"><span>Applied</span><b class="num">${n(s.applicants)}</b></div>
+          <div class="statcard"><span>Admitted</span><b class="num">${n(s.admits)}</b></div>
+          <div class="statcard"><span>Enrolled</span><b class="num">${n(s.enrolled)}</b></div>
+          <div class="statcard hl"><span>Transfer admit rate</span><b class="num">${pctSet(s.rate)}</b>${cycleTag(s)}</div>
         </div>
         <div class="cycline"><span>${esc(cycleSentence(s))}</span></div>`;
     const profileSection = (s.founded!=null || s.tuition!=null || s.undergrads!=null) ? `
@@ -1771,7 +2120,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           ${field('Credit transfer cap', r.creditCap ? r.creditCap+' '+r.creditCapUnit : '')}
         </div>
         ${r.transferUrl?`
-        <div class="applycta">
+        <div class="dark applycta">
           <div class="applycta-copy">
             <b>Apply on ${esc(s.name)}'s own transfer page</b>
             <span>The school states its own application steps and platform there — we send you straight to it rather than keeping a second copy.</span>
@@ -1888,9 +2237,12 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return true;
   }
 
-  // PLACEHOLDER — no price is specified anywhere in the work order or the site.
-  // Single constant so setting the real one is a one-line change. See NOTES.md.
-  const TRACKER_PRICE = { amount:'$9', period:'one-time' };
+  /* PLACEHOLDER PRICE — NOT FINAL. The owner sets the real figure after seeing this
+     rendered (Work Order 03, Task 3). One constant, consumed by the plans section and
+     the tracker lock screen, so changing it is a one-line edit.
+     `oneTime` is deliberately spelled out rather than implied: a student must never be
+     left wondering whether this recurs. */
+  const TRACKER_PRICE = { amount:'$8.99', period:'one-time', oneTime:'One payment. Not a subscription.' };
 
   /* ---------- tracker state ---------- */
   let trkTab = 'list';        // 'list' | 'deadlines'
@@ -2025,14 +2377,186 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <p>All your saved schools' deadlines in date order. Anything a school hasn't clearly published is listed as needing confirmation, with a link to check.</p>
           </div>
         </div>
-        <div class="lockcta">
+        <div class="dark lockcta">
           <div>
             <b>Personal Tracker</b>
-            <span>${esc(TRACKER_PRICE.amount)} ${esc(TRACKER_PRICE.period)}. The database, the deadlines, and every source link stay free.</span>
+            <span>${esc(TRACKER_PRICE.amount)}, ${esc(TRACKER_PRICE.period)}. ${esc(TRACKER_PRICE.oneTime)} The database, the deadlines, and every source link stay free.</span>
           </div>
           <a class="btn btn-primary" href="mailto:batuyetki@transferverified.com?subject=Personal%20Tracker">Ask about the tracker</a>
         </div>
       </main>` + bandAndMethod();
+  }
+
+
+  /* ================================================================================
+     HOME — Work Order 03, Task 3. Served at the site root; first in the nav.
+     Every figure on this page is counted from TT_DATA at load. Nothing is hardcoded,
+     and nothing here collects anything from the visitor.
+     ================================================================================ */
+
+  /* What a visitor gets from each tab. Counts are derived, never typed in. */
+  function insideItems(){
+    const withFall = S.filter(x => x.reqs && x.reqs.fallDeadline).length;
+    // a real ceiling on transferable credit — NOT the 67 records whose "cap" is an
+    // in-residence graduation rule, which is a different thing and never counted here
+    const withCap = S.filter(x => {
+      const r = x.reqs || {};
+      const c = estNum(r.creditCap);
+      return c != null && CAP_UNITS.includes((r.creditCapUnit||'').trim());
+    }).length;
+    return [
+      ['#/top',     'Top 75',      `The universities that consistently sit at the top of the national rankings, sorted by how hard they actually are to transfer into — with tuition, size, and founding year alongside.`],
+      ['#/all',     'All schools', `Every one of the ${S.length} records: transfer applicants, admitted, enrolled, and the admit rate, each carrying the cycle it covers and a link to the filing it came from.`],
+      ['#/apply',   'Apply',       `Application opening dates and deadlines for all ${S.length} schools — ${withFall} publish a fall date — plus the ${withCap} that publish a numeric ceiling on how much credit will transfer in. Each row links to the school's own transfer page.`],
+      ['#/tracker', 'Tracker',     `Save the schools you are serious about, rank them yourself, keep a note on each, and see every deadline on one timeline.`],
+      ['#method',   'Methodology', `How every number is sourced, what the cycle-year labels mean, and the estimate formula written out in full — including the figures it is currently using.`]
+    ];
+  }
+
+  /* The two tiers. Copy is the work order's; the price is a placeholder constant. */
+  function plansSection(){
+    const free = [
+      `The full database, all ${S.length} schools`,
+      `Top 75 ranked by transfer selectivity`,
+      `Every number linked to the school's own filing`,
+      `Deadlines and application requirements`,
+      `Full methodology`
+    ];
+    const pro = [
+      `Everything in Free`,
+      `Personal Tracker: save schools, rank them, keep notes`,
+      `Consolidated deadline calendar across saved schools`,
+      `Chance Me estimates against your GPA and credits`
+    ];
+    const li = xs => xs.map(x => `<li>${esc(x)}</li>`).join('');
+    return `
+      <section class="hm-sec wrap" aria-labelledby="plans-h">
+        <div class="hm-lead">
+          <div class="eyebrow">What it costs</div>
+          <h2 id="plans-h">Free stays free.</h2>
+          <p class="method-lead">The database, the source links, the deadlines, and the methodology are free and are not going behind anything. One optional tool is paid, once.</p>
+        </div>
+        <div class="plans">
+          <div class="plan">
+            <div class="plan-k">Free</div>
+            <div class="plan-price"><b>$0</b></div>
+            <div class="plan-note">No account needed. Nothing to cancel.</div>
+            <ul class="plan-list">${li(free)}</ul>
+            <a class="btn plan-btn" href="#/all">Browse the database</a>
+          </div>
+          <div class="dark plan plan-pro">
+            <div class="plan-k">Pro</div>
+            <div class="plan-price"><b>${esc(TRACKER_PRICE.amount)}</b><span>${esc(TRACKER_PRICE.period)}</span></div>
+            <div class="plan-note plan-once">${esc(TRACKER_PRICE.oneTime)} You pay once and keep access permanently. No renewal, no expiry, no card kept on file.</div>
+            <ul class="plan-list">${li(pro)}</ul>
+            <button class="btn btn-primary plan-btn" type="button" id="plan-pro-btn" data-inert-cta="1">
+              Get Pro — ${esc(TRACKER_PRICE.amount)} once
+            </button>
+            <div class="plan-sub">Checkout isn't built yet. This button does nothing today.</div>
+          </div>
+        </div>
+        <p class="plan-foot">Prices shown are placeholders while this page is being reviewed. Nothing on this site takes a payment or asks for card details.</p>
+      </section>`;
+  }
+
+  /* Sign-in placeholder. Inert by design, and it reads its state from the SAME seam
+     every other gate uses, so wiring Clerk later is a change in one function. */
+  function signInSection(){
+    const on = hasTrackerAccess();
+    return `
+      <section class="hm-sec wrap" aria-labelledby="signin-h">
+        <div class="signin">
+          <div class="signin-copy">
+            <h2 id="signin-h">${on ? 'Pro is unlocked on this device.' : 'Accounts are coming.'}</h2>
+            <p>${on
+              ? 'Your tracker and your profile are stored in this browser. Accounts will let you carry them between devices — until then nothing leaves this device.'
+              : 'Everything free works without one. An account will only ever be needed to carry a Pro tracker between devices.'}</p>
+          </div>
+          <button class="btn signin-btn" type="button" id="signin-btn" data-inert-cta="1">
+            ${on ? 'Manage account' : 'Sign in'}
+          </button>
+        </div>
+        <p class="plan-foot">This control is a placeholder and does nothing yet. We do not ask for a password, a card, or any other credential anywhere on this site.</p>
+      </section>`;
+  }
+
+  function renderHome(){
+    const c = coverageStats();
+    const covCells = [
+      [String(c.total), 'schools covered'],
+      [c.sourcedPct + '<span class="pct-u">%</span>', 'link to the school’s own filing'],
+      [c.currentPct + '<span class="pct-u">%</span>', 'on the ' + esc(c.refCycle) + ' cycle'],
+      [String(c.total - c.current), 'labelled as an older cycle']
+    ].map(([b,l]) => `<div class="stat"><b class="num">${b}</b><span>${l}</span></div>`).join('');
+
+    const inside = insideItems().map(([href,name,what],i) => `
+      <a class="inside" href="${esc(href)}">
+        <span class="inside-n">${String(i+1).padStart(2,'0')}</span>
+        <span class="inside-b"><b>${esc(name)}</b><span>${esc(what)}</span></span>
+        <span class="inside-go" aria-hidden="true">→</span>
+      </a>`).join('');
+
+    $('#view').innerHTML = `
+      ${heroBlock({
+        eyebrow:'Verified transfer admission data',
+        title:'The transfer numbers schools publish, <em>and nobody collects.</em>',
+        sub:`Real transfer admit rates, deadlines, and credit-transfer caps for ${S.length} U.S. universities — every figure taken from the school’s own official filing and linked back to it. Free to use.`,
+        aside: heroPanel() })}
+
+      <section class="hm-sec wrap" aria-labelledby="what-h">
+        <div class="hm-split">
+          <div class="hm-lead">
+            <div class="eyebrow">What this is</div>
+            <h2 id="what-h">Every number here came from the school.</h2>
+          </div>
+          <div class="hm-body">
+            <p>If you are transferring, the number you actually need is the transfer admit rate — how many people applied to transfer into a school last year, and how many got in. It is not the freshman rate, and most places that publish college data do not carry it at all.</p>
+            <p>Schools do publish it. It sits in Section D of a document called the Common Data Set, which nearly every university posts somewhere on its own site. TransferVerified reads those filings, pulls the transfer figures out, checks them by hand, and puts the link to the original next to every number so you can see for yourself where it came from.</p>
+            <p>Deadlines, minimum credits, and credit-transfer caps come from each school’s own transfer page, checked the same way. Nothing is estimated, nothing is filled in from a guess, and where a school publishes nothing we say so rather than inventing a figure. It is free to use, and the whole method is written out on this site.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="hm-sec wrap" aria-labelledby="cov-h">
+        <div class="hm-lead">
+          <div class="eyebrow">Coverage, counted from the data</div>
+          <h2 id="cov-h">No testimonials. Just the count.</h2>
+          <p class="method-lead">There are no user numbers or reviews to show yet, so here is the only credibility that matters: how much is actually covered, and how current it is. These figures are counted from the dataset every time this page loads.</p>
+        </div>
+        <div class="stats hm-stats">${covCells}</div>
+        <p class="hm-covnote">Every one of the ${c.total} records was checked by hand between <b>${esc(c.from)}</b> and <b>${esc(c.to)}</b>. Records from an older cycle are labelled and kept — an older real number beats a current invented one — and nothing is filtered out or pushed down the page for being older.</p>
+      </section>
+
+      <section class="hm-sec wrap" aria-labelledby="inside-h">
+        <div class="hm-lead">
+          <div class="eyebrow">What’s inside</div>
+          <h2 id="inside-h">Five tabs, one job each.</h2>
+        </div>
+        <div class="insidelist">${inside}</div>
+      </section>
+
+      ${plansSection()}
+      ${signInSection()}
+    ` + bandAndMethod({coverage:false});
+    wireHome();
+  }
+
+  /* Both controls are inert on purpose. They are styled as real controls so the owner
+     can judge the page, and they say so out loud when used.
+     TODO(WO-04): wire to Clerk
+     TODO(WO-04): wire to Stripe */
+  function wireHome(){
+    document.querySelectorAll('[data-inert-cta]').forEach(b => {
+      b.addEventListener('click', () => {
+        const note = b.parentElement.querySelector('.cta-said') || (() => {
+          const el = document.createElement('p'); el.className = 'cta-said';
+          el.setAttribute('role','status'); b.insertAdjacentElement('afterend', el); return el;
+        })();
+        note.textContent = b.id === 'signin-btn'
+          ? 'Accounts aren’t built yet — nothing to sign in to, and we will never ask for a password here.'
+          : 'Checkout isn’t built yet. When it is, it will be a single ' + TRACKER_PRICE.amount + ' payment, not a subscription.';
+      });
+    });
   }
 
   function renderTracker(){
@@ -2102,7 +2626,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <span class="tag ${school.control}">${school.control}</span>
           </div>
           <div class="trkstats">
-            <span class="trkrate num">${isGap(school)?'not published':pct(school.rate)}</span>
+            <span class="trkrate num">${isGap(school)?'not published':pctSet(school.rate)}</span>
             ${cycleTag(school)}
             <span class="meta">${esc(school.state)}</span>
             <span class="meta">Fall: ${d.kind==='date'?esc(d.text):(d.kind==='unparsed'?esc(d.text):'not published')}</span>
@@ -2264,8 +2788,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     else if(h.startsWith('#/tracker')){ setActiveTab('tracker'); renderTracker(); }
     else if(h.startsWith('#/apply')){ setActiveTab('apply'); renderApply(); }
     else if(h.startsWith('#/all')||h.startsWith('#/rates')){ setActiveTab('rates'); renderRates(); }
+    else if(h.startsWith('#/top')){ setActiveTab('top'); renderTop(); }
     else if(h.startsWith('#method')){ /* in-page anchor on current view */ return; }
-    else { setActiveTab('top'); renderTop(); }
+    // WO3 Task 3: the root is Home. Top 75 moved to #/top; a bookmark to the old root
+    // now lands on Home, which is intended.
+    else { setActiveTab('home'); renderHome(); }
     window.scrollTo(0,0);
   }
   window.addEventListener('hashchange', route);
