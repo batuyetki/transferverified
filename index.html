@@ -76,6 +76,15 @@
     --e4:0 28px 70px -18px rgba(1,31,75,.34), 0 6px 18px rgba(1,31,75,.12);
     --glow:0 0 0 1px rgba(0,194,255,.28), 0 0 34px -6px rgba(0,194,255,.45);
 
+    /* --- the container standard: one max-width, one gutter, defined once.
+       Only .wrap may consume these. Section rules use padding-block so they
+       can never reset horizontal padding again. --- */
+    --container:1180px;
+    --gutter:32px;
+
+    /* the estimate identity — deliberately outside the sourced-figure palette */
+    --estimate:#6D4AA6; --estimate-soft:#F4F0FA; --estimate-line:#C9B6E8;
+
     --ring:2px solid var(--electric);
     --ease:cubic-bezier(.2,.7,.2,1);
     --ease-out:cubic-bezier(.16,.84,.28,1);
@@ -103,7 +112,7 @@
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  .wrap{max-width:1180px;margin:0 auto;padding:0 var(--s6)}
+  .wrap{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
   a{color:var(--navy-500)}
   .num{font-variant-numeric:tabular-nums}
   :focus-visible{outline:var(--ring);outline-offset:3px;border-radius:var(--r-sm)}
@@ -113,6 +122,130 @@
   /* ===================== orchestrated page load =====================
      ONE reveal, sequenced by an --i index. Not scattered micro-interactions:
      every animated element on a view belongs to the same entrance. */
+
+  /* --- WO2 Task 2: page-specific hero-card content (same container, new fills) --- */
+  .hp-title{font-family:var(--font-display);font-size:20px;font-weight:750;letter-spacing:-.025em;
+    margin-top:var(--s4);line-height:1.2}
+  .hp-steps{list-style:none;counter-reset:hp;margin-top:var(--s4);display:flex;
+    flex-direction:column;gap:var(--s4)}
+  .hp-steps li{counter-increment:hp;position:relative;padding-left:var(--s7);
+    font-size:13.5px;line-height:1.6;color:var(--navy-100)}
+  .hp-steps li::before{content:counter(hp);position:absolute;left:0;top:-1px;
+    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    font-family:var(--font-display);font-size:12px;font-weight:800;color:var(--electric);
+    border:1.5px solid rgba(0,194,255,.45);background:rgba(0,194,255,.10)}
+  .hp-steps li b{color:#fff;font-weight:700}
+  .hp-steps .cyc{background:rgba(0,194,255,.16);color:#9FE4FF;box-shadow:none}
+  .hp-bars{list-style:none;margin-top:var(--s4);display:flex;flex-direction:column;gap:var(--s3)}
+  .hp-bar{display:grid;grid-template-columns:64px minmax(0,1fr) 30px;align-items:center;gap:var(--s3)}
+  .hp-bar-l{font-size:12.5px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .hp-bar-t{height:8px;background:rgba(179,205,224,.18);border-radius:99px;overflow:hidden}
+  .hp-bar-t>span{display:block;height:100%;border-radius:99px;
+    background:linear-gradient(90deg,var(--electric-deep),var(--electric));
+    box-shadow:0 0 10px rgba(0,194,255,.5);transform-origin:left;
+    animation:barGrow 900ms var(--ease-out) both;animation-delay:260ms}
+  .hp-bar-n{font-size:12px;font-weight:800;color:var(--navy-100);text-align:right;
+    font-variant-numeric:tabular-nums}
+
+  /* coverage panel inside the methodology section */
+  .coverpanel{position:relative;border-radius:var(--r-xl);padding:var(--s6);color:#fff;margin:var(--s6) 0 var(--s7);
+    background:radial-gradient(460px 240px at 88% -14%, rgba(0,194,255,.26), transparent 66%),
+      linear-gradient(158deg,var(--navy-800) 0%, var(--navy-900) 58%, #010F27 100%);
+    box-shadow:var(--e4);overflow:hidden}
+  .cov-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s5);margin:var(--s5) 0 var(--s4)}
+  .cov-cell b{display:block;font-family:var(--font-display);font-size:clamp(26px,3vw,38px);font-weight:850;
+    letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;
+    background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cov-cell span{display:block;margin-top:var(--s2);font-size:var(--t-micro);font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;color:var(--navy-100)}
+  .coverpanel .heropanel-meta{border-top:1px solid rgba(179,205,224,.22);padding-top:var(--s4);margin-top:0}
+  .coverpanel .heropanel-meta b{color:#fff}
+
+  /* footer socials */
+  .social{display:flex;gap:var(--s5);align-items:center;flex-wrap:wrap}
+  .social a{font-weight:700;font-size:14px;color:var(--navy-700);text-decoration:none;
+    border-bottom:1.5px solid transparent;padding:6px 0;transition:color 160ms var(--ease),border-color 160ms var(--ease)}
+  .social a:hover{color:var(--navy-900);border-bottom-color:var(--electric)}
+  .foot-legal{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid rgba(1,31,75,.08);font-size:13.5px}
+
+  @media (max-width:1024px){ .cov-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  @media (max-width:768px){
+    .coverpanel{padding:var(--s5);border-radius:var(--r-lg)}
+    .cov-grid{gap:var(--s4)}
+    .hp-bar{grid-template-columns:56px minmax(0,1fr) 26px}
+    .social a{min-height:44px;display:inline-flex;align-items:center}
+  }
+
+  /* ===== WO2 Task 3 — Chance Me =====
+     THE governing rule: an estimate must never be mistakable for a sourced figure.
+     Sourced = Archivo, heavy, tabular-nums, navy/white on dark.
+     Estimate = Inter, medium, PROPORTIONAL figures, violet, dashed container. */
+  .profcard{background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-lg);
+    padding:var(--s6);margin-bottom:var(--s5);box-shadow:var(--e1)}
+  .prof-head{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap}
+  .prof-head h2{font-family:var(--font-display);font-size:19px;font-weight:750;letter-spacing:-.025em;color:var(--navy-900)}
+  .prof-sub{font-size:13.5px;color:var(--navy-700);line-height:1.6;margin-top:var(--s2);max-width:70ch}
+  .prof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s4);margin-top:var(--s5)}
+  .prof-f{display:flex;flex-direction:column;gap:6px}
+  .prof-f>span{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}
+  .prof-f input,.prof-f select{width:100%;padding:var(--s3) var(--s4);border:1.5px solid rgba(1,31,75,.14);
+    border-radius:var(--r-sm);font:inherit;font-size:15px;color:var(--ink);background:var(--surface);min-height:44px}
+  .prof-f input:focus,.prof-f select:focus{outline:none;border-color:var(--electric);box-shadow:var(--glow)}
+  .est-badge{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    padding:3px 9px;border-radius:999px;background:var(--estimate-soft);color:var(--estimate);
+    box-shadow:inset 0 0 0 1px var(--estimate-line)}
+  .est-wrap{margin-top:var(--s4);padding-top:var(--s4);border-top:1px dashed rgba(1,31,75,.14)}
+  .est-empty,.est-suppressed{font-size:13px;color:var(--navy-700);line-height:1.6;
+    background:var(--surface-2);border:1px solid rgba(1,31,75,.07);border-radius:var(--r-sm);padding:var(--s3) var(--s4)}
+  .est-src{font-size:11.5px;font-weight:700;color:var(--navy-500);text-decoration:none;white-space:nowrap}
+  .est-src:hover{text-decoration:underline}
+  .est-gates{list-style:none;display:flex;flex-direction:column;gap:var(--s2);margin-bottom:var(--s3)}
+  .est-gates li{display:flex;gap:var(--s2);font-size:13px;line-height:1.55;padding:var(--s2) var(--s3);border-radius:var(--r-sm)}
+  .est-gates .g-hard{background:#FDF2F2;color:#8A2020;box-shadow:inset 0 0 0 1px rgba(138,32,32,.16)}
+  .est-gates .g-info{background:var(--surface-2);color:var(--navy-700);box-shadow:inset 0 0 0 1px rgba(1,31,75,.07)}
+  .est-cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--s3);margin-bottom:var(--s3)}
+  .est-cmp>div{background:var(--surface-2);border:1px solid rgba(1,31,75,.07);border-radius:var(--r-sm);padding:var(--s3)}
+  .est-cmp b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}
+  .est-cmp span{display:block;margin-top:3px;font-size:16px;font-weight:700;color:var(--navy-900);font-variant-numeric:tabular-nums}
+  .est-cmp i{display:block;margin-top:2px;font-size:11px;font-style:normal;color:var(--muted);font-weight:600}
+  .estimate{background:var(--estimate-soft);border:1.5px dashed var(--estimate-line);
+    border-radius:var(--r-md);padding:var(--s4)}
+  .est-label{display:flex;align-items:center;gap:var(--s2);font-size:10.5px;font-weight:800;
+    text-transform:uppercase;letter-spacing:.14em;color:var(--estimate)}
+  .est-dot{width:7px;height:7px;border-radius:50%;background:var(--estimate);flex:none}
+  .est-range{margin-top:6px;font-family:var(--font-ui);font-size:19px;font-weight:600;
+    color:var(--estimate);letter-spacing:-.005em;font-variant-numeric:proportional-nums}
+  .est-stale{display:inline-flex;align-items:center;gap:var(--s2);margin-top:var(--s2);
+    font-size:12px;color:#7A5610;font-weight:600;flex-wrap:wrap}
+  .est-break{margin-top:var(--s3);border-top:1px dashed var(--estimate-line);padding-top:var(--s2)}
+  .est-break summary{cursor:pointer;font-size:12px;font-weight:750;color:var(--estimate);
+    padding:var(--s2) 0;min-height:44px;display:flex;align-items:center;list-style:none}
+  .est-break summary::-webkit-details-marker{display:none}
+  .est-break summary::before{content:"\25b8";display:inline-block;margin-right:var(--s2);transition:transform 160ms var(--ease)}
+  .est-break[open] summary::before{transform:rotate(90deg)}
+  .est-model{font-size:12.5px;color:var(--navy-700);line-height:1.6;margin-bottom:var(--s3)}
+  .est-table{width:100%;border-collapse:collapse;font-size:12px}
+  .est-table td{padding:6px 0;border-top:1px solid rgba(109,74,166,.16);vertical-align:top;color:var(--navy-700)}
+  .est-table td:nth-child(2){text-align:right;font-weight:700;color:var(--navy-900);white-space:nowrap;padding-left:var(--s3)}
+  .est-table td:last-child{text-align:right;white-space:nowrap;padding-left:var(--s3);width:1%}
+  .est-tag-src,.est-tag-you,.est-tag-calc,.est-tag-own{font-size:9.5px;font-weight:800;text-transform:uppercase;
+    letter-spacing:.09em;padding:2px 6px;border-radius:4px}
+  .est-tag-src{background:#E7F3EC;color:var(--verified)}
+  .est-tag-you{background:var(--tint);color:var(--navy-500)}
+  .est-tag-calc{background:#F1EFEC;color:var(--dim-ink)}
+  .est-tag-own{background:var(--estimate-soft);color:var(--estimate);box-shadow:inset 0 0 0 1px var(--estimate-line)}
+  .est-disc{margin-top:var(--s3);font-size:11.5px;line-height:1.6;color:var(--navy-700);
+    background:rgba(109,74,166,.07);border-radius:var(--r-sm);padding:var(--s3)}
+  .est-bands{display:flex;flex-wrap:wrap;gap:var(--s2);margin:var(--s3) 0}
+  .est-bands span{font-size:12px;font-weight:600;color:var(--estimate);background:var(--estimate-soft);
+    border:1px solid var(--estimate-line);border-radius:var(--r-sm);padding:4px 9px;white-space:nowrap}
+  .est-bands b{font-weight:800;margin-right:5px}
+  @media (max-width:768px){
+    .profcard{padding:var(--s5)}
+    .est-cmp{grid-template-columns:1fr}
+    .est-table td:first-child{white-space:normal}
+  }
+
   @keyframes riseIn{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
   @keyframes wipeIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
   @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
@@ -147,7 +280,7 @@
   .btn:active{transform:translateY(0)}
 
   /* ===================== asymmetric hero ===================== */
-  .hero{padding:var(--s9) 0 var(--s7)}
+  .hero{padding-block:var(--s9) var(--s7)}
   .hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
     gap:var(--s8);align-items:start}
   .eyebrow{display:inline-flex;align-items:center;gap:var(--s2);
@@ -384,7 +517,7 @@
   .detaillink:hover{text-decoration:underline}
 
   /* ---------- school page ---------- */
-  .sp{padding:var(--s7) 0 var(--s4)}
+  .sp{padding-block:var(--s7) var(--s4)}
   .sp-back{display:inline-flex;align-items:center;gap:var(--s2);font-size:14px;font-weight:650;
     text-decoration:none;color:var(--navy-500);margin-bottom:var(--s6);padding:8px 0;
     transition:gap 180ms var(--ease)}
@@ -447,7 +580,7 @@
   .btn-primary:hover{background:#5AD7FF;color:var(--navy-900) !important}
 
   /* ---------- method ---------- */
-  .method{padding:var(--s10) 0 var(--s6)}
+  .method{padding-block:var(--s10) var(--s6)}
   .method h2{font-size:var(--t-h2);font-weight:850;letter-spacing:-.04em;color:var(--navy-900);
     margin-bottom:var(--s5);font-variation-settings:'wdth' 112;max-width:20ch;text-wrap:balance}
   .method-lead{font-size:16.5px;line-height:1.72;color:var(--navy-700);max-width:68ch;margin:0 0 var(--s6)}
@@ -556,14 +689,14 @@
      RESPONSIVE — tablet at 1024, card layout + touch targets at 768, phone 430.
      =========================================================================== */
   @media (max-width:1024px){
-    .wrap{padding:0 var(--s5)}
-    .hero{padding:var(--s8) 0 var(--s6)}
+    :root{--gutter:24px}
+    .hero{padding-block:var(--s8) var(--s6)}
     .hero-grid{grid-template-columns:minmax(0,1fr);gap:var(--s6)}
     .heropanel{margin-top:0;max-width:560px}
     .cards{grid-template-columns:1fr 1fr}
     .card:nth-child(2){margin-top:var(--s5)}
     .card:nth-child(3){margin-top:0}
-    .method{padding:var(--s8) 0 var(--s5)}
+    .method{padding-block:var(--s8) var(--s5)}
 
     /* tablet band (768-1024): the desktop table must still FIT, not scroll.
        Tighter cells, a narrower rate column, and a compact seal. */
@@ -581,14 +714,14 @@
   @media (max-width:680px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
 
   @media (max-width:768px){
-    .wrap{padding:0 var(--s4)}
+    :root{--gutter:16px}
     .bar{height:64px;gap:var(--s3)}
     nav{gap:var(--s4);font-size:14px}
     nav a{padding:14px 0;min-height:44px;display:inline-flex;align-items:center}
     .logo{min-height:44px}
     .navlinks{display:none}   /* Methodology moves to the footer below 768 */
     thead th{top:64px}
-    .hero{padding:var(--s7) 0 var(--s5)}
+    .hero{padding-block:var(--s7) var(--s5)}
     .hero h1{font-size:clamp(32px,9vw,46px);line-height:1.0;letter-spacing:-.035em}
     .hero p.sub{font-size:16px;margin-top:var(--s4)}
     .stats{gap:var(--s5)}
@@ -596,7 +729,7 @@
     .heropanel{padding:var(--s5);border-radius:var(--r-lg);max-width:none}
     .cards{grid-template-columns:1fr}
     .card:nth-child(2),.card:nth-child(3){margin-top:0}
-    .method{padding:var(--s7) 0 var(--s4)}
+    .method{padding-block:var(--s7) var(--s4)}
     .method h2{max-width:none}
 
     /* real cards, not a squashed table */
@@ -650,7 +783,7 @@
     .golink,.detaillink{display:inline-flex;align-items:center}
     .search input,.ac input{font-size:16px} /* prevents iOS zoom-on-focus */
 
-    .sp{padding:var(--s5) 0 var(--s3)}
+    .sp{padding-block:var(--s5) var(--s3)}
     .sp-head h1{font-size:clamp(26px,7.6vw,36px);max-width:none;line-height:1.06}
     .sp-section{padding:var(--s5)}
     .statcards{grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:var(--s3)}
@@ -913,6 +1046,298 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   /* Asymmetric hero. The right column is not decoration: it shows a real record
      with its real source link, so the differentiator is demonstrated rather than
      described. Every child carries a --i index for the single page-load reveal. */
+  /* ===== WO2 Task 2 — hero-card aggregates, all derived from TT_DATA at runtime.
+     Nothing here is hardcoded; if the dataset changes these figures move with it. ===== */
+
+  // Most common fall deadlines. Records whose date can't be read are excluded from the
+  // aggregate and counted, never guessed at.
+  function fallDeadlinePattern(){
+    const counts = {}; let used = 0, unreadable = 0, nonePublished = 0;
+    for(const s of S){
+      const d = resolveDeadline(s, 'fall');
+      if(d.kind === 'date'){ used++; const k = d.label.replace(/,.*$/, '');   // month+day, never a year we invented
+        counts[k] = (counts[k]||0) + 1; }
+      else if(d.kind === 'unparsed') unreadable++;
+      else nonePublished++;
+    }
+    const top = Object.entries(counts)
+      .sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0])).slice(0,4);
+    return { top, used, unreadable, nonePublished, total:S.length, max: top.length ? top[0][1] : 0 };
+  }
+
+  // Typical application-opening timing. Reported as the modal month with its count —
+  // and with how many of those values are our own estimate rather than a published date.
+  function appOpenPattern(){
+    const MON = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const months = {}; let rolling = 0, unstated = 0, estimated = 0, notADate = 0;
+    for(const s of S){
+      const raw = ((s.reqs && s.reqs.appOpens) || '').trim();
+      if(!raw){ unstated++; continue; }
+      if(/est\./i.test(raw)) estimated++;
+      if(/rolling|year-round/i.test(raw)){ rolling++; continue; }
+      const low = raw.toLowerCase();
+      let i = MON.findIndex(m => low.includes(m.toLowerCase()) || low.includes(m.slice(0,3).toLowerCase()));
+      if(i < 0){ const m = /^(\d{1,2})\//.exec(raw); if(m && +m[1] >= 1 && +m[1] <= 12) i = +m[1]-1; }
+      if(i < 0){ notADate++; continue; }
+      months[MON[i]] = (months[MON[i]]||0) + 1;
+    }
+    const ranked = Object.entries(months).sort((a,b) => b[1]-a[1]);
+    return { month: ranked.length ? ranked[0][0] : null, count: ranked.length ? ranked[0][1] : 0,
+             rolling, unstated, estimated, notADate, total:S.length };
+  }
+
+  // Coverage — the strongest trust argument is the coverage itself.
+  function coverageStats(){
+    const total = S.length;
+    const sourced = S.filter(x => x.sourceUrl).length;
+    const current = S.filter(x => yearNum(x.year) === REF_CYCLE_NUM).length;
+    const dates = S.map(x => x.lastVerified).filter(Boolean).sort();
+    return { total, sourced, current, refCycle: REF_CYCLE,
+             sourcedPct: Math.round(sourced/total*100), currentPct: Math.round(current/total*100),
+             from: dates[0] || TT_DATA.generated, to: dates[dates.length-1] || TT_DATA.generated };
+  }
+
+  /* ---- the four hero cards. Same visual container; page-relevant content. ---- */
+  function panelHowItWorks(){
+    return `<aside class="heropanel rv" style="--i:3">
+      <div class="heropanel-k">How to read this database</div>
+      <ol class="hp-steps">
+        <li><b>Every rate is the school's own figure.</b> Taken from Section D of its Common Data Set — transfer applicants, admitted, enrolled. Not a freshman rate, and never an estimate.</li>
+        <li><b>The tag beside each rate is the cycle it covers.</b> <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span> is the newest we hold. An amber tag means the school has not published since; we label it rather than hide it.</li>
+        <li><b>The check mark opens the filing itself.</b> Every row links to the document its number came from, so you can check our work.</li>
+      </ol>
+    </aside>`;
+  }
+
+  function panelDeadlines(){
+    const f = fallDeadlinePattern(), o = appOpenPattern();
+    const bars = f.top.map(([label,count]) => `<li class="hp-bar">
+        <span class="hp-bar-l">${esc(label)}</span>
+        <span class="hp-bar-t"><span style="width:${Math.round(count/f.max*100)}%"></span></span>
+        <span class="hp-bar-n">${count}</span></li>`).join('');
+    return `<aside class="heropanel rv" style="--i:3">
+      <div class="heropanel-k">Patterns across all ${f.total} schools</div>
+      <div class="hp-title">The most common fall deadlines</div>
+      <ul class="hp-bars">${bars}</ul>
+      <div class="heropanel-meta">
+        Drawn from <b>${f.used} of ${f.total}</b> records that publish a fall date we can read${f.nonePublished?`; ${f.nonePublished} publish none`:''}${f.unreadable?`; ${f.unreadable} could not be read and were left out rather than guessed`:''}.
+        <br><br>${o.month ? `<b>${o.count}</b> schools open applications in <b>${esc(o.month)}</b>${o.rolling?`, and ${o.rolling} accept on a rolling basis` : ''}. ${o.estimated} of the opening dates are our own estimate rather than a date the school publishes — those are marked on the school's own row.` : ''}
+        <br><br>These are patterns across the dataset, not any single school's dates. Always confirm on the school's page.
+      </div>
+    </aside>`;
+  }
+
+  function coveragePanel(){
+    const c = coverageStats();
+    const cells = [
+      [c.total, 'schools covered'],
+      [c.sourcedPct + '%', 'link to a source filing'],
+      [c.currentPct + '%', 'on the ' + c.refCycle + ' cycle'],
+      [c.total - c.current, 'labelled as an older cycle']
+    ].map(([b,l]) => `<div class="cov-cell"><b class="num">${esc(String(b))}</b><span>${esc(l)}</span></div>`).join('');
+    return `<div class="coverpanel">
+      <div class="heropanel-k">Coverage, counted from the data</div>
+      <div class="cov-grid">${cells}</div>
+      <div class="heropanel-meta">Every one of the ${c.total} records was checked by hand between <b>${esc(c.from)}</b> and <b>${esc(c.to)}</b>. These figures are counted from the dataset each time this page loads, so they cannot drift away from what is actually published above.</div>
+    </div>`;
+  }
+
+  /* ================================================================================
+     WO2 Task 3 — "Chance Me" estimates. Pro-only; gated through hasTrackerAccess().
+
+     Two facts about the data shape this model (see NOTES.md):
+       1. reqs.admittedGpa is NEVER an admitted-student average — it is a stated
+          minimum (72), a recommendation (27), or unlabelled (52). So the GPA
+          difference measures distance above an eligibility floor, and the model
+          leans on it weakly via the damping factor k.
+       2. 67 of 150 creditCap values have unit "in residence" — a residency rule,
+          not a transfer ceiling. Those never drive the credit gate.
+     Constants below were approved before implementation.
+     ================================================================================ */
+  const EST = {
+    BANDS: [                      // [minDelta, maxDelta, multiplier] — discrete, no curve
+      [-Infinity, -0.50, 0.40],
+      [-0.50,     -0.10, 0.70],
+      [-0.10,      0.30, 1.00],
+      [ 0.30,      0.70, 1.25],
+      [ 0.70,  Infinity, 1.50]
+    ],
+    K: { recommended:1.0, minimum:0.5, '':0.5 },   // basis damping
+    FLOOR: 0.005,   // 0.5% — below the lowest published rate (0.6%), so never pushes up
+    CEIL:  0.95,    // never 100%
+    HALF:  0.25     // +/- 25% range
+  };
+  // credit-cap units that denote an actual transfer ceiling. "in residence" is a
+  // residency requirement and is deliberately absent.
+  const CAP_UNITS = ['semester','quarter','credits','units','sem. (2-yr)','semester credits','courses'];
+
+  const estNum = v => { const f = parseFloat(String(v==null?'':v).replace(/[^0-9.]/g,'')); return isFinite(f) ? f : null; };
+  const sig2 = x => { if(!(x>0)) return 0; const d = Math.ceil(Math.log10(x)); const f = Math.pow(10, 2-d); return Math.round(x*f)/f; };
+  const estPct = x => { const v = x*100; return (v >= 10 ? v.toFixed(0) : v.toFixed(1)) + '%'; };
+
+  function profile(){ return trk().profile || {gpa:null,credits:null,level:''}; }
+  function profileComplete(){ const p = profile(); return p.gpa != null && p.credits != null; }
+  function setProfile(patch){
+    trkState = Object.assign({}, trk(), { profile: Object.assign({}, profile(), patch) });
+    Store.save(trkState);
+  }
+
+  // Layer 1 — eligibility gates. Sourced facts, not predictions.
+  function eligibility(s, p){
+    const gates = [];
+    const minCred = estNum(s.minCredits);
+    if(minCred != null && p.credits != null && p.credits < minCred)
+      gates.push({hard:true, text:`${esc(s.name)} states a minimum of ${minCred} transferable credits. You have entered ${p.credits}.`});
+    const minG = estNum(s.minGpa);
+    if(minG != null && p.gpa != null && p.gpa < minG)
+      gates.push({hard:true, text:`${esc(s.name)} states a minimum GPA of ${minG}. You have entered ${p.gpa.toFixed(2)}.`});
+    const r = s.reqs || {};
+    const cap = estNum(r.creditCap), unit = (r.creditCapUnit||'').trim();
+    if(cap != null && CAP_UNITS.includes(unit) && p.credits != null && p.credits > cap)
+      gates.push({hard:true, text:`${esc(s.name)} caps transfer credit at ${cap} ${esc(unit)}. You have entered ${p.credits}.`});
+    // residency rules are shown as information, never as a failed gate
+    if(cap != null && unit === 'in residence')
+      gates.push({hard:false, text:`${esc(s.name)} requires ${cap} credits completed in residence. That is a graduation requirement, not a limit on what you can transfer in.`});
+    return gates;
+  }
+
+  // Layer 3 — the estimate. Returns null when it must be suppressed.
+  function estimate(s, p){
+    if(s.rate == null) return {suppressed:'no-rate'};
+    const r = s.reqs || {};
+    const ag = estNum(r.admittedGpa);
+    if(ag == null) return {suppressed:'no-gpa', stated:(r.admittedGpa||'').trim()};
+    if(p.gpa == null) return {suppressed:'no-profile'};
+    const delta = p.gpa - ag;
+    const band = EST.BANDS.find(([lo,hi]) => delta >= lo && delta < hi);
+    const m = band[2];
+    const basis = (r.admittedGpaBasis||'').trim();
+    const k = EST.K[basis] != null ? EST.K[basis] : 0.5;
+    const mEff = 1 + (m - 1) * k;
+    const point = Math.min(EST.CEIL, Math.max(EST.FLOOR, s.rate * mEff));
+    const lo = sig2(Math.max(EST.FLOOR, point * (1 - EST.HALF)));
+    const hi = sig2(Math.min(EST.CEIL, point * (1 + EST.HALF)));
+    const bare = x => { const v = x*100; return v >= 10 ? v.toFixed(0) : v.toFixed(1); };
+    return { base:s.rate, ag, basis, delta, m, k, mEff, point, lo, hi,
+             range: `${bare(lo)}\u2013${estPct(hi)}` };
+  }
+
+  const MODEL_SENTENCE = "We start from the transfer admit rate the school publishes, then nudge it up or down depending on how far your GPA sits from the GPA figure that school publishes \u2014 and we nudge less when that figure is only a stated minimum, because clearing a minimum tells us less than beating a recommended average.";
+  const MODEL_DISCLAIMER = "This range is produced by TransferVerified\u2019s own formula. It is not a figure the school publishes and it is not a prediction of a decision. Use it alongside the sourced numbers above, not instead of them, and never as the only reason to apply or not apply.";
+
+  /* ---- profile form (Pro) ---- */
+  function profileForm(){
+    if(!hasTrackerAccess()) return '';
+    const p = profile();
+    const lv = ['freshman','sophomore','junior'];
+    return `<section class="profcard" aria-labelledby="proflab">
+      <div class="prof-head">
+        <h2 id="proflab">Your profile</h2>
+        <span class="est-badge">Pro</span>
+      </div>
+      <p class="prof-sub">Used only to compare against what each school publishes. Stored on this device. We don\u2019t ask for test scores \u2014 the dataset has no transfer test-score figures, so there would be nothing to compare them against.</p>
+      <div class="prof-grid">
+        <label class="prof-f"><span>College GPA</span>
+          <input id="pf-gpa" type="number" inputmode="decimal" min="0" max="4" step="0.01"
+            placeholder="3.40" value="${p.gpa!=null?p.gpa.toFixed(2):''}"></label>
+        <label class="prof-f"><span>Credits completed</span>
+          <input id="pf-cred" type="number" inputmode="numeric" min="0" max="200" step="1"
+            placeholder="30" value="${p.credits!=null?p.credits:''}"></label>
+        <label class="prof-f"><span>Current grade level</span>
+          <select id="pf-lvl"><option value="">Choose\u2026</option>
+            ${lv.map(v=>`<option value="${v}" ${p.level===v?'selected':''}>${v[0].toUpperCase()+v.slice(1)}</option>`).join('')}
+          </select></label>
+      </div>
+      <span class="trksaved" id="pf-saved" aria-live="polite"></span>
+    </section>`;
+  }
+  function wireProfile(){
+    const flag = $('#pf-saved');
+    const ping = () => { if(flag){ flag.textContent='Saved'; setTimeout(()=>{flag.textContent='';},1600); } };
+    const gpa = $('#pf-gpa'), cred = $('#pf-cred'), lvl = $('#pf-lvl');
+    // one timer PER FIELD — a shared timer would let a later field cancel an
+    // earlier field's pending write and silently drop the user's input
+    const timers = {};
+    const debounce = (key, fn) => { clearTimeout(timers[key]); timers[key] = setTimeout(fn, 400); };
+    if(gpa) gpa.addEventListener('input', () => debounce('gpa', () => {
+      const v = parseFloat(gpa.value);
+      setProfile({gpa: isFinite(v) ? Math.min(4, Math.max(0, v)) : null}); ping(); drawTracker(); }));
+    if(cred) cred.addEventListener('input', () => debounce('cred', () => {
+      const v = parseInt(cred.value,10);
+      setProfile({credits: isFinite(v) ? Math.max(0, v) : null}); ping(); drawTracker(); }));
+    if(lvl) lvl.addEventListener('change', () => { setProfile({level: lvl.value}); ping(); });
+  }
+
+  /* ---- the three layers rendered per saved school ---- */
+  function chanceBlock(s){
+    if(!hasTrackerAccess()) return '';
+    const p = profile();
+    if(!profileComplete())
+      return `<div class="est-wrap est-empty">Add your GPA and credits above to see how you compare with what ${esc(s.name)} publishes.</div>`;
+    const gates = eligibility(s, p);
+    const hard = gates.filter(g => g.hard);
+    const r = s.reqs || {};
+    const src = `<a class="est-src" href="${esc(s.sourceUrl)}" target="_blank" rel="noopener">source \u2197</a>`;
+
+    // layer 1
+    const gateHtml = gates.length ? `<ul class="est-gates">${gates.map(g =>
+      `<li class="${g.hard?'g-hard':'g-info'}"><span aria-hidden="true">${g.hard?'\u2715':'\u2139'}</span><span>${g.text} ${src}</span></li>`).join('')}</ul>` : '';
+
+    // layer 2 — entirely sourced
+    const ag = estNum(r.admittedGpa), cap = estNum(r.creditCap), unit=(r.creditCapUnit||'').trim();
+    const cmp = [];
+    if(ag != null) cmp.push([`Your GPA vs published figure`,
+      `${p.gpa.toFixed(2)} vs ${ag}`, (r.admittedGpaBasis||'unlabelled') + ' \u2014 not an admitted average']);
+    else if((r.admittedGpa||'').trim()) cmp.push([`Published GPA figure`, esc(r.admittedGpa), 'not a number we can compare against']);
+    if(cap != null && CAP_UNITS.includes(unit)) cmp.push([`Your credits vs transfer cap`, `${p.credits} vs ${cap}`, esc(unit)]);
+    const cmpHtml = cmp.length ? `<div class="est-cmp">${cmp.map(([k,v,sub]) =>
+      `<div><b>${k}</b><span class="num">${v}</span><i>${sub}</i></div>`).join('')}</div>` : '';
+
+    // layer 3
+    if(hard.length)
+      return `<div class="est-wrap">${gateHtml}${cmpHtml}
+        <div class="est-suppressed">No estimate shown \u2014 your profile doesn\u2019t satisfy a requirement ${esc(s.name)} publishes, listed above. An estimate here would be misleading.</div></div>`;
+
+    const e = estimate(s, p);
+    if(e.suppressed){
+      const why = e.suppressed === 'no-gpa'
+        ? (e.stated ? `${esc(s.name)} publishes \u201c${esc(e.stated)}\u201d rather than a GPA number, so there is nothing here to compare your GPA against.`
+                    : `${esc(s.name)} publishes no GPA figure, so there is nothing here to compare your GPA against.`)
+        : e.suppressed === 'no-rate'
+        ? `${esc(s.name)} publishes no transfer admit rate, so there is no base rate to work from.`
+        : `Add your GPA above to see an estimate.`;
+      return `<div class="est-wrap">${gateHtml}${cmpHtml}
+        <div class="est-suppressed">${why}${r.transferUrl?` <a class="est-src" href="${esc(r.transferUrl)}" target="_blank" rel="noopener">their transfer page \u2197</a>`:''}</div></div>`;
+    }
+
+    const staleMark = cycleState(s) === 'behind2'
+      ? `<span class="est-stale">${cycleTag(s)} this school\u2019s figures are two or more cycles behind</span>` : '';
+
+    return `<div class="est-wrap">${gateHtml}${cmpHtml}
+      <div class="estimate">
+        <div class="est-label"><span class="est-dot" aria-hidden="true"></span>TransferVerified Estimate</div>
+        <div class="est-range">roughly ${e.range}</div>
+        ${staleMark}
+        <details class="est-break">
+          <summary>How we got this</summary>
+          <div class="est-body">
+            <p class="est-model">${MODEL_SENTENCE}</p>
+            <table class="est-table">
+              <tr><td>School\u2019s published transfer admit rate</td><td class="num">${estPct(e.base)}</td><td><span class="est-tag-src">sourced</span> ${src}</td></tr>
+              <tr><td>School\u2019s published GPA figure (${esc(e.basis||'unlabelled')})</td><td class="num">${e.ag}</td><td><span class="est-tag-src">sourced</span> ${src}</td></tr>
+              <tr><td>Your GPA</td><td class="num">${p.gpa.toFixed(2)}</td><td><span class="est-tag-you">yours</span></td></tr>
+              <tr><td>Difference</td><td class="num">${e.delta>=0?'+':''}${e.delta.toFixed(2)}</td><td><span class="est-tag-calc">calculated</span></td></tr>
+              <tr><td>Band multiplier for that difference</td><td class="num">\u00d7${e.m.toFixed(2)}</td><td><span class="est-tag-own">our weighting</span></td></tr>
+              <tr><td>Damping, because that figure is a ${esc(e.basis||'unlabelled figure')}</td><td class="num">\u00d7${e.k.toFixed(2)}</td><td><span class="est-tag-own">our weighting</span></td></tr>
+              <tr><td>Applied to the base rate</td><td class="num">${estPct(e.base)} \u00d7 ${e.mEff.toFixed(2)}</td><td><span class="est-tag-calc">calculated</span></td></tr>
+              <tr><td>Shown as a range, not a point</td><td class="num">${e.range}</td><td><span class="est-tag-own">ours</span></td></tr>
+            </table>
+            <p class="est-disc">${MODEL_DISCLAIMER}</p>
+          </div>
+        </details>
+      </div></div>`;
+  }
+
   function heroPanel(){
     const pool = S.filter(x => x.applicants != null && x.rate != null);
     const hardest = pool.reduce((a,b) => b.rate < a.rate ? b : a);
@@ -950,13 +1375,31 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <div class="card rv" style="--i:2"><h3>Verified, not scraped-and-prayed</h3><p>Numbers are cross-footed against the school's own totals and independently spot-checked. Anything that fails QA is quarantined, not published. When a page and a filing disagree, we show the school-page value and say so.</p></div>
         <div class="card rv" style="--i:3"><h3>Honest about gaps</h3><p>Blank beats guessed. If a school only publishes a minimum GPA, we don't invent an average. If it doesn't publish transfer counts (Syracuse — we checked), we say so. Older editions are labeled, not hidden.</p></div>
       </div>
+      ${coveragePanel()}
+      <h3 class="method-sub">How the TransferVerified Estimate works</h3>
+      <p class="method-lead">Saved schools in the Tracker can show an estimate. It is <b>ours, not the school\u2019s</b>, and it is published here in full because a formula we would not show you is not one worth shipping.
+      <br><br>We start from the transfer admit rate the school publishes. We then compare your GPA with the GPA figure that school publishes and apply one of five fixed multipliers, depending on which band the difference falls into:
+      <span class="est-bands">${EST.BANDS.map(([lo,hi,m]) => `<span><b>${lo===-Infinity?'below \u22120.50':hi===Infinity?'+0.70 and above':(lo>0?'+':'')+lo.toFixed(2)+' to '+(hi>0?'+':'')+hi.toFixed(2)}</b>\u00d7${m.toFixed(2)}</span>`).join('')}</span>
+      There is no curve. Five bands is as fine as this data honestly supports.
+      <br><br><b>We then weaken that adjustment by half</b> when the school\u2019s published GPA is only a stated minimum rather than a recommendation \u2014 because clearing a minimum tells you much less than beating a recommended average. Across the whole dataset, not one school publishes the actual average GPA of admitted transfers; ${S.filter(x=>x.reqs&&(x.reqs.admittedGpaBasis||'')==='minimum').length} publish a minimum and ${S.filter(x=>x.reqs&&(x.reqs.admittedGpaBasis||'')==='recommended').length} publish a recommendation.
+      <br><br>The result is clamped between ${estPct(EST.FLOOR)} and ${estPct(EST.CEIL)} \u2014 never 0%, never 100% \u2014 and shown as a range of \u00b1${EST.HALF*100}% rounded to two significant figures, never as a single number.
+      <br><br><b>What it does not use:</b> test scores (the dataset contains none for transfers), essays, recommendations, your major, residency, or anything about you beyond the GPA and credits you enter. It cannot see how you compare with the people you are actually competing against. Treat it as a rough orientation, not a decision.</p>
       <h3 class="method-sub">What the cycle year means</h3>
       <p class="method-lead">Every admit rate on this site carries the admissions cycle it came from — <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span>, for example. Schools publish their Common Data Sets on their own schedules, so at any moment some are a cycle or two behind the rest. That is the school's timing, not a gap in our checking: what you see is the newest edition that school has actually made public. We label the older ones <span class="cyc cyc-behind1">one cycle behind</span> or <span class="cyc cyc-behind2">two or more behind</span> rather than hiding them, because an older real number beats a current invented one. Where a record doesn't state its cycle at all, we say <span class="cyc cyc-unconfirmed">Cycle year unconfirmed</span> instead of guessing. Nothing is ever filtered out or pushed down the page for being older — you decide what it's worth.</p>
     </section>
-    <footer><div class="wrap cols">
-      <div><b>TransferVerified</b> · Built by Batu Yetki — a transfer applicant, for transfers.</div>
-      <div>Data compiled from public official filings. Always verify details with the school.</div>
-      <div><a href="#method">Methodology</a> &nbsp;·&nbsp; <a href="mailto:batuyetki@transferverified.com">Contact</a></div>
+    <footer><div class="wrap">
+      <div class="cols">
+        <div><b>TransferVerified</b> · Built by Batu Yetki — a transfer applicant, for transfers.</div>
+        <nav class="social" aria-label="TransferVerified on social media">
+          <a href="https://www.tiktok.com/@transferverified" target="_blank" rel="noopener me">TikTok</a>
+          <a href="https://www.instagram.com/transferverified" target="_blank" rel="noopener me">Instagram</a>
+          <a href="https://www.linkedin.com/company/transferverified/" target="_blank" rel="noopener me">LinkedIn</a>
+        </nav>
+      </div>
+      <div class="cols foot-legal">
+        <div>Data compiled from public official filings. Always verify details with the school.</div>
+        <div><a href="#method">Methodology</a> &nbsp;·&nbsp; <a href="mailto:batuyetki@transferverified.com">Contact</a></div>
+      </div>
     </div></footer>`;
   }
   const searchSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03396C" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
@@ -1141,7 +1584,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         eyebrow:'Every number links to the school\u2019s own filing',
         title:'Every school, <em>verified.</em>',
         sub:"Real transfer admit rates for 150+ top U.S. universities — every number extracted from the school's own official Common Data Set and linked to its source. No estimates. No recycled freshman stats.",
-        stats: heroStats(), aside: heroPanel() })}
+        stats: heroStats(), aside: panelHowItWorks() })}
       <main class="wrap">
         <div class="controls">
           <div class="search">${searchSvg}<input id="q" type="search" placeholder="Search school or state…" autocomplete="off" value="${esc(rQuery)}"></div>
@@ -1210,7 +1653,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <div class="ac" id="ac">${searchSvg}
             <input id="acq" type="search" placeholder="Jump to a school…" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
           </div>
-        </div>`, aside: heroPanel() })}
+        </div>`, aside: panelDeadlines() })}
       <main class="wrap">
         <div class="controls">
           <label class="toggle"><input type="checkbox" id="springtog" ${aSpring?'checked':''}> Spring intake only</label>
@@ -1389,8 +1832,9 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
      TODO(WO-02): swap for server-backed storage */
   const Store = (function(){
     const KEY = 'transferverified.tracker.v1';
-    const VERSION = 1;
-    const empty = () => ({ schemaVersion:VERSION, updatedAt:null, saved:[] });
+    const VERSION = 2;   // v2 adds `profile`; v1 payloads migrate forward on load
+    const emptyProfile = () => ({ gpa:null, credits:null, level:'' });
+    const empty = () => ({ schemaVersion:VERSION, updatedAt:null, saved:[], profile:emptyProfile() });
 
     function load(){
       let raw = null;
@@ -1409,7 +1853,14 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
                      addedAt:e.addedAt || null }))
         .sort((a,b) => a.rank - b.rank)
         .map((e,i) => Object.assign({}, e, {rank:i}));
-      return Object.assign({}, parsed, { schemaVersion:VERSION, saved });
+      // migrate 1 -> 2: a v1 payload simply has no profile yet
+      const p = (parsed.profile && typeof parsed.profile === 'object') ? parsed.profile : {};
+      const profile = {
+        gpa: (typeof p.gpa === 'number' && isFinite(p.gpa)) ? p.gpa : null,
+        credits: (typeof p.credits === 'number' && isFinite(p.credits)) ? p.credits : null,
+        level: ['freshman','sophomore','junior'].includes(p.level) ? p.level : ''
+      };
+      return Object.assign({}, parsed, { schemaVersion:VERSION, saved, profile });
     }
     function save(state){
       const prev = load();
@@ -1592,6 +2043,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         title:'Your <em>tracker.</em>',
         sub:"The schools you're applying to, in the order you want them, with your notes and every deadline in one place." })}
       <main class="wrap">
+        ${profileForm()}
         <div class="controls">
           <div class="chips" id="trktabs">
             <button class="chip ${trkTab==='list'?'on':''}" data-v="list">My list</button>
@@ -1602,6 +2054,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <div id="trkbody"></div>
       </main>` + bandAndMethod();
     drawTracker();
+    wireProfile();
     $('#trktabs').addEventListener('click', e => {
       const b = e.target.closest('.chip'); if(!b) return;
       trkTab = b.dataset.v;
@@ -1637,7 +2090,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <div class="meta">This school is no longer in our dataset, so we can't show its figures. Your note is kept.</div>
             ${entry.note?`<div class="trknote-ro">${esc(entry.note)}</div>`:''}
           </div>
-          <div class="trkacts"><button class="iconbtn" data-act="remove" data-slug="${esc(entry.slug)}" aria-label="Remove ${esc(entry.slug)} from your list">Remove</button></div>
+          <div class="trkacts"><button class="iconbtn" data-action="remove" data-slug="${esc(entry.slug)}" aria-label="Remove ${esc(entry.slug)} from your list">Remove</button></div>
         </li>`;
       }
       const d = resolveDeadline(school,'fall');
@@ -1658,11 +2111,12 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <textarea class="trknote" id="note-${esc(school.slug)}" data-slug="${esc(school.slug)}"
             rows="2" placeholder="Anything you want to remember about ${esc(school.name)}…">${esc(entry.note)}</textarea>
           <span class="trksaved" data-for="${esc(school.slug)}" aria-live="polite"></span>
+          ${chanceBlock(school)}
         </div>
         <div class="trkacts">
-          <button class="iconbtn" data-act="up" data-slug="${esc(school.slug)}" ${i===0?'disabled':''} aria-label="Move ${esc(school.name)} up to rank ${i}">↑</button>
-          <button class="iconbtn" data-act="down" data-slug="${esc(school.slug)}" ${i===rows.length-1?'disabled':''} aria-label="Move ${esc(school.name)} down to rank ${i+2}">↓</button>
-          <button class="iconbtn" data-act="remove" data-slug="${esc(school.slug)}" aria-label="Remove ${esc(school.name)} from your list">Remove</button>
+          <button class="iconbtn" data-action="up" data-slug="${esc(school.slug)}" ${i===0?'disabled':''} aria-label="Move ${esc(school.name)} up to rank ${i}">↑</button>
+          <button class="iconbtn" data-action="down" data-slug="${esc(school.slug)}" ${i===rows.length-1?'disabled':''} aria-label="Move ${esc(school.name)} down to rank ${i+2}">↓</button>
+          <button class="iconbtn" data-action="remove" data-slug="${esc(school.slug)}" aria-label="Remove ${esc(school.name)} from your list">Remove</button>
         </div>
       </li>`;
     }).join('');
@@ -1733,11 +2187,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       list.addEventListener('click', e => {
         const b = e.target.closest('.iconbtn'); if(!b || b.disabled) return;
         const slug = b.dataset.slug;
-        if(b.dataset.act==='up') trkMove(slug,-1);
-        else if(b.dataset.act==='down') trkMove(slug,1);
-        else if(b.dataset.act==='remove') trkRemove(slug);
+        if(b.dataset.action==='up') trkMove(slug,-1);
+        else if(b.dataset.action==='down') trkMove(slug,1);
+        else if(b.dataset.action==='remove') trkRemove(slug);
         drawTracker();
-        const next = $('#trklist') && $('#trklist').querySelector(`.iconbtn[data-slug="${slug}"][data-act="${b.dataset.act}"]`);
+        const next = $('#trklist') && $('#trklist').querySelector(`.iconbtn[data-slug="${slug}"][data-action="${b.dataset.action}"]`);
         if(next && !next.disabled) next.focus();
       });
       // notes autosave
