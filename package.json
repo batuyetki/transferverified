@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Serverless function dependencies only. The frontend has no build step.",
   "dependencies": {
-    "@clerk/backend": "^2.6.0"
+    "@clerk/backend": "^2.6.0",
+    "stripe": "^22.4.0"
   }
 }

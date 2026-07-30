@@ -963,6 +963,7 @@
   .signin-copy p{margin-top:var(--s3);font-size:14.5px;line-height:1.7;color:var(--ink-soft);max-width:62ch}
   .signin-btn{white-space:nowrap}
   .signin-actions{display:flex;gap:var(--s3);flex-wrap:wrap;flex:none}
+  .empty .btn{margin-top:var(--s5)}
 
   @media (max-width:1024px){
     .hm-split{grid-template-columns:minmax(0,1fr);gap:var(--s6)}
@@ -2396,12 +2397,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return !!(u && u.publicMetadata && u.publicMetadata.chanceMe === true);
   }
 
-  /* PLACEHOLDER PRICE - NOT FINAL. The owner sets the real figure after seeing this
-     rendered (Work Order 03, Task 3). One constant, consumed by the plans section and
-     the tracker lock screen, so changing it is a one-line edit.
+  /* The confirmed price (WO6 Task 4). One constant, consumed by the plans section
+     and the Chance Me lock screen, so changing it is a one-line edit.
      `oneTime` is deliberately spelled out rather than implied: a student must never be
      left wondering whether this recurs. */
-  const PRO_PRICE = { amount:'$8.99', period:'one-time', oneTime:'One payment. Not a subscription.' };
+  const PRO_PRICE = { amount:'$9.99', period:'one-time', oneTime:'One payment. Not a subscription.' };
 
   /* ---------- tracker state ---------- */
   let trkTab = 'list';        // 'list' | 'deadlines'
@@ -2544,9 +2544,9 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <b>Chance Me</b>
             <span>${esc(PRO_PRICE.amount)}, ${esc(PRO_PRICE.period)}. ${esc(PRO_PRICE.oneTime)} The database, the deadlines, the tracker, and every source link stay free.</span>
           </div>
-          <button class="btn btn-primary" type="button" id="chance-buy" data-inert-cta="1">Get Chance Me \u2014 ${esc(PRO_PRICE.amount)} once</button>
+          <button class="btn btn-primary" type="button" data-buy-chanceme="1">Get Chance Me \u2014 ${esc(PRO_PRICE.amount)} once</button>
         </div>
-        <p class="plan-foot">Checkout isn\u2019t built yet and this button does nothing today. The price is a placeholder while this page is reviewed. Nothing on this site takes a payment or asks for card details.</p>
+        <p class="plan-foot">One payment of ${esc(PRO_PRICE.amount)}, permanent access on your account \u2014 never a subscription. Payment is handled entirely by Stripe\u2019s checkout; this site never sees or stores card details.</p>
       </main>` + bandAndMethod();
   }
 
@@ -2580,7 +2580,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     ];
   }
 
-  /* The two tiers. Copy is the work order's; the price is a placeholder constant. */
+  /* The two tiers. One free, one paid once — the price constant is PRO_PRICE. */
   function plansSection(){
     const free = [
       `The full database, all ${S.length} schools`,
@@ -2618,13 +2618,13 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <div class="plan-price"><b>${esc(PRO_PRICE.amount)}</b><span>${esc(PRO_PRICE.period)}</span></div>
             <div class="plan-note plan-once">${esc(PRO_PRICE.oneTime)} You pay once and keep access permanently. No renewal, no expiry, no card kept on file.</div>
             <ul class="plan-list">${li(pro)}</ul>
-            <button class="btn btn-primary plan-btn" type="button" id="plan-pro-btn" data-inert-cta="1">
+            <button class="btn btn-primary plan-btn" type="button" data-buy-chanceme="1">
               Get Chance Me for ${esc(PRO_PRICE.amount)} once
             </button>
-            <div class="plan-sub">Checkout isn't built yet. This button does nothing today.</div>
+            <div class="plan-sub">One payment of ${esc(PRO_PRICE.amount)}, permanent access on your account. Never a subscription, never a renewal.</div>
           </div>
         </div>
-        <p class="plan-foot">Prices shown are placeholders while this page is being reviewed. Nothing on this site takes a payment or asks for card details.</p>
+        <p class="plan-foot">Payment is handled entirely by Stripe’s checkout. This site never sees or stores card details.</p>
       </section>`;
   }
 
@@ -2729,9 +2729,9 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     wireHome();
   }
 
-  /* WO6 Task 2: the account controls are real and run through Clerk. The purchase
-     buttons stay inert until Task 4 wires them to Stripe, and say so when used.
-     TODO(WO-04): wire to Stripe */
+  /* WO6 Tasks 2+4: the account controls run through Clerk and the purchase
+     buttons run through Stripe Checkout. The checkout session is created
+     server-side against the VERIFIED session - nothing here decides who paid. */
   function wireHome(){
     const clerkDo = fn => () => { if(window.Clerk) fn(window.Clerk); };
     const wire = (id, fn) => { const b = $('#'+id); if(b) b.addEventListener('click', clerkDo(fn)); };
@@ -2739,15 +2739,44 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     wire('auth-open-signup', c => c.openSignUp());
     wire('auth-manage', c => c.openUserProfile());
 
-    document.querySelectorAll('[data-inert-cta]').forEach(b => {
-      b.addEventListener('click', () => {
-        const note = b.parentElement.querySelector('.cta-said') || (() => {
-          const el = document.createElement('p'); el.className = 'cta-said';
-          el.setAttribute('role','status'); b.insertAdjacentElement('afterend', el); return el;
-        })();
-        note.textContent = 'Checkout isn’t built yet. When it is, Chance Me will be a single ' + PRO_PRICE.amount + ' payment, not a subscription.';
-      });
+    document.querySelectorAll('[data-buy-chanceme]').forEach(b => {
+      b.addEventListener('click', () => startCheckout(b));
     });
+  }
+
+  /* Starts the Stripe Checkout flow. Signed out -> sign in first; already
+     entitled -> straight to the tool; otherwise redirect to Stripe's hosted
+     checkout. Any purchase talk stays honest: this grants nothing itself. */
+  async function startCheckout(btn){
+    const clerk = window.Clerk;
+    if(!clerk || !clerk.user){ if(clerk) clerk.openSignIn(); return; }
+    const said = msg => {
+      const note = btn.parentElement.querySelector('.cta-said') || (() => {
+        const el = document.createElement('p'); el.className = 'cta-said';
+        el.setAttribute('role','status'); btn.insertAdjacentElement('afterend', el); return el;
+      })();
+      note.textContent = msg;
+    };
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Opening checkout…';
+    try{
+      const token = await authToken();
+      if(!token){ clerk.openSignIn(); return; }
+      const r = await fetch('/.netlify/functions/create-checkout-session', {
+        method:'POST', headers:{ authorization:'Bearer ' + token }
+      });
+      const data = await r.json().catch(() => ({}));
+      if(r.ok && data.alreadyEntitled){
+        said('Chance Me is already unlocked on this account.');
+        go('#/chance'); return;
+      }
+      if(r.ok && data.url){ location.href = data.url; return; }
+      said(data.error || 'Checkout couldn’t start. Try again in a moment.');
+    }catch(e){
+      said('Checkout couldn’t start. Check your connection and try again.');
+    }finally{
+      btn.disabled = false; btn.textContent = label;
+    }
   }
 
   /* ================================================================================
@@ -3047,6 +3076,71 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     wireChance();
   }
 
+  /* ---------- checkout return pages (WO6 Task 4) ----------
+     The success page is a courtesy. It GRANTS NOTHING: entitlement is written
+     only by the verified Stripe webhook; this page just waits to see it land
+     on the account and says so honestly in the meantime. */
+  let successPollGen = 0;
+
+  function renderCheckoutSuccess(){
+    const gen = ++successPollGen;
+    $('#view').innerHTML = `
+      ${heroBlock({
+        eyebrow:'Chance Me',
+        title:'Thanks — <em>finishing up.</em>',
+        sub:'Access appears on your account the moment Stripe confirms the payment — normally within seconds.'})}
+      <main class="wrap">
+        <div class="tablecard"><div class="empty" id="success-state">
+          <h3>Confirming your payment…</h3>
+          <p>Waiting for Stripe’s confirmation. This page doesn’t unlock anything by itself — access lands on your account when the payment is confirmed, and it will still be there if you close this tab.</p>
+        </div></div>
+      </main>` + bandAndMethod();
+    pollCheckoutSuccess(gen, Date.now());
+  }
+
+  async function pollCheckoutSuccess(gen, started){
+    if(gen !== successPollGen || !$('#success-state')) return;
+    const clerk = window.Clerk;
+    if(clerk && clerk.user){
+      try{ await clerk.user.reload(); }catch(e){}
+      if(gen !== successPollGen) return;
+      if(hasChanceMeAccess()){
+        const el = $('#success-state');
+        if(el) el.innerHTML = `
+          <h3>Chance Me is unlocked.</h3>
+          <p>Permanent access is on your account — here and on any device you sign in from. No renewal, no expiry.</p>
+          <a class="btn btn-primary" href="#/chance">Open Chance Me</a>`;
+        return;
+      }
+    }
+    if(Date.now() - started > 90000){
+      const el = $('#success-state');
+      if(el) el.innerHTML = `
+        <h3>Still waiting on confirmation.</h3>
+        <p>${clerk && clerk.user
+          ? 'If you completed payment, access can take a minute to land — refresh this page to check again. If you didn’t complete payment, nothing was charged.'
+          : 'Sign in with the account you paid on to see your access. If you didn’t complete payment, nothing was charged.'}
+          Questions: <a href="mailto:batuyetki@transferverified.com">batuyetki@transferverified.com</a>.</p>`;
+      return;
+    }
+    setTimeout(() => pollCheckoutSuccess(gen, started), 2500);
+  }
+
+  function renderCheckoutCancel(){
+    $('#view').innerHTML = `
+      ${heroBlock({
+        eyebrow:'Chance Me',
+        title:'Checkout <em>cancelled.</em>',
+        sub:'Nothing was charged and nothing changed on your account.'})}
+      <main class="wrap">
+        <div class="tablecard"><div class="empty">
+          <h3>No harm done.</h3>
+          <p>Chance Me is here if you ever want it — one payment, permanent access. Everything else on this site stays free either way.</p>
+          <a class="btn btn-primary" href="#/chance">Back to Chance Me</a>
+        </div></div>
+      </main>` + bandAndMethod();
+  }
+
   function renderTracker(){
     $('#view').innerHTML = `
       ${heroBlock({
@@ -3269,6 +3363,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const m = h.match(/^#\/school\/(.+)$/);
     if(m){ setActiveTab('apply'); renderSchool(decodeURIComponent(m[1])); }
     else if(h.startsWith('#/tracker')){ setActiveTab('tracker'); renderTracker(); }
+    else if(h.startsWith('#/success')){ setActiveTab('chance'); renderCheckoutSuccess(); }
+    else if(h.startsWith('#/cancel')){ setActiveTab('chance'); renderCheckoutCancel(); }
     else if(h.startsWith('#/chance')){ setActiveTab('chance'); renderChance(); }
     else if(h.startsWith('#/apply')){ setActiveTab('apply'); renderApply(); }
     else if(h.startsWith('#/all')||h.startsWith('#/rates')){ setActiveTab('rates'); renderRates(); }
