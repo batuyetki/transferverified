@@ -366,6 +366,20 @@
   nav a.tab.on::after{transform:scaleX(1)}
   .navlinks{display:flex;gap:var(--s5);align-items:center}
 
+  /* WO6 Task 2: the header account control. Same mono voice as the tabs; a
+     reserved slot so Clerk mounting in never shifts the nav. */
+  .authctl{display:flex;align-items:center;flex:none;min-width:76px;min-height:32px;
+    justify-content:flex-end}
+  .authbtn{background:var(--surface);color:var(--ink);border:var(--line-1);
+    font-family:var(--font-mono);font-size:11.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;padding:6px 12px;
+    cursor:pointer;box-shadow:var(--e1);white-space:nowrap;
+    transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),
+      background var(--t-fast) var(--ease)}
+  .authbtn:hover{background:var(--safety);color:var(--paper);
+    transform:translate(-1px,-1px);box-shadow:var(--e2)}
+  .authbtn:active{transform:translate(1px,1px);box-shadow:none}
+
   .btn{display:inline-block;background:var(--ink);color:var(--paper) !important;
     padding:var(--s3) var(--s5);border:var(--line);font-family:var(--font-mono);
     font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;
@@ -948,6 +962,7 @@
     color:var(--ink);letter-spacing:.015em;line-height:1.05}
   .signin-copy p{margin-top:var(--s3);font-size:14.5px;line-height:1.7;color:var(--ink-soft);max-width:62ch}
   .signin-btn{white-space:nowrap}
+  .signin-actions{display:flex;gap:var(--s3);flex-wrap:wrap;flex:none}
 
   @media (max-width:1024px){
     .hm-split{grid-template-columns:minmax(0,1fr);gap:var(--s6)}
@@ -1190,6 +1205,26 @@
   }
 
 </style>
+
+<!-- Clerk — DEVELOPMENT instance values.
+     Both the publishable key and the national-cobra-95.clerk.accounts.dev URL
+     change when the production Clerk instance is created.
+     Swap both lines at launch. See the production checklist in NOTES.md. -->
+
+<script
+  defer
+  crossorigin="anonymous"
+  src="https://national-cobra-95.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js"
+  type="text/javascript">
+</script>
+
+<script
+  defer
+  crossorigin="anonymous"
+  data-clerk-publishable-key="pk_test_bmF0aW9uYWwtY29icmEtOTUuY2xlcmsuYWNjb3VudHMuZGV2JA"
+  src="https://national-cobra-95.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
+  type="text/javascript">
+</script>
 </head>
 <body>
 
@@ -1213,6 +1248,10 @@
       <a class="tab" href="#/chance" data-tab="chance">Chance Me</a>
       <span class="navlinks"><a href="#method">Methodology</a></span>
     </nav>
+    <!-- WO6 Task 2: the account control. A sibling of the nav, not inside it, so
+         the scrollable tab row never hides it and Clerk mounting in never
+         reflows the tabs. -->
+    <span id="auth-ctl" class="authctl"></span>
   </div>
 </header>
 
@@ -2178,13 +2217,143 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return { load, save, clear, KEY, VERSION };
   })();
 
+  /* ---------- Clerk authentication (WO6 Task 2) ----------
+     Sign-in, sign-up, and sign-out run entirely through Clerk's prebuilt
+     components: this codebase never handles a credential. The components are
+     themed from the site's own CSS custom properties, read live from the
+     stylesheet so a token change here can never drift from what Clerk shows. */
+  const cssToken = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  function clerkAppearance(){
+    const ink = cssToken('--ink'), paper = cssToken('--paper'),
+          surface = cssToken('--surface'), rust = cssToken('--safety-deep'),
+          mono = cssToken('--font-mono'), display = cssToken('--font-display'),
+          ui = cssToken('--font-ui'), hardEdge = '2px solid ' + ink;
+    return {
+      variables: {
+        colorPrimary: rust,
+        colorPrimaryForeground: paper,
+        colorForeground: ink,
+        colorMutedForeground: cssToken('--muted'),
+        colorBackground: surface,
+        colorInput: paper,
+        colorInputForeground: ink,
+        colorDanger: rust,
+        colorSuccess: cssToken('--stamp'),
+        colorWarning: cssToken('--amber'),
+        colorNeutral: ink,
+        borderRadius: '0px',
+        fontFamily: ui,
+        fontFamilyButtons: mono
+      },
+      elements: {
+        cardBox: { border: hardEdge, borderRadius: 0, boxShadow: cssToken('--e3') },
+        card: { backgroundColor: surface, borderRadius: 0 },
+        headerTitle: { fontFamily: display, fontWeight: 800, textTransform: 'uppercase',
+          letterSpacing: '.01em' },
+        formFieldLabel: { fontFamily: mono, fontWeight: 600, textTransform: 'uppercase',
+          letterSpacing: cssToken('--tr-wide'), fontSize: '11px' },
+        formFieldInput: { fontFamily: mono, border: hardEdge, borderRadius: 0,
+          backgroundColor: paper },
+        formButtonPrimary: { fontFamily: mono, fontWeight: 600, textTransform: 'uppercase',
+          letterSpacing: '.06em', backgroundColor: ink, color: paper, border: hardEdge,
+          borderRadius: 0, boxShadow: cssToken('--e1'),
+          '&:hover, &:focus': { backgroundColor: rust } },
+        socialButtonsBlockButton: { border: '1px solid ' + ink, borderRadius: 0,
+          fontFamily: mono, textTransform: 'uppercase', letterSpacing: '.04em' },
+        footerActionLink: { color: rust, fontWeight: 700 },
+        userButtonPopoverCard: { border: hardEdge, borderRadius: 0,
+          boxShadow: cssToken('--e3'), backgroundColor: surface }
+      }
+    };
+  }
+
+  /* Snapshot of "who is signed in and are they entitled" - when it changes, the
+     header control and any auth-dependent view are redrawn. */
+  const authSnap = () => {
+    const u = window.Clerk && window.Clerk.user;
+    return u ? u.id + ':' + (u.publicMetadata && u.publicMetadata.chanceMe === true) : '';
+  };
+  let authState = '';
+
+  /* Session token for calling authenticated functions. Null when signed out. */
+  async function authToken(){
+    const clerk = window.Clerk;
+    if(!clerk || !clerk.session) return null;
+    try{ return await clerk.session.getToken(); }
+    catch(e){ return null; }
+  }
+
+  function renderAuthControl(){
+    const slot = $('#auth-ctl'); if(!slot) return;
+    const clerk = window.Clerk;
+    if(clerk && clerk.user){
+      slot.innerHTML = '<span id="auth-userbtn"></span>';
+      clerk.mountUserButton($('#auth-userbtn'));
+    }else{
+      slot.innerHTML = '<button class="authbtn" type="button" id="auth-signin">Sign in</button>';
+      // window.Clerk is read at click time: this control is drawn before the
+      // deferred Clerk script has necessarily arrived
+      $('#auth-signin').addEventListener('click', () => { if(window.Clerk) window.Clerk.openSignIn(); });
+    }
+  }
+
+  const authSensitiveRoute = () => {
+    const h = location.hash || '#/';
+    return h === '#/' || h.startsWith('#/chance');
+  };
+
+  function onClerkChange(){
+    const next = authSnap();
+    if(next === authState) return;
+    const hadUser = authState !== '' && authState.split(':')[0];
+    const hasUser = next !== '' && next.split(':')[0];
+    const signedOut = hadUser && hadUser !== hasUser;
+    authState = next;
+    if(signedOut){
+      // a shared machine must never leak one user's tracker data to the next
+      Store.clear(); trkState = null;
+    }
+    renderAuthControl();
+    route();   // lock states and the home account section depend on who this is
+  }
+
+  function initClerk(){
+    const start = async () => {
+      const clerk = window.Clerk;
+      if(!clerk || !clerk.load){ renderAuthControl(); return; } // script blocked: stay usable, signed out
+      try{
+        await clerk.load({
+          ui: { ClerkUI: window.__internal_ClerkUICtor },
+          appearance: clerkAppearance()
+        });
+      }catch(e){
+        console.warn('Clerk failed to load; continuing signed out.');
+        renderAuthControl(); return;
+      }
+      authState = authSnap();
+      renderAuthControl();
+      if(authSensitiveRoute()) route();  // first paint happened before Clerk knew who this is
+      clerk.addListener(onClerkChange);
+    };
+    renderAuthControl();   // signed-out control appears immediately, not on Clerk's schedule
+    if(document.readyState === 'complete') start();
+    else window.addEventListener('load', start);
+  }
+  initClerk();
+
   /* ---------- the single entitlement seam ----------
      WO4 Task 1: the Tracker is now free and ungated. Chance Me is the only paid
      feature, and this is the ONLY function that decides access to it. Nothing else
      in this file branches on entitlement.
-     TODO: replace with real entitlement check */
+     WO6 Task 2: reads the signed-in user's Clerk publicMetadata, which only the
+     server (via the Stripe webhook) can write. This is a UI convenience ONLY —
+     it chooses which view to draw. Access itself is enforced server-side: the
+     chance-me function verifies the session and re-checks entitlement on every
+     call, so forcing this to return true unlocks nothing. */
   function hasChanceMeAccess(){
-    return true;
+    const u = window.Clerk && window.Clerk.user;
+    return !!(u && u.publicMetadata && u.publicMetadata.chanceMe === true);
   }
 
   /* PLACEHOLDER PRICE - NOT FINAL. The owner sets the real figure after seeing this
@@ -2419,24 +2588,41 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       </section>`;
   }
 
-  /* Sign-in placeholder. Inert by design, and it reads its state from the SAME seam
-     every other gate uses, so wiring Clerk later is a change in one function. */
+  /* WO6 Task 2: the real account section. It reads its state from the SAME seam
+     every other gate uses, and every credential is handled by Clerk's prebuilt
+     components - this codebase never sees a password. */
   function signInSection(){
+    const user = window.Clerk && window.Clerk.user;
     const on = hasChanceMeAccess();
+    if(user){
+      const email = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress) || '';
+      return `
+        <section class="hm-sec wrap" aria-labelledby="signin-h">
+          <div class="signin">
+            <div class="signin-copy">
+              <h2 id="signin-h">${on ? 'Signed in. Chance Me is unlocked.' : 'You’re signed in.'}</h2>
+              <p>${email ? 'Signed in as ' + esc(email) + '. ' : ''}${on
+                ? 'Chance Me is unlocked on this account permanently — sign in on any device and it comes with you.'
+                : 'Your account is ready. If you ever buy Chance Me, it unlocks on this account once, permanently, on every device you sign in from.'}</p>
+            </div>
+            <button class="btn signin-btn" type="button" id="auth-manage">Manage account</button>
+          </div>
+          <p class="plan-foot">Sign-in runs on Clerk’s prebuilt components. This site never sees or stores a password.</p>
+        </section>`;
+    }
     return `
       <section class="hm-sec wrap" aria-labelledby="signin-h">
         <div class="signin">
           <div class="signin-copy">
-            <h2 id="signin-h">${on ? 'Pro is unlocked on this device.' : 'Accounts are coming.'}</h2>
-            <p>${on
-              ? 'Your tracker and your Chance Me inputs are stored in this browser. Accounts will let you carry them between devices. Until then nothing leaves this device.'
-              : 'Everything free works without one, including the tracker. An account will only ever be needed to carry Chance Me between devices.'}</p>
+            <h2 id="signin-h">One account, any device.</h2>
+            <p>Everything free works without an account, including the tracker. An account is only needed to carry Chance Me between devices — sign in with email or Google.</p>
           </div>
-          <button class="btn signin-btn" type="button" id="signin-btn" data-inert-cta="1">
-            ${on ? 'Manage account' : 'Sign in'}
-          </button>
+          <span class="signin-actions">
+            <button class="btn signin-btn" type="button" id="auth-open-signin">Sign in</button>
+            <button class="btn signin-btn" type="button" id="auth-open-signup">Create account</button>
+          </span>
         </div>
-        <p class="plan-foot">This control is a placeholder and does nothing yet. We do not ask for a password, a card, or any other credential anywhere on this site.</p>
+        <p class="plan-foot">Sign-in runs on Clerk’s prebuilt components. This site never sees or stores a password.</p>
       </section>`;
   }
 
@@ -2503,20 +2689,23 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     wireHome();
   }
 
-  /* Both controls are inert on purpose. They are styled as real controls so the owner
-     can judge the page, and they say so out loud when used.
-     TODO(WO-04): wire to Clerk
+  /* WO6 Task 2: the account controls are real and run through Clerk. The purchase
+     buttons stay inert until Task 4 wires them to Stripe, and say so when used.
      TODO(WO-04): wire to Stripe */
   function wireHome(){
+    const clerkDo = fn => () => { if(window.Clerk) fn(window.Clerk); };
+    const wire = (id, fn) => { const b = $('#'+id); if(b) b.addEventListener('click', clerkDo(fn)); };
+    wire('auth-open-signin', c => c.openSignIn());
+    wire('auth-open-signup', c => c.openSignUp());
+    wire('auth-manage', c => c.openUserProfile());
+
     document.querySelectorAll('[data-inert-cta]').forEach(b => {
       b.addEventListener('click', () => {
         const note = b.parentElement.querySelector('.cta-said') || (() => {
           const el = document.createElement('p'); el.className = 'cta-said';
           el.setAttribute('role','status'); b.insertAdjacentElement('afterend', el); return el;
         })();
-        note.textContent = b.id === 'signin-btn'
-          ? 'Accounts aren’t built yet. There is nothing to sign in to, and we will never ask for a password here.'
-          : 'Checkout isn’t built yet. When it is, Chance Me will be a single ' + PRO_PRICE.amount + ' payment, not a subscription.';
+        note.textContent = 'Checkout isn’t built yet. When it is, Chance Me will be a single ' + PRO_PRICE.amount + ' payment, not a subscription.';
       });
     });
   }
