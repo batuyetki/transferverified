@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TransferVerified — Real transfer admit rates, deadlines &amp; credit caps.</title>
-<meta name="description" content="Real transfer admit rates, deadlines, and application requirements for 150 top U.S. universities — every number extracted from the school's own official filings and linked to its source.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2048%2048%27%3E%3Crect%20x%3D%276%27%20y%3D%2726%27%20width%3D%2711%27%20height%3D%2716%27%20rx%3D%272.5%27%20fill%3D%27%236497B1%27/%3E%3Crect%20x%3D%2727%27%20y%3D%2714%27%20width%3D%2711%27%20height%3D%2728%27%20rx%3D%272.5%27%20fill%3D%27%23011F4B%27/%3E%3Cpath%20d%3D%27M%2011.5%2021%20Q%2021%203.5%2033%208.6%27%20fill%3D%27none%27%20stroke%3D%27%2300C2FF%27%20stroke-width%3D%273.6%27%20stroke-linecap%3D%27round%27/%3E%3Cpath%20d%3D%27M%2038.2%2011.2%20L%2032.1%2011.6%20L%2034.4%206.4%20Z%27%20fill%3D%27%2300C2FF%27/%3E%3C/svg%3E" type="image/svg+xml">
+<title>TransferVerified: Real transfer admit rates, deadlines &amp; credit caps.</title>
+<meta name="description" content="Real transfer admit rates, deadlines, and application requirements for 150 top U.S. universities. Every number is extracted from the school's own official filings and linked to its source.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2048%2048%27%3E%3Crect%20x%3D%276%27%20y%3D%2726%27%20width%3D%2711%27%20height%3D%2716%27%20rx%3D%272.5%27%20fill%3D%27%236B6455%27/%3E%3Crect%20x%3D%2727%27%20y%3D%2714%27%20width%3D%2711%27%20height%3D%2728%27%20rx%3D%272.5%27%20fill%3D%27%2316130E%27/%3E%3Cpath%20d%3D%27M%2011.5%2021%20Q%2021%203.5%2033%208.6%27%20fill%3D%27none%27%20stroke%3D%27%23FF4D00%27%20stroke-width%3D%273.6%27%20stroke-linecap%3D%27round%27/%3E%3Cpath%20d%3D%27M%2038.2%2011.2%20L%2032.1%2011.6%20L%2034.4%206.4%20Z%27%20fill%3D%27%23FF4D00%27/%3E%3C/svg%3E" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TransferVerified">
-<meta property="og:title" content="TransferVerified — Real transfer admit rates, straight from official filings.">
-<meta property="og:description" content="Real transfer admit rates, deadlines, and credit caps for 150 top U.S. universities — every number pulled from the school's own official filing and linked to its source.">
+<meta property="og:title" content="TransferVerified: Real transfer admit rates, straight from official filings.">
+<meta property="og:description" content="Real transfer admit rates, deadlines, and credit caps for 150 top U.S. universities. Every number is pulled from the school's own official filing and linked to its source.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TransferVerified — Real transfer admit rates, straight from official filings.">
-<meta name="twitter:description" content="Real transfer admit rates, deadlines, and credit caps for 150 top U.S. universities — straight from official filings.">
+<meta name="twitter:title" content="TransferVerified: Real transfer admit rates, straight from official filings.">
+<meta name="twitter:description" content="Real transfer admit rates, deadlines, and credit caps for 150 top U.S. universities, straight from official filings.">
 <!-- Once the domain is live, add these two for a rich preview card. An og:image
      that 404s looks worse than none, so they stay commented until the file exists:
 <meta property="og:url" content="https://YOURDOMAIN/">
@@ -20,822 +20,803 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,400..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Libre+Franklin:ital,wght@0,400..900;1,400..700&display=swap" rel="stylesheet">
 <style>
   /* ===========================================================================
-     TransferVerified — visual system v2.
-     Brief: eliminate generic AI styling. Bold high-contrast type, a real
-     typeface pairing, atmospheric depth instead of flat fills, asymmetric
-     layout, one orchestrated page-load reveal, and a proper touch-target and
-     overflow pass below 768px.
-
-     Identity kept: the navy ramp, electric accent, and paper ground are the
-     brand (they match the logo). Everything else is rebuilt.
+     TransferVerified - visual system v3: "THE LEDGER".
+     Industrial filing-room brutalism. Bone paper, graph-paper ruling, ink black,
+     safety orange. Hard offset shadows, zero radius, stamped provenance.
+     Display: Big Shoulders (condensed industrial). Data: IBM Plex Mono.
+     Body: Libre Franklin. Identity kept: name only. Everything else rebuilt.
      =========================================================================== */
   :root{
-    /* --- brand ramp (unchanged) --- */
-    --navy-900:#011F4B; --navy-800:#02295E; --navy-700:#03396C; --navy-500:#005B96;
-    --navy-300:#6497B1; --navy-100:#B3CDE0;
-    --electric:#00C2FF; --electric-deep:#0086C9;
-    --paper:#FAF8F4; --cream:#ECE5DE; --taupe:#B3A197; --umber:#6E493E;
-    --ink:#12233B; --stale:#B7791F;
+    /* --- core palette --- */
+    --paper:#E9E5D8;          /* bone / drafting paper */
+    --paper-deep:#DFDACA;
+    --ink:#16130E;            /* near-black ink */
+    --ink-soft:#3A352B;
+    --safety:#FF4D00;         /* hazard orange, THE accent */
+    --safety-deep:#D63A00;
+    --safety-tint:#FFE3D6;
+    --steel:#111009;          /* dark panel ground */
+    --stamp:#166B38;          /* verified stamp green */
+    --stamp-tint:#DCEBDD;
+    --amber:#8A6410;          /* stale / caution */
+    --amber-tint:#F2E4C2;
 
-    /* --- AA-safe text tokens (measured on --paper) --- */
-    --muted:#556E88;      /* 4.98:1 */
-    --dim-ink:#6B5F57;    /* 5.82:1 */
-    --verified:#0D7A3D;   /* 5.12:1 */
+    /* --- AA-safe secondary text on paper --- */
+    --muted:#5C564A;
+    --dim-ink:#6B6455;
 
-    /* --- typography: a real pairing, not one system face ---
-       Archivo carries display (variable width + weight, set wide and heavy).
-       Inter carries data and UI, where its tabular figures matter. */
-    --font-display:'Archivo','Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
-    --font-ui:'Inter',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    /* --- estimate identity: violet, dashed, mono - never mistakable for sourced --- */
+    --estimate:#5B34B8; --estimate-soft:#E9E2F4; --estimate-line:#B49BE0;
 
-    /* --- WO3 Task 1: the type scale as named tiers.
-       Tracking is a function of size — display type tightens as it grows, label type
-       opens up, and nothing sits between the two regimes. See NOTES.md §1. --- */
-    --t-display-1:clamp(31px,5.5vw,84px);    /* hero h1        850 / wdth 118 */
-    --t-display-2:clamp(26px,3.6vw,50px);    /* section h2     850 / wdth 114 */
-    --t-display-3:clamp(22px,2.4vw,30px);    /* panel titles   780 / wdth 108 */
-    --t-display-4:19px;                      /* h3, sub-heads  750 / wdth 104 */
-    --t-lead:clamp(17px,1.5vw,20px);
-    --t-rate:22px;
-    --t-name:16px;
+    /* --- selectivity heat ramp: ink (hardest) -> pale orange (openest) --- */
+    --sel-1:#16130E; --sel-2:#5A1F00; --sel-3:#9E3000;
+    --sel-4:#E04400; --sel-5:#FF7A33; --sel-6:#FFB182;
+
+    /* --- legacy aliases (inline JS styles + old rules reference these) --- */
+    --navy-900:var(--ink); --navy-800:#221E16; --navy-700:var(--ink-soft);
+    --navy-500:#4A4436; --navy-300:#8A8271; --navy-100:#CFC8B4;
+    --electric:var(--safety); --electric-deep:var(--safety-deep);
+    --cream:var(--paper-deep); --taupe:#A99F8C; --umber:#5A4636;
+    --stale:var(--amber); --verified:var(--stamp);
+    --tint:var(--safety-tint);
+
+    /* --- typography --- */
+    --font-display:'Big Shoulders','Libre Franklin',Impact,'Arial Narrow',sans-serif;
+    --font-ui:'Libre Franklin',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+    --t-display-1:clamp(44px,7.4vw,116px);   /* hero h1, condensed caps */
+    --t-display-2:clamp(34px,4.6vw,66px);    /* section h2 */
+    --t-display-3:clamp(24px,2.6vw,34px);    /* panel titles */
+    --t-display-4:21px;                      /* h3, sub-heads */
+    --t-lead:clamp(16.5px,1.4vw,19px);
+    --t-rate:24px;
+    --t-name:15.5px;
     --t-body:15.5px;
-    --t-meta:12.5px;
-    --t-micro:11px;
-    /* legacy aliases — the tiers above are the system; these keep older rules honest */
+    --t-meta:12px;
+    --t-micro:10.5px;
     --t-hero:var(--t-display-1);
     --t-h2:var(--t-display-2);
     --t-h3:var(--t-display-4);
 
-    /* three tracking values, not five. --tr-wide is THE small-caps value and every
-       eyebrow, column head, and stat label uses it. */
-    --tr-tight:-.042em;
-    --tr-snug:-.022em;
-    --tr-wide:.2em;
-    --tr-chip:.09em;   /* inline objects inside a line of text; .2em would break it */
+    --tr-tight:.005em;   /* condensed display never gets negative tracking */
+    --tr-snug:.01em;
+    --tr-wide:.14em;     /* mono labels */
+    --tr-chip:.08em;
 
-    /* --- spacing ramp (unchanged — ~400 declarations depend on it) --- */
+    /* --- spacing ramp (unchanged - inline styles depend on it) --- */
     --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
     --s6:32px; --s7:48px; --s8:72px; --s9:104px; --s10:144px;
-    /* section rhythm. Vertical only: per the WO2 container standard, section rules
-       use padding-block and may never touch horizontal padding. */
-    --sec-y:clamp(88px,9vw,168px);
-    --sec-y-sm:clamp(52px,5.5vw,96px);
+    --sec-y:clamp(80px,8.5vw,152px);
+    --sec-y-sm:clamp(48px,5vw,88px);
 
-    /* --- depth: layered surfaces, not flat fills --- */
-    --surface:#FFFFFF;
-    --surface-2:#FFFCF7;
-    --surface-sunk:#F4EFE8;
-    --hair:#EFE8DF;
-    --tint:#EAF3FA;
-    --e1:0 1px 2px rgba(1,31,75,.06);
-    --e2:0 2px 8px rgba(1,31,75,.07), 0 1px 2px rgba(1,31,75,.05);
-    --e3:0 10px 30px -8px rgba(1,31,75,.16), 0 2px 6px rgba(1,31,75,.06);
-    --e4:0 28px 70px -18px rgba(1,31,75,.34), 0 6px 18px rgba(1,31,75,.12);
-    --glow:0 0 0 1px rgba(0,194,255,.28), 0 0 34px -6px rgba(0,194,255,.45);
-    /* WO3: a raised surface is a top highlight + a hairline + a shadow, not a 1px
-       stroke. Both are inset shadows so they compose in one box-shadow and cost no
-       layout. This is what replaces `border:1px solid` on cards, tables, and controls. */
-    --lift:inset 0 1px 0 rgba(255,255,255,.72);
-    --edge:inset 0 0 0 1px rgba(1,31,75,.07);
-    --edge-strong:inset 0 0 0 1px rgba(1,31,75,.13);
-    --sunk:inset 0 1px 2px rgba(1,31,75,.06);
-    /* the dark panel's own gradient, defined once so every .dark surface is identical */
-    --dark-bg:radial-gradient(460px 250px at 86% -14%, rgba(0,194,255,.28), transparent 66%),
-              linear-gradient(158deg,var(--navy-800) 0%, var(--navy-900) 58%, #010F27 100%);
+    /* --- surfaces: flat fills, drawn edges, hard shadows. No blur, no glow. --- */
+    --surface:#F6F3E9;
+    --surface-2:#EFEBDD;
+    --surface-sunk:#E2DDCC;
+    --hair:rgba(22,19,14,.16);
+    --line:2px solid var(--ink);
+    --line-1:1px solid var(--ink);
+    --e1:2px 2px 0 var(--ink);
+    --e2:4px 4px 0 var(--ink);
+    --e3:6px 6px 0 var(--ink);
+    --e4:10px 10px 0 rgba(22,19,14,.9);
+    --glow:0 0 0 2px var(--paper),0 0 0 4px var(--safety);
+    --lift:inset 0 0 0 2px var(--ink);
+    --edge:inset 0 0 0 1px var(--ink);
+    --edge-strong:inset 0 0 0 2px var(--ink);
+    --sunk:inset 2px 2px 0 rgba(22,19,14,.12);
+    --dark-bg:linear-gradient(180deg,#1C1810 0%, var(--steel) 100%);
+    --hazard:repeating-linear-gradient(-45deg,var(--safety) 0 10px,var(--ink) 10px 20px);
     --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
 
-    /* two durations for two gestures, plus the page-load reveal. Replaces eleven
-       ad-hoc values. See NOTES.md §5. */
-    --t-fast:150ms;   /* colour and background only */
-    --t-mid:240ms;    /* transform and shadow — anything that moves */
-    --t-slow:680ms;   /* the single orchestrated entrance */
+    --t-fast:120ms;
+    --t-mid:200ms;
+    --t-slow:560ms;
 
-    /* --- the container standard: one max-width, one gutter, defined once.
-       Only .wrap may consume these. Section rules use padding-block so they
-       can never reset horizontal padding again. --- */
-    --container:1180px;
-    /* One fluid gutter instead of three hard steps. The old 32/24/16 ladder shrank the
-       margin exactly as the display type stayed large — at a 693px viewport that put
-       50px type against a 16px margin, which is what "too close to the borders" was.
-       This scales the margin WITH the viewport so the ratio stays constant. */
-    --gutter:clamp(20px,4vw,52px);
+    --container:1220px;
+    --gutter:clamp(20px,4vw,56px);
 
-    /* ---- selectivity scale: one colour per Task-2 band, darkest = hardest.
-       Every stop is on the existing navy->electric ramp, so this is a new DIMENSION
-       of the brand palette rather than a new palette. Used as fills only — never as
-       text — and never on an estimate, which keeps its violet identity. ---- */
-    --sel-1:#011F4B; --sel-2:#0B4A8F; --sel-3:#0071B8;
-    --sel-4:#0092D6; --sel-5:#26B4EE; --sel-6:#83D8F7;
-
-    /* the estimate identity — deliberately outside the sourced-figure palette */
-    --estimate:#6D4AA6; --estimate-soft:#F4F0FA; --estimate-line:#C9B6E8;
-
-    --ring:2px solid var(--electric);
-    --ease:cubic-bezier(.2,.7,.2,1);
-    --ease-out:cubic-bezier(.16,.84,.28,1);
-    --r-sm:8px; --r-md:12px; --r-lg:18px; --r-xl:26px;
+    --ring:3px solid var(--safety);
+    --ease:cubic-bezier(.2,.9,.25,1);
+    --ease-out:cubic-bezier(.16,.9,.22,1);
+    /* radius is not part of this language */
+    --r-sm:0; --r-md:0; --r-lg:0; --r-xl:0;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:104px}
+  html{scroll-behavior:smooth;scroll-padding-top:112px}
   body{
     font-family:var(--font-ui);
     background:var(--paper);
-    color:var(--ink);line-height:1.6;font-size:16px;
+    color:var(--ink);line-height:1.62;font-size:16px;
     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
     overflow-x:hidden;
+    border-top:8px solid var(--ink);
   }
-  /* atmospheric ground: two soft light sources + a fine grain, never a flat fill */
+  /* the ground is a drafting sheet: graph ruling + vignette + grain, never flat */
   body::before{
     content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
     background:
-      radial-gradient(1100px 620px at 88% -8%, rgba(0,194,255,.20), transparent 62%),
-      radial-gradient(900px 700px at -6% 8%, rgba(1,31,75,.12), transparent 60%),
-      radial-gradient(760px 520px at 18% 92%, rgba(110,73,62,.09), transparent 64%),
-      linear-gradient(178deg,#FCFAF7 0%, var(--paper) 44%, #F1EAE1 100%);
+      linear-gradient(to right, rgba(22,19,14,.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(22,19,14,.045) 1px, transparent 1px),
+      linear-gradient(to right, rgba(22,19,14,.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(22,19,14,.028) 1px, transparent 1px),
+      radial-gradient(1200px 800px at 50% -10%, rgba(255,77,0,.05), transparent 60%),
+      linear-gradient(178deg,#EFEBDE 0%, var(--paper) 46%, #DDD7C4 100%);
+    background-size:128px 128px,128px 128px,32px 32px,32px 32px,auto,auto;
   }
   body::after{
-    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;
+    background-image:var(--grain);
   }
   .wrap{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
 
   /* ===================== pattern language =====================
-     Three patterns, each meaning something. Nothing is decorative-only.
-       .dark      -> a ledger grid, because these panels carry filed figures
-       .hatch     -> diagonal rule, for a value the school does not publish
-       .receipt   -> engraved arcs, the visual language of an official document */
+       .dark    -> black steel plate with an orange registration grid: filed figures
+       .hatch   -> diagonal rule: a value the school does not publish
+       .receipt -> punched-margin document: the visual language of an official record */
   .dark::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
     background-image:
-      linear-gradient(to right, rgba(0,194,255,.09) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0,194,255,.06) 1px, transparent 1px);
-    background-size:44px 44px;
-    -webkit-mask-image:radial-gradient(120% 90% at 82% -10%, #000 0%, transparent 72%);
-    mask-image:radial-gradient(120% 90% at 82% -10%, #000 0%, transparent 72%)}
+      linear-gradient(to right, rgba(255,77,0,.14) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,77,0,.09) 1px, transparent 1px);
+    background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(130% 100% at 85% -10%, #000 0%, transparent 74%);
+    mask-image:radial-gradient(130% 100% at 85% -10%, #000 0%, transparent 74%)}
   .hatch{background-image:repeating-linear-gradient(135deg,
-      rgba(110,73,62,.13) 0 2px, transparent 2px 8px);
-    border-radius:4px;padding:2px 8px}
-  .receipt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-    border-radius:inherit;
-    background-image:repeating-radial-gradient(circle at 100% 0,
-      transparent 0 13px, rgba(13,122,61,.07) 13px 14px);}
-  a{color:var(--navy-500)}
+      rgba(22,19,14,.14) 0 2px, transparent 2px 7px);
+    padding:2px 8px}
+  .receipt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;
+    background-image:repeating-linear-gradient(to bottom,
+      transparent 0 26px, rgba(22,107,56,.10) 26px 27px);}
+  a{color:var(--ink);text-decoration-color:var(--safety);text-decoration-thickness:2px;text-underline-offset:3px}
   .num{font-variant-numeric:tabular-nums}
-  /* WO3 §6: the unit is demoted so the eye lands on the digits. The % is decorative
-     repetition of an adjacent accessible label, so navy-300 (3.0:1) is acceptable here
-     and nowhere else. */
-  .pct-u{font-size:.56em;font-weight:700;letter-spacing:0;margin-left:.06em;white-space:nowrap;
-    vertical-align:baseline;color:var(--navy-300);-webkit-text-fill-color:currentColor}
-  .dark .pct-u,.statcard.hl .pct-u{color:var(--navy-100)}
-  :focus-visible{outline:var(--ring);outline-offset:3px;border-radius:var(--r-sm)}
+  .pct-u{font-size:.5em;font-weight:700;letter-spacing:0;margin-left:.08em;white-space:nowrap;
+    vertical-align:baseline;color:var(--safety);-webkit-text-fill-color:currentColor}
+  .dark .pct-u,.statcard.hl .pct-u{color:var(--safety)}
+  :focus-visible{outline:var(--ring);outline-offset:3px}
 
-  h1,h2,h3,.display{font-family:var(--font-display);font-variation-settings:'wdth' 108}
+  h1,h2,h3,.display{font-family:var(--font-display);text-transform:uppercase}
 
-  /* ===================== WO3: the dark panel, as architecture =====================
-     Promoted from five separate components to one named element. Two rules govern it:
-       1. At most one dark surface per screenful, never two adjacent.
-       2. It always carries real evidence — a real record, a real count, a real source
-          link. Never decoration, never a marketing claim.
-     .heropanel / .coverpanel / .applycta / .lockcta / .statcard.hl all inherit from it. */
-  .dark{position:relative;border-radius:var(--r-xl);color:#fff;
-    background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden}
-  .dark::before{content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:var(--grain);opacity:.06;mix-blend-mode:overlay}
+  /* the dark plate: at most one per screenful, always carrying real evidence */
+  .dark{position:relative;color:var(--paper);
+    background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden;
+    border:var(--line)}
+  .dark::before{content:"";position:absolute;inset:auto 0 0 0;height:8px;
+    background:var(--hazard);opacity:.9;pointer-events:none;z-index:2}
   .dark>*{position:relative;z-index:1}
-  /* text inside a dark surface: navy-100 is 9.8:1 on navy-900, white is 17:1 */
   .dark a{color:#fff}
 
-  /* the one small-caps treatment. Every eyebrow, column head, and stat label. */
-  .sc{font-family:var(--font-ui);font-size:var(--t-micro);font-weight:800;
+  /* the one small-caps treatment: mono, uppercase, tracked wide */
+  .sc{font-family:var(--font-mono);font-size:var(--t-micro);font-weight:600;
     text-transform:uppercase;letter-spacing:var(--tr-wide);line-height:1.4}
 
-  /* the two hover gestures, named. Nothing gets both. */
+  /* the one hover gesture: push toward the shadow */
   .lift{transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .lift:hover{transform:translateY(-2px)}
+  .lift:hover{transform:translate(-2px,-2px)}
 
-  /* ===================== orchestrated page load =====================
-     ONE reveal, sequenced by an --i index. Not scattered micro-interactions:
-     every animated element on a view belongs to the same entrance. */
-
-  /* --- WO2 Task 2: page-specific hero-card content (same container, new fills) --- */
-  .hp-title{font-family:var(--font-display);font-size:20px;font-weight:750;letter-spacing:-.025em;
-    margin-top:var(--s4);line-height:1.2}
+  /* --- hero-card content --- */
+  .hp-title{font-family:var(--font-display);font-size:24px;font-weight:800;letter-spacing:.02em;
+    text-transform:uppercase;margin-top:var(--s4);line-height:1.1;color:#fff}
   .hp-steps{list-style:none;counter-reset:hp;margin-top:var(--s4);display:flex;
     flex-direction:column;gap:var(--s4)}
   .hp-steps li{counter-increment:hp;position:relative;padding-left:var(--s7);
     font-size:13.5px;line-height:1.6;color:var(--navy-100)}
-  .hp-steps li::before{content:counter(hp);position:absolute;left:0;top:-1px;
-    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
-    font-family:var(--font-display);font-size:12px;font-weight:800;color:var(--electric);
-    border:1.5px solid rgba(0,194,255,.45);background:rgba(0,194,255,.10)}
+  .hp-steps li::before{content:"0" counter(hp);position:absolute;left:0;top:1px;
+    width:30px;height:22px;display:grid;place-items:center;
+    font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--steel);
+    background:var(--safety)}
   .hp-steps li b{color:#fff;font-weight:700}
-  .hp-steps .cyc{background:rgba(0,194,255,.16);color:#9FE4FF;box-shadow:none}
+  .hp-steps .cyc{background:rgba(255,77,0,.18);color:#FFB182;box-shadow:none}
   .hp-bars{list-style:none;margin-top:var(--s4);display:flex;flex-direction:column;gap:var(--s3)}
   .hp-bar{display:grid;grid-template-columns:64px minmax(0,1fr) 30px;align-items:center;gap:var(--s3)}
-  .hp-bar-l{font-size:12.5px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .hp-bar-t{height:8px;background:rgba(179,205,224,.18);border-radius:99px;overflow:hidden}
-  .hp-bar-t>span{display:block;height:100%;border-radius:99px;
-    background:linear-gradient(90deg,var(--electric-deep),var(--electric));
-    box-shadow:0 0 10px rgba(0,194,255,.5);transform-origin:left;
-    animation:barGrow 900ms var(--ease-out) both;animation-delay:260ms}
-  .hp-bar-n{font-size:12px;font-weight:800;color:var(--navy-100);text-align:right;
-    font-variant-numeric:tabular-nums}
+  .hp-bar-l{font-family:var(--font-mono);font-size:11.5px;font-weight:600;color:#fff;white-space:nowrap}
+  .hp-bar-t{height:12px;background:rgba(233,229,216,.14);border:1px solid rgba(233,229,216,.25);overflow:hidden}
+  .hp-bar-t>span{display:block;height:100%;
+    background:var(--safety);transform-origin:left;
+    animation:barGrow 700ms var(--ease-out) both;animation-delay:260ms}
+  .hp-bar-n{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--navy-100);text-align:right}
 
-  /* coverage panel inside the methodology section */
+  /* coverage panel inside methodology */
   .coverpanel{padding:var(--s7);margin:var(--sec-y-sm) 0}
   .cov-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s6);margin:var(--s6) 0 var(--s5)}
-  .cov-cell b{display:block;font-family:var(--font-display);font-size:clamp(30px,3.4vw,46px);font-weight:850;
-    letter-spacing:var(--tr-tight);line-height:1;font-variant-numeric:tabular-nums;
-    background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .cov-cell>span{display:block;margin-top:var(--s3);font-size:var(--t-micro);font-weight:800;
+  .cov-cell b{display:block;font-family:var(--font-display);font-size:clamp(38px,4.2vw,64px);font-weight:800;
+    letter-spacing:.01em;line-height:1;font-variant-numeric:tabular-nums;color:var(--safety)}
+  .cov-cell>span{display:block;margin-top:var(--s3);font-family:var(--font-mono);font-size:var(--t-micro);font-weight:600;
     text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--navy-100)}
-  .coverpanel .heropanel-meta{border-top:1px solid rgba(179,205,224,.22);padding-top:var(--s4);margin-top:0}
+  .coverpanel .heropanel-meta{border-top:1px dashed rgba(233,229,216,.3);padding-top:var(--s4);margin-top:0}
   .coverpanel .heropanel-meta b{color:#fff}
 
   /* footer socials */
   .social{display:flex;gap:var(--s5);align-items:center;flex-wrap:wrap}
-  .social a{font-weight:700;font-size:14px;color:var(--navy-700);text-decoration:none;
-    border-bottom:1.5px solid transparent;padding:6px 0;transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
-  .social a:hover{color:var(--navy-900);border-bottom-color:var(--electric)}
-  .foot-legal{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid rgba(1,31,75,.08);font-size:13.5px}
+  .social a{font-family:var(--font-mono);font-weight:600;font-size:12.5px;text-transform:uppercase;
+    letter-spacing:var(--tr-chip);color:var(--ink);text-decoration:none;
+    border-bottom:2px solid transparent;padding:6px 0;transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
+  .social a:hover{color:var(--safety-deep);border-bottom-color:var(--safety)}
+  .foot-legal{margin-top:var(--s5);padding-top:var(--s5);border-top:1px solid var(--hair);font-size:13.5px}
 
   @media (max-width:1024px){ .cov-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
   @media (max-width:768px){
-    .coverpanel{padding:var(--s5);border-radius:var(--r-lg)}
+    .coverpanel{padding:var(--s5)}
     .cov-grid{gap:var(--s4)}
     .hp-bar{grid-template-columns:56px minmax(0,1fr) 26px}
     .social a{min-height:44px;display:inline-flex;align-items:center}
   }
 
-  /* ===== WO2 Task 3 — Chance Me =====
-     THE governing rule: an estimate must never be mistakable for a sourced figure.
-     Sourced = Archivo, heavy, tabular-nums, navy/white on dark.
-     Estimate = Inter, medium, PROPORTIONAL figures, violet, dashed container. */
-  .profcard{background:var(--surface);border-radius:var(--r-lg);
-    padding:var(--s7);margin-bottom:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
+  /* ===== Chance Me =====
+     Sourced = display face, heavy, ink. Estimate = mono, violet, dashed. */
+  .profcard{background:var(--surface);border:var(--line);
+    padding:var(--s7);margin-bottom:var(--s5);box-shadow:var(--e2)}
   .prof-head{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap}
-  .prof-head h2{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
-    letter-spacing:var(--tr-snug);color:var(--navy-900)}
-  .prof-sub{font-size:13.5px;color:var(--navy-700);line-height:1.6;margin-top:var(--s2);max-width:70ch}
+  .prof-head h2{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:800;
+    letter-spacing:var(--tr-snug);color:var(--ink)}
+  .prof-sub{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin-top:var(--s2);max-width:70ch}
   .prof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s4);margin-top:var(--s5)}
   .prof-f{display:flex;flex-direction:column;gap:6px}
-  .prof-f>span{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800}
-  .prof-f input,.prof-f select{width:100%;padding:var(--s3) var(--s4);border:none;
-    border-radius:var(--r-sm);font:inherit;font-size:15px;color:var(--ink);background:var(--surface);
-    min-height:44px;box-shadow:var(--edge-strong),var(--lift),var(--e1);
+  .prof-f>span{font-family:var(--font-mono);font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted);font-weight:600}
+  .prof-f input,.prof-f select{width:100%;padding:var(--s3) var(--s4);border:var(--line);
+    font-family:var(--font-mono);font-size:14px;color:var(--ink);background:#FBF9F1;
+    min-height:44px;box-shadow:none;
     transition:box-shadow var(--t-fast) var(--ease)}
-  .prof-f input:hover,.prof-f select:hover{box-shadow:var(--edge-strong),var(--lift),var(--e2)}
-  .prof-f input:focus,.prof-f select:focus{outline:none;box-shadow:var(--glow),var(--e2)}
-  .est-badge{font-size:10px;font-weight:800;letter-spacing:var(--tr-wide);text-transform:uppercase;
-    padding:3px 9px;border-radius:999px;background:var(--estimate-soft);color:var(--estimate);
-    box-shadow:inset 0 0 0 1px var(--estimate-line)}
-  .est-wrap{margin-top:var(--s4);padding-top:var(--s4);border-top:1px dashed rgba(1,31,75,.14)}
-  .est-empty,.est-suppressed{font-size:13px;color:var(--navy-700);line-height:1.6;
-    background:var(--surface-2);border:1px solid rgba(1,31,75,.07);border-radius:var(--r-sm);padding:var(--s3) var(--s4)}
-  .est-src{font-size:11.5px;font-weight:700;color:var(--navy-500);text-decoration:none;white-space:nowrap}
-  .est-src:hover{text-decoration:underline}
+  .prof-f input:hover,.prof-f select:hover{box-shadow:var(--e1)}
+  .prof-f input:focus,.prof-f select:focus{outline:none;box-shadow:var(--glow)}
+  .est-badge{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:var(--tr-chip);text-transform:uppercase;
+    padding:3px 9px;background:var(--estimate-soft);color:var(--estimate);
+    box-shadow:inset 0 0 0 1px var(--estimate)}
+  .est-wrap{margin-top:var(--s4);padding-top:var(--s4);border-top:1px dashed rgba(22,19,14,.3)}
+  .est-empty,.est-suppressed{font-size:13px;color:var(--ink-soft);line-height:1.6;
+    background:var(--surface-2);border:1px solid var(--hair);padding:var(--s3) var(--s4)}
+  .est-src{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;
+    border-bottom:1px solid var(--safety)}
+  .est-src:hover{color:var(--safety-deep)}
   .est-gates{list-style:none;display:flex;flex-direction:column;gap:var(--s2);margin-bottom:var(--s3)}
-  .est-gates li{display:flex;gap:var(--s2);font-size:13px;line-height:1.55;padding:var(--s2) var(--s3);border-radius:var(--r-sm)}
-  .est-gates .g-hard{background:#FDF2F2;color:#8A2020;box-shadow:inset 0 0 0 1px rgba(138,32,32,.16)}
-  .est-gates .g-info{background:var(--surface-2);color:var(--navy-700);box-shadow:inset 0 0 0 1px rgba(1,31,75,.07)}
+  .est-gates li{display:flex;gap:var(--s2);font-size:13px;line-height:1.55;padding:var(--s2) var(--s3)}
+  .est-gates .g-hard{background:#F4DBD3;color:#7A1E00;box-shadow:inset 0 0 0 1px rgba(122,30,0,.35)}
+  .est-gates .g-info{background:var(--surface-2);color:var(--ink-soft);box-shadow:inset 0 0 0 1px var(--hair)}
   .est-cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--s3);margin-bottom:var(--s3)}
-  .est-cmp>div{background:var(--surface-2);border-radius:var(--r-sm);padding:var(--s4);
-    box-shadow:var(--edge),var(--lift)}
-  .est-cmp b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800}
-  .est-cmp span{display:block;margin-top:3px;font-size:16px;font-weight:700;color:var(--navy-900);font-variant-numeric:tabular-nums}
+  .est-cmp>div{background:var(--surface-2);padding:var(--s4);
+    box-shadow:inset 0 0 0 1px var(--hair)}
+  .est-cmp b{display:block;font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted);font-weight:600}
+  .est-cmp span{display:block;margin-top:3px;font-size:16px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
   .est-cmp i{display:block;margin-top:2px;font-size:11px;font-style:normal;color:var(--muted);font-weight:600}
-  .estimate{background:var(--estimate-soft);border:1.5px dashed var(--estimate-line);
-    border-radius:var(--r-md);padding:var(--s4)}
-  .est-label{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;font-size:10.5px;font-weight:800;
+  .estimate{background:var(--estimate-soft);border:2px dashed var(--estimate);
+    padding:var(--s4)}
+  .est-label{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;font-family:var(--font-mono);font-size:10px;font-weight:600;
     text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--estimate)}
-  .est-dot{width:7px;height:7px;border-radius:50%;background:var(--estimate);flex:none}
-  .est-range{margin-top:6px;font-family:var(--font-ui);font-size:19px;font-weight:600;
-    color:var(--estimate);letter-spacing:-.005em;font-variant-numeric:proportional-nums}
-  /* WO3 Task 2 — the confidence tier, stated on the estimate itself. A peer-derived
-     estimate is marked structurally (chip + statement + a visibly wider range), never
-     by a footnote. Both tiers stay inside the violet/dashed estimate identity so
-     neither can be mistaken for a sourced figure. */
-  .est-tierchip{margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:var(--tr-chip);
-    text-transform:uppercase;padding:2px 7px;border-radius:999px;
-    background:rgba(109,74,166,.12);color:var(--estimate)}
-  .est-tier{margin-top:var(--s3);font-size:12px;line-height:1.6;color:var(--navy-700);
-    padding:var(--s3);border-radius:var(--r-sm);background:rgba(255,255,255,.6);
-    box-shadow:inset 0 0 0 1px rgba(109,74,166,.18)}
+  .est-dot{width:8px;height:8px;background:var(--estimate);flex:none}
+  .est-range{margin-top:6px;font-family:var(--font-mono);font-size:19px;font-weight:600;
+    color:var(--estimate);letter-spacing:0;font-variant-numeric:proportional-nums}
+  .est-tierchip{margin-left:auto;font-family:var(--font-mono);font-size:9.5px;font-weight:600;letter-spacing:var(--tr-chip);
+    text-transform:uppercase;padding:2px 7px;
+    background:rgba(91,52,184,.14);color:var(--estimate)}
+  .est-tier{margin-top:var(--s3);font-size:12px;line-height:1.6;color:var(--ink-soft);
+    padding:var(--s3);background:rgba(251,249,241,.7);
+    box-shadow:inset 0 0 0 1px var(--estimate-line)}
   .est-tier b{display:block;color:var(--estimate);font-weight:800;font-size:11px;
     text-transform:uppercase;letter-spacing:var(--tr-chip);margin-bottom:3px}
-  .est-tier-peer{background:rgba(109,74,166,.09);box-shadow:inset 0 0 0 1px var(--estimate-line)}
-  .estimate-peer{border-style:dashed;border-width:2px}
+  .est-tier-peer{background:rgba(91,52,184,.08);box-shadow:inset 0 0 0 1px var(--estimate-line)}
+  .estimate-peer{border-style:dashed;border-width:3px}
   .estimate-peer .est-range{letter-spacing:0}
   .est-stale{display:inline-flex;align-items:center;gap:var(--s2);margin-top:var(--s2);
-    font-size:12px;color:#7A5610;font-weight:600;flex-wrap:wrap}
+    font-size:12px;color:var(--amber);font-weight:600;flex-wrap:wrap}
   .est-break{margin-top:var(--s3);border-top:1px dashed var(--estimate-line);padding-top:var(--s2)}
-  .est-break summary{cursor:pointer;font-size:12px;font-weight:750;color:var(--estimate);
+  .est-break summary{cursor:pointer;font-family:var(--font-mono);font-size:11.5px;font-weight:600;color:var(--estimate);
+    text-transform:uppercase;letter-spacing:var(--tr-chip);
     padding:var(--s2) 0;min-height:44px;display:flex;align-items:center;list-style:none}
   .est-break summary::-webkit-details-marker{display:none}
   .est-break summary::before{content:"\25b8";display:inline-block;margin-right:var(--s2);transition:transform var(--t-mid) var(--ease)}
   .est-break[open] summary::before{transform:rotate(90deg)}
-  .est-model{font-size:12.5px;color:var(--navy-700);line-height:1.6;margin-bottom:var(--s3)}
+  .est-model{font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:var(--s3)}
   .est-table{width:100%;border-collapse:collapse;font-size:12px}
-  .est-table td{padding:6px 0;border-top:1px solid rgba(109,74,166,.16);vertical-align:top;color:var(--navy-700)}
-  .est-table td:nth-child(2){text-align:right;font-weight:700;color:var(--navy-900);white-space:nowrap;padding-left:var(--s3)}
+  .est-table td{padding:6px 0;border-top:1px solid rgba(91,52,184,.22);vertical-align:top;color:var(--ink-soft)}
+  .est-table td:nth-child(2){text-align:right;font-weight:700;color:var(--ink);white-space:nowrap;padding-left:var(--s3)}
   .est-table td:last-child{text-align:right;white-space:nowrap;padding-left:var(--s3);width:1%}
-  .est-tag-src,.est-tag-you,.est-tag-calc,.est-tag-own{font-size:9.5px;font-weight:800;text-transform:uppercase;
-    letter-spacing:.09em;padding:2px 6px;border-radius:4px}
-  .est-tag-src{background:#E7F3EC;color:var(--verified)}
-  .est-tag-you{background:var(--tint);color:var(--navy-500)}
-  .est-tag-calc{background:#F1EFEC;color:var(--dim-ink)}
+  .est-tag-src,.est-tag-you,.est-tag-calc,.est-tag-own{font-family:var(--font-mono);font-size:9px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.08em;padding:2px 6px}
+  .est-tag-src{background:var(--stamp-tint);color:var(--stamp)}
+  .est-tag-you{background:var(--safety-tint);color:var(--safety-deep)}
+  .est-tag-calc{background:var(--surface-sunk);color:var(--dim-ink)}
   .est-tag-own{background:var(--estimate-soft);color:var(--estimate);box-shadow:inset 0 0 0 1px var(--estimate-line)}
-  .est-disc{margin-top:var(--s3);font-size:11.5px;line-height:1.6;color:var(--navy-700);
-    background:rgba(109,74,166,.07);border-radius:var(--r-sm);padding:var(--s3)}
+  .est-disc{margin-top:var(--s3);font-size:11.5px;line-height:1.6;color:var(--ink-soft);
+    background:rgba(91,52,184,.07);padding:var(--s3)}
   .est-bands{display:flex;flex-wrap:wrap;gap:var(--s2);margin:var(--s3) 0}
-  .est-bands span{font-size:12px;font-weight:600;color:var(--estimate);background:var(--estimate-soft);
-    border:1px solid var(--estimate-line);border-radius:var(--r-sm);padding:4px 9px;white-space:nowrap}
-  .est-bands b{font-weight:800;margin-right:5px}
+  .est-bands span{font-family:var(--font-mono);font-size:11.5px;font-weight:500;color:var(--estimate);background:var(--estimate-soft);
+    border:1px solid var(--estimate-line);padding:4px 9px;white-space:nowrap}
+  .est-bands b{font-weight:700;margin-right:5px}
   @media (max-width:768px){
     .profcard{padding:var(--s5)}
     .est-cmp{grid-template-columns:1fr}
     .est-table td:first-child{white-space:normal}
   }
 
-  @keyframes riseIn{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
+  @keyframes riseIn{from{opacity:0;transform:translate3d(0,16px,0)}60%{opacity:1}to{opacity:1;transform:none}}
   @keyframes wipeIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
   @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  .rv{animation:riseIn 680ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 62ms)}
-  .rv-wipe{animation:wipeIn 780ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 62ms)}
+  @keyframes stampIn{0%{opacity:0;transform:scale(1.5) rotate(-6deg)}
+    62%{opacity:1;transform:scale(.95) rotate(-2deg)}
+    100%{opacity:1;transform:scale(1) rotate(-2deg)}}
+  .rv{animation:riseIn 460ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 55ms)}
+  .rv-wipe{animation:wipeIn 640ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 55ms)}
 
-  /* ---------- header ---------- */
+  /* ---------- header: a specimen drawer label ---------- */
   header{position:sticky;top:0;z-index:40;
-    background:rgba(250,248,244,.78);backdrop-filter:blur(14px) saturate(140%);
-    border-bottom:1px solid rgba(1,31,75,.08)}
-  .bar{display:flex;align-items:center;justify-content:space-between;height:72px;gap:var(--s5)}
-  .logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;color:var(--navy-900);
-    font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.03em;
-    font-variation-settings:'wdth' 112;flex-shrink:0}
-  nav{display:flex;gap:var(--s6);align-items:center;font-size:14.5px;font-weight:600;
+    background:var(--paper);
+    border-bottom:var(--line)}
+  header::after{content:"";display:block;height:4px;background:var(--hazard);opacity:.85}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:68px;gap:var(--s5)}
+  .logo{display:flex;align-items:center;gap:var(--s3);text-decoration:none;color:var(--ink);
+    font-family:var(--font-display);font-weight:800;font-size:23px;letter-spacing:.03em;
+    text-transform:uppercase;flex-shrink:0}
+  nav{display:flex;gap:var(--s5);align-items:center;
+    font-family:var(--font-mono);font-size:12.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;
     min-width:0;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
   nav::-webkit-scrollbar{display:none}
-  nav a{text-decoration:none;color:var(--navy-700);position:relative;padding:6px 0;
-    white-space:nowrap;transition:color 140ms var(--ease)}
-  nav a:hover{color:var(--navy-900)}
-  nav a.tab::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
-    background:var(--electric);border-radius:2px;transform:scaleX(0);transform-origin:left;
+  nav a{text-decoration:none;color:var(--ink-soft);position:relative;padding:6px 2px;
+    white-space:nowrap;transition:color 120ms var(--ease),background 120ms var(--ease)}
+  nav a:hover{color:var(--ink)}
+  nav a.tab::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:3px;
+    background:var(--safety);transform:scaleX(0);transform-origin:left;
     transition:transform var(--t-mid) var(--ease)}
-  nav a.tab:hover::after{transform:scaleX(.4)}
-  nav a.tab.on{color:var(--navy-900);font-weight:700}
-  nav a.tab.on::after{transform:scaleX(1);box-shadow:0 0 12px rgba(0,194,255,.7)}
+  nav a.tab:hover::after{transform:scaleX(.45)}
+  nav a.tab.on{color:var(--ink);font-weight:700}
+  nav a.tab.on::after{transform:scaleX(1)}
   .navlinks{display:flex;gap:var(--s5);align-items:center}
 
-  .btn{display:inline-block;background:var(--navy-500);color:#fff !important;
-    padding:var(--s3) var(--s5);border-radius:var(--r-sm);border:none;font:inherit;
-    font-weight:650;font-size:14.5px;cursor:pointer;text-decoration:none;
+  .btn{display:inline-block;background:var(--ink);color:var(--paper) !important;
+    padding:var(--s3) var(--s5);border:var(--line);font-family:var(--font-mono);
+    font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+    cursor:pointer;text-decoration:none;box-shadow:var(--e1);
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease),
       background var(--t-fast) var(--ease)}
-  .btn:hover{background:var(--navy-700);transform:translateY(-2px);box-shadow:var(--e3)}
-  .btn:active{transform:translateY(0)}
+  .btn:hover{background:var(--safety-deep);transform:translate(-2px,-2px);box-shadow:var(--e3)}
+  .btn:active{transform:translate(1px,1px);box-shadow:none}
 
-  /* ===================== asymmetric hero ===================== */
+  /* ===================== hero ===================== */
   .hero{padding-block:var(--sec-y) var(--sec-y-sm)}
   .hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
     gap:var(--s8);align-items:start}
   .eyebrow{display:inline-flex;align-items:center;gap:var(--s3);
-    font-family:var(--font-ui);font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
-    letter-spacing:var(--tr-wide);color:var(--navy-500);margin-bottom:var(--s5)}
-  .eyebrow::before{content:"";width:32px;height:2px;background:var(--electric);border-radius:2px;
-    box-shadow:0 0 10px rgba(0,194,255,.8)}
-  .hero h1{font-size:var(--t-display-1);font-weight:850;letter-spacing:var(--tr-tight);
-    color:var(--navy-900);line-height:.94;font-variation-settings:'wdth' 118;text-wrap:balance;
+    font-family:var(--font-mono);font-size:var(--t-micro);font-weight:600;text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--ink);margin-bottom:var(--s5);
+    border:var(--line-1);padding:7px 12px;background:var(--surface);box-shadow:var(--e1)}
+  .eyebrow::before{content:"";width:10px;height:10px;background:var(--safety);flex:none}
+  .hero h1{font-size:var(--t-display-1);font-weight:800;letter-spacing:var(--tr-tight);
+    color:var(--ink);line-height:.92;text-wrap:balance;
     max-width:min(100%,13em)}
-  .hero h1 em{font-style:normal;
-    background:linear-gradient(96deg,var(--navy-500),var(--electric-deep) 55%,var(--electric));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero h1 em{font-style:normal;color:var(--safety-deep);
+    background:linear-gradient(0deg, rgba(255,77,0,.16) 0 32%, transparent 32%)}
   .hero p.sub{margin-top:var(--s6);max-width:52ch;font-size:var(--t-lead);
-    color:var(--navy-700);line-height:1.68;letter-spacing:-.006em}
+    color:var(--ink-soft);line-height:1.68}
   .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
     gap:var(--s6) var(--s7);margin-top:var(--sec-y-sm);max-width:min(100%,520px)}
-  .stat b{display:block;font-family:var(--font-display);font-size:clamp(28px,2.9vw,42px);
-    font-weight:850;color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1;
-    font-variation-settings:'wdth' 112;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .stat>span{display:block;margin-top:var(--s2);font-size:var(--t-micro);color:var(--muted);
-    font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide)}
+  .stat{border-top:3px solid var(--ink);padding-top:var(--s3)}
+  .stat b{display:block;font-family:var(--font-display);font-size:clamp(34px,3.4vw,52px);
+    font-weight:800;color:var(--ink);letter-spacing:.01em;line-height:1;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  .stat>span{display:block;margin-top:var(--s2);font-family:var(--font-mono);font-size:var(--t-micro);color:var(--muted);
+    font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-wide)}
 
-  /* the hero's right column: a dark provenance panel. High contrast against the
-     paper ground, and it shows the actual differentiator rather than describing it. */
+  /* the hero's right column: the dark provenance plate */
   .heropanel{padding:var(--s7);margin-top:var(--s5)}
-  .heropanel-k{display:flex;align-items:center;gap:var(--s2);font-size:var(--t-micro);
-    font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--electric)}
-  .heropanel-school{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
-    letter-spacing:var(--tr-snug);margin-top:var(--s5);line-height:1.15;font-variation-settings:'wdth' 108}
+  .heropanel-k{display:flex;align-items:center;gap:var(--s2);font-family:var(--font-mono);font-size:var(--t-micro);
+    font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--safety)}
+  .heropanel-school{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
+    text-transform:uppercase;letter-spacing:.015em;margin-top:var(--s5);line-height:1.06;color:#fff}
   .heropanel-rate{display:flex;align-items:baseline;gap:var(--s4);margin-top:var(--s5)}
-  .heropanel-rate b{font-family:var(--font-display);font-size:clamp(48px,5.6vw,74px);font-weight:850;
-    letter-spacing:-.05em;line-height:.88;font-variant-numeric:tabular-nums;
-    background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .heropanel-rate>span{font-size:var(--t-meta);color:var(--navy-100);font-weight:600}
-  .heropanel-meta{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid rgba(179,205,224,.22);
-    font-size:13px;color:var(--navy-100);line-height:1.6}
-  .heropanel-meta a{color:#fff;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4);
-    overflow-wrap:anywhere;transition:color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
-  .heropanel-meta a:hover{border-bottom-color:var(--electric);color:var(--electric)}
+  .heropanel-rate b{font-family:var(--font-display);font-size:clamp(56px,6.4vw,92px);font-weight:800;
+    letter-spacing:.01em;line-height:.88;font-variant-numeric:tabular-nums;color:var(--safety)}
+  .heropanel-rate>span{font-family:var(--font-mono);font-size:11.5px;color:var(--navy-100);font-weight:500}
+  .heropanel-meta{margin-top:var(--s6);padding-top:var(--s5);border-top:1px dashed rgba(233,229,216,.3);
+    font-size:13px;color:var(--navy-100);line-height:1.6;padding-bottom:var(--s2)}
+  .heropanel-meta a{color:#fff;font-weight:600;text-decoration:none;border-bottom:2px solid var(--safety);
+    overflow-wrap:anywhere;transition:color var(--t-fast) var(--ease)}
+  .heropanel-meta a:hover{color:var(--safety)}
 
-  /* ---------- controls ----------
-     WO3: every control is an L2 surface (highlight + hairline + shadow), not a stroke.
-     The focus ring therefore reads far stronger against the resting state than it did. */
+  /* ---------- controls: instrument panel ---------- */
   .controls{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center;
     margin:var(--sec-y-sm) 0 var(--s5)}
   .search{flex:1 1 280px;min-width:220px;position:relative}
-  .search input{width:100%;padding:15px var(--s5) 15px 46px;border:none;
-    border-radius:var(--r-md);background:var(--surface);font:inherit;font-size:15px;color:var(--ink);
-    box-shadow:var(--edge-strong),var(--lift),var(--e1);
+  .search input{width:100%;padding:14px var(--s5) 14px 46px;border:var(--line);
+    background:#FBF9F1;font-family:var(--font-mono);font-size:14px;color:var(--ink);
+    box-shadow:var(--e1);
     transition:box-shadow var(--t-fast) var(--ease)}
-  .search input:hover{box-shadow:var(--edge-strong),var(--lift),var(--e2)}
-  .search input:focus{outline:none;box-shadow:var(--glow),var(--e2)}
+  .search input:hover{box-shadow:var(--e2)}
+  .search input:focus{outline:none;box-shadow:var(--glow)}
   .search input::placeholder{color:var(--dim-ink);opacity:1}
-  .search>svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
+  .search>svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.7;pointer-events:none}
   .chips{display:flex;gap:var(--s2);flex-wrap:wrap}
-  .chip{padding:12px var(--s5);border-radius:999px;border:none;
-    background:var(--surface);font:inherit;font-size:14px;font-weight:650;color:var(--navy-700);
-    cursor:pointer;box-shadow:var(--edge-strong),var(--lift),var(--e1);
+  .chip{padding:11px var(--s4);border:var(--line);
+    background:var(--surface);font-family:var(--font-mono);font-size:12px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;color:var(--ink);
+    cursor:pointer;box-shadow:var(--e1);
     transition:background var(--t-fast) var(--ease),color var(--t-fast) var(--ease),
       transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .chip:hover{background:var(--tint);transform:translateY(-2px);
-    box-shadow:var(--edge-strong),var(--lift),var(--e3)}
-  .chip.on{background:var(--navy-900);color:#fff;box-shadow:var(--e3)}
-  .chip.on:hover{background:var(--navy-800)}
-  .toggle{display:flex;align-items:center;gap:var(--s2);font-size:14px;font-weight:650;
-    color:var(--navy-700);cursor:pointer;user-select:none;padding:11px var(--s2);min-height:44px}
-  .toggle input{width:18px;height:18px;accent-color:var(--navy-500);cursor:pointer}
-  select{padding:13px var(--s4);border:none;border-radius:var(--r-md);
-    background:var(--surface);font:inherit;font-size:14px;font-weight:650;color:var(--navy-700);
-    cursor:pointer;box-shadow:var(--edge-strong),var(--lift),var(--e1);min-height:44px;
+  .chip:hover{background:var(--safety-tint);transform:translate(-1px,-1px);box-shadow:var(--e2)}
+  .chip.on{background:var(--ink);color:var(--paper);box-shadow:var(--e2)}
+  .chip.on:hover{background:var(--safety-deep)}
+  .toggle{display:flex;align-items:center;gap:var(--s2);font-family:var(--font-mono);font-size:12px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;
+    color:var(--ink-soft);cursor:pointer;user-select:none;padding:11px var(--s2);min-height:44px}
+  .toggle input{width:18px;height:18px;accent-color:var(--safety-deep);cursor:pointer}
+  select{padding:12px var(--s4);border:var(--line);
+    background:var(--surface);font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--ink);
+    cursor:pointer;box-shadow:var(--e1);min-height:44px;
     transition:box-shadow var(--t-fast) var(--ease)}
-  select:hover{box-shadow:var(--edge-strong),var(--lift),var(--e2)}
-  select:focus{outline:none;box-shadow:var(--glow),var(--e2)}
-  .count{font-size:var(--t-micro);color:var(--muted);font-weight:800;margin-left:auto;
+  select:hover{box-shadow:var(--e2)}
+  select:focus{outline:none;box-shadow:var(--glow)}
+  .count{font-family:var(--font-mono);font-size:var(--t-micro);color:var(--muted);font-weight:600;margin-left:auto;
     text-transform:uppercase;letter-spacing:var(--tr-wide);font-variant-numeric:tabular-nums}
 
   /* ---------- autocomplete ---------- */
   .ac{position:relative;flex:1;min-width:240px}
-  .ac input{width:100%;padding:17px var(--s5) 17px 50px;border:none;
-    border-radius:var(--r-lg);background:var(--surface);font:inherit;font-size:16px;color:var(--ink);
-    box-shadow:var(--edge-strong),var(--lift),var(--e2);
+  .ac input{width:100%;padding:16px var(--s5) 16px 50px;border:var(--line);
+    background:#FBF9F1;font-family:var(--font-mono);font-size:16px;color:var(--ink);
+    box-shadow:var(--e2);
     transition:box-shadow var(--t-fast) var(--ease)}
-  .ac input:hover{box-shadow:var(--edge-strong),var(--lift),var(--e3)}
-  .ac input:focus{outline:none;box-shadow:var(--glow),var(--e3)}
+  .ac input:hover{box-shadow:var(--e3)}
+  .ac input:focus{outline:none;box-shadow:var(--glow)}
   .ac input::placeholder{color:var(--dim-ink);opacity:1}
-  .ac>svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
-  .ac-menu{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--surface);
-    border-radius:var(--r-lg);box-shadow:var(--edge),var(--lift),var(--e4);
+  .ac>svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);opacity:.7;pointer-events:none}
+  .ac-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#FBF9F1;
+    border:var(--line);box-shadow:var(--e3);
     overflow:hidden;z-index:50;max-height:340px;overflow-y:auto}
   .ac-item{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
-    padding:14px var(--s5);cursor:pointer;border-top:1px solid var(--hair);min-height:44px}
+    padding:13px var(--s5);cursor:pointer;border-top:1px solid var(--hair);min-height:44px}
   .ac-item:first-child{border-top:none}
-  .ac-item.active,.ac-item:hover{background:var(--tint)}
-  .ac-item b{font-weight:650;color:var(--navy-900);font-size:15px}
-  .ac-item .st{font-size:var(--t-meta);color:var(--muted);font-weight:600;white-space:nowrap}
+  .ac-item.active,.ac-item:hover{background:var(--safety-tint)}
+  .ac-item b{font-weight:650;color:var(--ink);font-size:15px}
+  .ac-item .st{font-family:var(--font-mono);font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap}
   .ac-empty{padding:var(--s5);color:var(--dim-ink);font-size:14px}
 
-  /* ---------- table ---------- */
-  .tablecard{background:var(--surface);border-radius:var(--r-lg);
-    box-shadow:var(--edge),var(--lift),var(--e2)}
+  /* ---------- the ledger table ---------- */
+  .tablecard{background:var(--surface);border:var(--line);box-shadow:var(--e3)}
   table{width:100%;border-collapse:separate;border-spacing:0}
   thead th{position:sticky;top:72px;z-index:5;
-    background:linear-gradient(180deg,var(--navy-900),var(--navy-800));
-    color:#fff;font-family:var(--font-ui);font-size:var(--t-micro);text-transform:uppercase;
-    letter-spacing:var(--tr-wide);font-weight:800;padding:var(--s5) var(--s4);text-align:right;
-    white-space:nowrap}
-  thead th:first-child{text-align:left;padding-left:var(--s6);border-top-left-radius:17px}
-  thead th:last-child{border-top-right-radius:17px}
+    background:var(--ink);
+    color:var(--paper);font-family:var(--font-mono);font-size:var(--t-micro);text-transform:uppercase;
+    letter-spacing:var(--tr-wide);font-weight:600;padding:var(--s4);text-align:right;
+    white-space:nowrap;border-bottom:3px solid var(--safety)}
+  thead th:first-child{text-align:left;padding-left:var(--s6)}
   thead th.l{text-align:left}
-  tbody tr:last-child td:first-child{border-bottom-left-radius:17px}
-  tbody tr:last-child td:last-child{border-bottom-right-radius:17px}
   tbody td{padding:var(--s5) var(--s4);border-top:1px solid var(--hair);text-align:right;
-    font-size:14.5px;vertical-align:middle;font-variant-numeric:tabular-nums;color:var(--navy-700)}
+    font-size:14.5px;vertical-align:middle;font-variant-numeric:tabular-nums;color:var(--ink-soft)}
   tbody td:first-child{text-align:left;padding-left:var(--s6)}
   tbody td.l{text-align:left}
 
-  /* rows use the RAIL gesture, never LIFT — they are scan targets and must not move */
+  /* rows use the RAIL gesture - scan targets must not move */
   tbody tr.row{cursor:pointer}
   tbody tr.row td{transition:background var(--t-fast) var(--ease)}
-  tbody tr.row td:first-child{box-shadow:inset 3px 0 0 transparent;
+  tbody tr.row td:first-child{box-shadow:inset 4px 0 0 transparent;
     transition:box-shadow var(--t-mid) var(--ease),background var(--t-fast) var(--ease)}
-  tbody tr.row:hover td{background:var(--surface-2)}
-  tbody tr.row:hover td:first-child{box-shadow:inset 3px 0 0 var(--electric)}
+  tbody tr.row:hover td{background:#FBF9F1}
+  tbody tr.row:hover td:first-child{box-shadow:inset 4px 0 0 var(--safety)}
   tbody tr.row.open td{background:var(--surface-sunk)}
-  tbody tr.row.open td:first-child{box-shadow:inset 3px 0 0 var(--navy-500)}
+  tbody tr.row.open td:first-child{box-shadow:inset 4px 0 0 var(--ink)}
   tbody tr.row:focus{outline:none}
-  tbody tr.row:focus-visible{outline:var(--ring);outline-offset:-2px}
-  tbody tr.row:focus-visible td{background:var(--surface-2)}
-  tbody tr.row:focus-visible td:first-child{box-shadow:inset 3px 0 0 var(--electric)}
+  tbody tr.row:focus-visible{outline:var(--ring);outline-offset:-3px}
+  tbody tr.row:focus-visible td{background:#FBF9F1}
+  tbody tr.row:focus-visible td:first-child{box-shadow:inset 4px 0 0 var(--safety)}
 
-  .school{font-weight:650;font-size:var(--t-name);letter-spacing:-.012em;color:var(--navy-900);
+  .school{font-weight:650;font-size:var(--t-name);letter-spacing:0;color:var(--ink);
     display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;line-height:1.32;
     overflow-wrap:anywhere}
-  .meta{font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:.02em;margin-top:3px}
-  .tag{font-size:10px;font-weight:800;letter-spacing:var(--tr-chip);text-transform:uppercase;
-    padding:3px 8px;border-radius:5px;white-space:nowrap}
-  .tag.public{background:#DCEEFA;color:#0A5C8E;box-shadow:inset 0 0 0 1px rgba(0,113,184,.18)}
-  .tag.private{background:#F3E7DE;color:#7A4433;box-shadow:inset 0 0 0 1px rgba(122,68,51,.15)}
-  .tag.stale,.tag.note{background:#FBF3E4;color:#8A6410}
-  .tag.gap{background:#EFEDEA;color:var(--dim-ink)}
-  .tag.soon{background:var(--tint);color:var(--navy-500)}
+  .meta{font-family:var(--font-mono);font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.02em;margin-top:3px}
+  .tag{font-family:var(--font-mono);font-size:9.5px;font-weight:600;letter-spacing:var(--tr-chip);text-transform:uppercase;
+    padding:3px 7px;white-space:nowrap}
+  .tag.public{background:#D8E4EE;color:#1D3D5C;box-shadow:inset 0 0 0 1px rgba(29,61,92,.35)}
+  .tag.private{background:#EADFD2;color:#5A4636;box-shadow:inset 0 0 0 1px rgba(90,70,54,.35)}
+  .tag.stale,.tag.note{background:var(--amber-tint);color:var(--amber);box-shadow:inset 0 0 0 1px rgba(138,100,16,.3)}
+  .tag.gap{background:var(--surface-sunk);color:var(--dim-ink);box-shadow:inset 0 0 0 1px rgba(22,19,14,.18)}
+  .tag.soon{background:var(--safety-tint);color:var(--safety-deep);box-shadow:inset 0 0 0 1px rgba(214,58,0,.3)}
 
   /* the number leads */
   .ratewrap{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
   .ratecell{display:flex;align-items:center;gap:var(--s4);min-width:180px}
   .ratenum{font-family:var(--font-display);font-size:var(--t-rate);font-weight:800;
-    letter-spacing:-.035em;color:var(--navy-900);min-width:84px;text-align:right;line-height:1;
-    white-space:nowrap;font-variant-numeric:tabular-nums;font-variation-settings:'wdth' 104}
-  .track{flex:1;height:9px;background:rgba(1,31,75,.07);border-radius:99px;overflow:hidden;
-    box-shadow:inset 0 1px 2px rgba(1,31,75,.09)}
-  /* The FILL length is the rate, so a 4% school gets a 4px bar and its band colour is
-     invisible. Tinting the full-width TRACK carries the colour across every row without
-     touching what the bar actually encodes. */
-  .track.sel-1{background:rgba(1,31,75,.17)}
-  .track.sel-2{background:rgba(11,74,143,.17)}
-  .track.sel-3{background:rgba(0,113,184,.16)}
-  .track.sel-4{background:rgba(0,146,214,.16)}
-  .track.sel-5{background:rgba(38,180,238,.18)}
-  .track.sel-6{background:rgba(131,216,247,.28)}
-  .fill{height:100%;border-radius:99px;transform-origin:left;
-    background:linear-gradient(90deg,var(--electric-deep),var(--electric));
-    box-shadow:0 0 12px rgba(0,194,255,.55);
-    animation:barGrow 900ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 62ms + 120ms)}
-  /* the bar is now coloured by selectivity band — darkest is hardest to transfer into,
-     so a column of rows reads as a gradient and the hard schools are findable at a glance */
-  .fill.sel-1{background:linear-gradient(90deg,var(--sel-1),#0B3D74);box-shadow:0 0 10px rgba(1,31,75,.45)}
-  .fill.sel-2{background:linear-gradient(90deg,var(--sel-2),#1160AC);box-shadow:0 0 10px rgba(11,74,143,.45)}
-  .fill.sel-3{background:linear-gradient(90deg,var(--sel-3),#0086C9);box-shadow:0 0 10px rgba(0,113,184,.45)}
-  .fill.sel-4{background:linear-gradient(90deg,var(--sel-4),#12A6E4);box-shadow:0 0 11px rgba(0,146,214,.5)}
-  .fill.sel-5{background:linear-gradient(90deg,var(--sel-5),#5CCBF4);box-shadow:0 0 12px rgba(38,180,238,.5)}
-  .fill.sel-6{background:linear-gradient(90deg,var(--sel-6),#A8E6FA);box-shadow:0 0 12px rgba(131,216,247,.55)}
+    letter-spacing:.01em;color:var(--ink);min-width:84px;text-align:right;line-height:1;
+    white-space:nowrap;font-variant-numeric:tabular-nums}
+  .track{flex:1;height:12px;background:transparent;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(22,19,14,.4)}
+  .track.sel-1{background:rgba(22,19,14,.10)}
+  .track.sel-2{background:rgba(90,31,0,.10)}
+  .track.sel-3{background:rgba(158,48,0,.10)}
+  .track.sel-4{background:rgba(224,68,0,.10)}
+  .track.sel-5{background:rgba(255,122,51,.12)}
+  .track.sel-6{background:rgba(255,177,130,.16)}
+  .fill{height:100%;transform-origin:left;
+    background:var(--safety);
+    animation:barGrow 700ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 55ms + 100ms)}
+  /* selectivity heat: darkest is hardest to transfer into */
+  .fill.sel-1{background:var(--sel-1)}
+  .fill.sel-2{background:var(--sel-2)}
+  .fill.sel-3{background:var(--sel-3)}
+  .fill.sel-4{background:var(--sel-4)}
+  .fill.sel-5{background:var(--sel-5)}
+  .fill.sel-6{background:var(--sel-6)}
   .dim{color:var(--dim-ink)}
 
   /* ---------- cycle marker ---------- */
-  .cyc{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.05em;
-    padding:3px 8px;border-radius:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .cyc-current{background:var(--tint);color:var(--navy-500)}
-  .cyc-behind1{background:#FBF3E4;color:#8A6410}
-  .cyc-behind2{background:#F6E7C8;color:#7A5610;box-shadow:inset 0 0 0 1px rgba(183,121,31,.35)}
-  .cyc-unconfirmed{background:#EFEDEA;color:#5F5449;box-shadow:inset 0 0 0 1px rgba(110,73,62,.22)}
+  .cyc{display:inline-block;font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.05em;
+    padding:3px 7px;white-space:nowrap;font-variant-numeric:tabular-nums;text-transform:uppercase}
+  .cyc-current{background:var(--stamp-tint);color:var(--stamp);box-shadow:inset 0 0 0 1px rgba(22,107,56,.35)}
+  .cyc-behind1{background:var(--amber-tint);color:var(--amber);box-shadow:inset 0 0 0 1px rgba(138,100,16,.3)}
+  .cyc-behind2{background:#EBD3A8;color:#6B4A0D;box-shadow:inset 0 0 0 1px rgba(107,74,13,.45)}
+  .cyc-unconfirmed{background:var(--surface-sunk);color:#4A4436;box-shadow:inset 0 0 0 1px rgba(74,68,54,.35)}
   .cycline{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;font-size:13.5px;
-    color:var(--navy-700);margin-bottom:var(--s4);line-height:1.55}
+    color:var(--ink-soft);margin-bottom:var(--s4);line-height:1.55}
+  /* cycle chips on a dark plate: stencil outlines, not paper tints */
+  .dark .cyc-current,.statcard.hl .cyc-current{background:transparent;color:#7BD9A0;
+    box-shadow:inset 0 0 0 1px rgba(123,217,160,.55)}
+  .dark .cyc-behind1,.statcard.hl .cyc-behind1,
+  .dark .cyc-behind2,.statcard.hl .cyc-behind2{background:transparent;color:#FFCF7A;
+    box-shadow:inset 0 0 0 1px rgba(255,207,122,.5)}
+  .dark .cyc-unconfirmed,.statcard.hl .cyc-unconfirmed{background:transparent;color:#CFC8B4;
+    box-shadow:inset 0 0 0 1px rgba(207,200,180,.5)}
 
-  /* ---------- signature: provenance seal + receipt ---------- */
+  /* ---------- signature: the provenance stamp + receipt ---------- */
   .seal{display:inline-flex;align-items:center;gap:var(--s3);text-decoration:none;
-    color:var(--verified);white-space:nowrap;padding:6px 0;
+    color:var(--stamp);white-space:nowrap;padding:6px 0;
     transition:color var(--t-fast) var(--ease),transform var(--t-mid) var(--ease)}
-  .seal-ring{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
-    border:1.5px solid var(--verified);font-size:12px;font-weight:800;line-height:1;
-    transition:background 180ms var(--ease),color 180ms var(--ease),box-shadow 180ms var(--ease)}
+  .seal-ring{flex:none;width:24px;height:24px;display:grid;place-items:center;
+    border:2px solid var(--stamp);font-size:12px;font-weight:800;line-height:1;
+    transform:rotate(-2deg);
+    transition:background 140ms var(--ease),color 140ms var(--ease),transform 140ms var(--ease)}
   .seal-body{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
-  .seal-body b{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide)}
-  .seal-date{font-size:10.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+  .seal-body b{font-family:var(--font-mono);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-chip)}
+  .seal-date{font-family:var(--font-mono);font-size:9.5px;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
   .seal:hover{transform:translateY(-1px)}
-  .seal:hover .seal-ring{background:var(--verified);color:#fff;box-shadow:0 0 0 4px rgba(13,122,61,.14)}
+  .seal:hover .seal-ring{background:var(--stamp);color:var(--paper);transform:rotate(0deg)}
 
-  .receipt{position:relative;background:var(--surface);
-    border-left:3px solid var(--verified);border-radius:var(--r-md);padding:var(--s6);
-    margin-top:var(--s4);box-shadow:var(--edge),var(--lift),var(--e2)}
+  .receipt{position:relative;background:#FBF9F1;
+    border:var(--line);border-left:6px solid var(--stamp);padding:var(--s6);
+    margin-top:var(--s4);box-shadow:var(--e2)}
   .receipt>*{position:relative;z-index:1}
   .receipt-head{display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap;
-    padding-bottom:var(--s4);border-bottom:1px dashed rgba(1,31,75,.16)}
-  .receipt-head .seal-ring{width:30px;height:30px;font-size:15px}
-  .receipt-stamp{font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
-    letter-spacing:var(--tr-wide);color:var(--verified)}
-  .receipt-date{font-size:var(--t-meta);font-weight:650;color:var(--muted);
+    padding-bottom:var(--s4);border-bottom:1px dashed rgba(22,19,14,.35)}
+  .receipt-head .seal-ring{width:32px;height:32px;font-size:15px;
+    animation:stampIn 420ms var(--ease-out) both;animation-delay:180ms}
+  .receipt-stamp{font-family:var(--font-mono);font-size:var(--t-micro);font-weight:600;text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--stamp)}
+  .receipt-date{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--muted);
     font-variant-numeric:tabular-nums;margin-left:auto}
   .claim{padding-top:var(--s5)}
-  .claim-what{font-size:13.5px;font-weight:750;color:var(--navy-900);line-height:1.4}
+  .claim-what{font-size:13.5px;font-weight:750;color:var(--ink);line-height:1.4}
   .claim-src{display:flex;align-items:baseline;gap:var(--s2);margin-top:6px;padding-left:var(--s4);
     font-size:13.5px}
-  .claim-src::before{content:"└→";color:var(--navy-300);font-weight:700;flex:none;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
-  .claim-src a{font-weight:650;text-decoration:none;color:var(--navy-500);overflow-wrap:anywhere;
-    border-bottom:1px solid transparent;transition:border-color var(--t-fast) var(--ease)}
-  .claim-src a:hover{border-bottom-color:var(--navy-500)}
+  .claim-src::before{content:"└→";color:var(--safety-deep);font-weight:700;flex:none;
+    font-family:var(--font-mono);font-size:12px}
+  .claim-src a{font-weight:650;text-decoration:none;color:var(--ink);overflow-wrap:anywhere;
+    border-bottom:2px solid var(--safety);transition:color var(--t-fast) var(--ease)}
+  .claim-src a:hover{color:var(--safety-deep)}
   .claim-more{font-size:var(--t-meta);color:var(--muted);margin-top:var(--s2);padding-left:var(--s4);
     display:flex;align-items:center;flex-wrap:wrap;gap:var(--s1)}
   .claim-more a{display:inline-flex;align-items:center;justify-content:center;
-    min-width:32px;min-height:32px;border-radius:var(--r-sm);background:var(--tint);
-    color:var(--navy-500);font-weight:750;text-decoration:none}
-  .claim-more a:hover{background:var(--navy-100)}
-  .golink{white-space:nowrap;font-size:13.5px;font-weight:650;text-decoration:none;color:var(--navy-500);
+    min-width:32px;min-height:32px;background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--hair);
+    color:var(--ink);font-weight:750;text-decoration:none;font-family:var(--font-mono);font-size:12px}
+  .claim-more a:hover{background:var(--safety-tint);box-shadow:inset 0 0 0 1px var(--safety-deep)}
+  .golink{white-space:nowrap;font-size:13.5px;font-weight:650;text-decoration:none;color:var(--ink);
+    border-bottom:2px solid var(--safety);
     padding:6px 0;display:inline-block}
-  .golink:hover{text-decoration:underline}
+  .golink:hover{color:var(--safety-deep)}
 
   /* ---------- misc cells ---------- */
-  .dtype{display:block;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-chip)}
+  .dtype{display:block;font-family:var(--font-mono);font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-chip)}
   .nospring{color:var(--dim-ink);font-weight:600}
-  .subnum{display:block;font-size:var(--t-meta);color:var(--muted);font-weight:600;letter-spacing:0;text-transform:none}
+  .subnum{display:block;font-family:var(--font-mono);font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0;text-transform:none}
   .est{white-space:nowrap}
 
   /* ---------- empty states ---------- */
   .empty{padding:var(--s9) var(--s5);text-align:center}
   .empty h3{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
-    color:var(--navy-900);letter-spacing:var(--tr-snug);margin-bottom:var(--s4);text-wrap:balance}
-  .empty p{font-size:14.5px;color:var(--navy-700);max-width:46ch;margin:0 auto var(--s6);line-height:1.62}
+    color:var(--ink);letter-spacing:var(--tr-snug);margin-bottom:var(--s4);text-wrap:balance}
+  .empty p{font-size:14.5px;color:var(--ink-soft);max-width:46ch;margin:0 auto var(--s6);line-height:1.62}
 
   /* ---------- top-75 note ---------- */
-  .notrank{background:linear-gradient(180deg,var(--surface-2),transparent);
-    border-left:3px solid var(--navy-300);box-shadow:var(--edge);
-    border-radius:var(--r-md);padding:var(--s6);margin:var(--sec-y-sm) 0 0;
-    font-size:13.5px;color:var(--navy-700);line-height:1.7}
-  .notrank b{color:var(--navy-900)}
+  .notrank{background:var(--surface-2);
+    border:1px solid var(--hair);border-left:6px solid var(--ink);
+    padding:var(--s6);margin:var(--sec-y-sm) 0 0;
+    font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+  .notrank b{color:var(--ink)}
   @media (max-width:1000px){ .t75 .hidesm{display:none} }
 
   /* ---------- inline detail ---------- */
-  tr.detail td{background:var(--surface-sunk);border-top:1px dashed rgba(1,31,75,.2);
+  tr.detail td{background:var(--surface-sunk);border-top:2px dashed rgba(22,19,14,.35);
     padding:var(--s6);text-align:left}
-  tr.detail td>*{animation:riseIn 420ms var(--ease-out) both}
+  tr.detail td>*{animation:riseIn 320ms var(--ease-out) both}
   .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
     gap:var(--s5) var(--s6);margin-bottom:var(--s5)}
-  .dgrid b{display:block;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);
-    color:var(--muted);font-weight:800;margin-bottom:var(--s2)}
-  .dgrid div span{font-size:15px;font-weight:650;color:var(--navy-900)}
+  .dgrid b{display:block;font-family:var(--font-mono);font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);
+    color:var(--muted);font-weight:600;margin-bottom:var(--s2)}
+  .dgrid div span{font-size:15px;font-weight:650;color:var(--ink)}
   .foot-note{font-size:var(--t-meta);color:var(--muted);margin-top:var(--s3);line-height:1.6}
-  .hist{font-size:13.5px;color:var(--navy-700);margin-bottom:var(--s4)}
+  .hist{font-size:13.5px;color:var(--ink-soft);margin-bottom:var(--s4)}
   .detaillink{display:inline-block;margin-top:var(--s4);font-weight:750;font-size:13.5px;
-    text-decoration:none;padding:6px 0}
-  .detaillink:hover{text-decoration:underline}
+    text-decoration:none;padding:6px 0;border-bottom:2px solid var(--safety)}
+  .detaillink:hover{color:var(--safety-deep)}
 
   /* ---------- school page ---------- */
   .sp{padding-block:var(--sec-y-sm) var(--s4)}
-  .sp-back{display:inline-flex;align-items:center;gap:var(--s2);font-size:14px;font-weight:650;
-    text-decoration:none;color:var(--navy-500);margin-bottom:var(--s6);padding:8px 0;
-    transition:gap 180ms var(--ease)}
-  .sp-back:hover{gap:var(--s3);color:var(--navy-700)}
+  .sp-back{display:inline-flex;align-items:center;gap:var(--s2);font-family:var(--font-mono);font-size:12px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;
+    text-decoration:none;color:var(--ink);margin-bottom:var(--s6);padding:8px 0;
+    transition:gap 140ms var(--ease),color 140ms var(--ease)}
+  .sp-back:hover{gap:var(--s3);color:var(--safety-deep)}
   .sp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s6);
     flex-wrap:wrap;margin-bottom:var(--s2)}
-  .sp-head h1{font-size:clamp(34px,5.4vw,68px);font-weight:850;letter-spacing:var(--tr-tight);
-    color:var(--navy-900);line-height:.98;font-variation-settings:'wdth' 114;
+  .sp-head h1{font-size:clamp(40px,6.4vw,88px);font-weight:800;letter-spacing:.005em;
+    color:var(--ink);line-height:.94;
     max-width:18ch;text-wrap:balance;overflow-wrap:anywhere}
   .sp-chips{display:flex;gap:var(--s2);align-items:center;margin:var(--s4) 0 var(--s1);flex-wrap:wrap}
   .statcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
     gap:var(--s4);margin:var(--sec-y-sm) 0 var(--s5)}
-  /* L2 raised: highlight + hairline + shadow, no stroke */
-  .statcard{background:var(--surface);border-radius:var(--r-md);
-    padding:var(--s5) var(--s5) var(--s6);box-shadow:var(--edge),var(--lift),var(--e1);
+  .statcard{background:var(--surface);border:var(--line);
+    padding:var(--s5) var(--s5) var(--s6);box-shadow:var(--e1);
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .statcard:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
-  .statcard b{display:block;font-family:var(--font-display);font-size:clamp(28px,2.6vw,34px);
-    font-weight:850;color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1.02;
+  .statcard:hover{transform:translate(-2px,-2px);box-shadow:var(--e3)}
+  .statcard b{display:block;font-family:var(--font-display);font-size:clamp(32px,3vw,42px);
+    font-weight:800;color:var(--ink);letter-spacing:.01em;line-height:1.02;
     font-variant-numeric:tabular-nums}
-  .statcard>span{display:block;margin-bottom:var(--s3);font-size:var(--t-micro);color:var(--muted);
-    font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide)}
-  /* the rate is the loudest object on the page — L4 dark */
-  .statcard.hl{background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden}
-  .statcard.hl::before{content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:var(--grain);opacity:.06;mix-blend-mode:overlay}
+  .statcard>span{display:block;margin-bottom:var(--s3);font-family:var(--font-mono);font-size:var(--t-micro);color:var(--muted);
+    font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-wide)}
+  /* the rate is the loudest object on the page */
+  .statcard.hl{background:var(--dark-bg);box-shadow:var(--e4);overflow:hidden;border:var(--line)}
+  .statcard.hl::before{content:"";position:absolute;inset:auto 0 0 0;height:6px;
+    background:var(--hazard);opacity:.9}
   .statcard.hl{position:relative}
   .statcard.hl>*{position:relative}
-  .statcard.hl:hover{transform:translateY(-3px);box-shadow:var(--e4)}
-  .statcard.hl b{font-size:clamp(38px,4vw,50px);
-    background:linear-gradient(180deg,#fff,#9FE4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .statcard.hl:hover{transform:translate(-2px,-2px);box-shadow:var(--e4)}
+  .statcard.hl b{font-size:clamp(44px,4.6vw,60px);color:var(--safety)}
   .statcard.hl>span{color:var(--navy-100)}
   .statcard .cyc{margin-top:var(--s3)}
-  .sp-section{background:var(--surface);border-radius:var(--r-lg);
-    padding:var(--s7);margin-top:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
-  .sp-section h2{font-family:var(--font-ui);font-size:var(--t-micro);text-transform:uppercase;
-    letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800;margin-bottom:var(--s6);
-    display:flex;align-items:center;gap:var(--s2)}
+  .sp-section{background:var(--surface);border:var(--line);
+    padding:var(--s7);margin-top:var(--s5);box-shadow:var(--e2)}
+  .sp-section h2{font-family:var(--font-mono);font-size:var(--t-micro);text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--ink);font-weight:600;margin-bottom:var(--s6);
+    display:flex;align-items:center;gap:var(--s2);
+    border-bottom:3px solid var(--ink);padding-bottom:var(--s3)}
   .fieldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:var(--s6)}
-  .fieldgrid .f b{display:block;font-size:var(--t-micro);text-transform:uppercase;
-    letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800;margin-bottom:var(--s2)}
-  .fieldgrid .f span{font-size:15.5px;font-weight:650;color:var(--navy-900);overflow-wrap:anywhere}
+  .fieldgrid .f b{display:block;font-family:var(--font-mono);font-size:var(--t-micro);text-transform:uppercase;
+    letter-spacing:var(--tr-wide);color:var(--muted);font-weight:600;margin-bottom:var(--s2)}
+  .fieldgrid .f span{font-size:15.5px;font-weight:650;color:var(--ink);overflow-wrap:anywhere}
   .fieldgrid .f .sub{font-size:var(--t-meta);color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
-  .sp-hist{font-size:14px;color:var(--navy-700);margin-top:var(--s1)}
+  .sp-hist{font-size:14px;color:var(--ink-soft);margin-top:var(--s1)}
   .sp-hist div{padding:var(--s1) 0}
-  .notecard{background:var(--surface-2);border:1px solid rgba(1,31,75,.07);
-    border-left:3px solid var(--stale);border-radius:var(--r-sm);padding:var(--s4) var(--s5);
-    margin-top:var(--s4);font-size:13.5px;color:var(--navy-700);line-height:1.6}
-  .comingsoon{background:var(--tint);border:1px solid rgba(0,91,150,.18);border-radius:var(--r-md);
-    padding:var(--s5);font-size:14.5px;color:var(--navy-700)}
+  .notecard{background:var(--surface-2);border:1px solid var(--hair);
+    border-left:6px solid var(--amber);padding:var(--s4) var(--s5);
+    margin-top:var(--s4);font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+  .comingsoon{background:var(--safety-tint);border:1px dashed var(--safety-deep);
+    padding:var(--s5);font-size:14.5px;color:var(--ink-soft)}
 
   /* primary outbound action */
   .applycta{display:flex;align-items:center;justify-content:space-between;gap:var(--s6);
-    flex-wrap:wrap;margin-top:var(--s6);padding:var(--s7)}
+    flex-wrap:wrap;margin-top:var(--s6);padding:var(--s7) var(--s7) calc(var(--s7) + 8px)}
   .applycta-copy{flex:1;min-width:min(100%,260px)}
   .applycta-copy b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);
-    font-weight:780;color:#fff;margin-bottom:var(--s2);line-height:1.2;
-    letter-spacing:var(--tr-snug);overflow-wrap:anywhere}
+    text-transform:uppercase;letter-spacing:.02em;
+    font-weight:800;color:#fff;margin-bottom:var(--s2);line-height:1.2;overflow-wrap:anywhere}
   .applycta-copy span{font-size:13.5px;color:var(--navy-100);line-height:1.65}
-  .btn-primary{background:var(--electric);color:var(--navy-900) !important;font-size:15px;
-    font-weight:800;padding:var(--s4) var(--s6);white-space:nowrap;border-radius:var(--r-sm);
-    box-shadow:0 0 0 1px rgba(0,194,255,.5),0 10px 30px -8px rgba(0,194,255,.6)}
-  .btn-primary:hover{background:#5AD7FF;color:var(--navy-900) !important}
+  .btn-primary{background:var(--safety);color:var(--steel) !important;font-size:14px;
+    font-weight:700;padding:var(--s4) var(--s6);white-space:nowrap;
+    border:2px solid var(--paper);box-shadow:4px 4px 0 rgba(233,229,216,.35)}
+  .btn-primary:hover{background:#FF6A26;color:var(--steel) !important;box-shadow:6px 6px 0 rgba(233,229,216,.4)}
 
   /* ---------- method ---------- */
   .method{padding-block:var(--sec-y) var(--s6)}
-  .method h2{font-size:var(--t-display-2);font-weight:850;letter-spacing:var(--tr-tight);
-    color:var(--navy-900);margin-bottom:var(--s6);font-variation-settings:'wdth' 114;
-    max-width:20ch;text-wrap:balance;line-height:1}
-  .method-lead{font-size:var(--t-lead);line-height:1.72;color:var(--navy-700);max-width:68ch;
-    margin:0 0 var(--s7);letter-spacing:-.006em}
-  .method-sub{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
-    color:var(--navy-900);margin:var(--sec-y-sm) 0 var(--s5);letter-spacing:var(--tr-snug);
-    line-height:1.15}
+  .method h2{font-size:var(--t-display-2);font-weight:800;letter-spacing:var(--tr-tight);
+    color:var(--ink);margin-bottom:var(--s6);
+    max-width:22ch;text-wrap:balance;line-height:.96}
+  .method-lead{font-size:var(--t-lead);line-height:1.72;color:var(--ink-soft);max-width:68ch;
+    margin:0 0 var(--s7)}
+  .method-sub{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
+    text-transform:uppercase;
+    color:var(--ink);margin:var(--sec-y-sm) 0 var(--s5);letter-spacing:.015em;
+    line-height:1.05;border-top:4px solid var(--ink);padding-top:var(--s4)}
   .method-lead .cyc{vertical-align:baseline}
   .mmgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--s5);
     margin:var(--s5) 0 var(--s7)}
-  .mmtable{background:var(--surface);border-radius:var(--r-md);padding:var(--s4) var(--s5);
-    box-shadow:var(--edge),var(--lift),var(--e1);font-size:13px}
+  .mmtable{background:var(--surface);border:var(--line);padding:var(--s4) var(--s5);
+    box-shadow:var(--e1);font-size:13px}
   .mmtable td{border-top-color:var(--hair)}
   .mmtable tr:first-child td{border-top:none}
-  .method-h4{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
-    color:var(--navy-900);letter-spacing:var(--tr-snug);margin:var(--s7) 0 var(--s4)}
-  /* the band-benchmark panel — the second dark surface in the methodology section,
-     separated from the coverage panel by ~600px of prose (design plan §4, rule 1) */
-  .benchpanel{padding:var(--s7);margin:var(--sec-y-sm) 0}
+  .method-h4{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;
+    color:var(--ink);margin:var(--s7) 0 var(--s4)}
+  .benchpanel{padding:var(--s7) var(--s7) calc(var(--s7) + 8px);margin:var(--sec-y-sm) 0}
   .benchtable{width:100%;border-collapse:collapse;margin-top:var(--s5);font-size:13px}
-  .benchtable th{text-align:right;font-family:var(--font-ui);font-size:10px;font-weight:800;
+  .benchtable th{text-align:right;font-family:var(--font-mono);font-size:9.5px;font-weight:600;
     text-transform:uppercase;letter-spacing:var(--tr-chip);color:var(--navy-100);
-    padding:0 0 var(--s3);border-bottom:1px solid rgba(179,205,224,.28);white-space:nowrap}
+    padding:0 0 var(--s3);border-bottom:2px solid rgba(233,229,216,.4);white-space:nowrap}
   .benchtable th:first-child,.benchtable td:first-child{text-align:left}
   .benchtable th:last-child,.benchtable td:last-child{text-align:left;padding-left:var(--s4)}
   .benchtable td{text-align:right;padding:var(--s3) 0;color:#fff;font-weight:650;
-    border-bottom:1px solid rgba(179,205,224,.14);font-variant-numeric:tabular-nums}
+    border-bottom:1px solid rgba(233,229,216,.16);font-variant-numeric:tabular-nums}
   .benchtable tr.bench-out td{color:var(--navy-100);font-weight:500}
-  .bench-ok{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-chip);
-    color:#9FE4FF;white-space:nowrap}
-  .bench-no{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-chip);
-    color:#F0C97A;white-space:nowrap}
+  .bench-ok{font-family:var(--font-mono);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-chip);
+    color:#7BD9A0;white-space:nowrap}
+  .bench-no{font-family:var(--font-mono);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-chip);
+    color:#FFB182;white-space:nowrap}
   @media (max-width:768px){
     .benchtable{font-size:12px}
     .benchtable th:nth-child(2),.benchtable td:nth-child(2){display:none}
   }
-  /* asymmetric card rail — deliberately unequal, offset on the vertical */
+  /* asymmetric card rail */
   .cards{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:var(--s5);align-items:start}
-  .card{background:var(--surface);border-radius:var(--r-lg);
-    padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);position:relative;overflow:hidden;
+  .card{background:var(--surface);border:var(--line);
+    padding:var(--s7);box-shadow:var(--e2);position:relative;overflow:hidden;
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;
-    background:linear-gradient(90deg,var(--sel-2),var(--sel-4))}
-  .card:nth-child(2)::before{background:linear-gradient(90deg,var(--sel-3),var(--sel-5))}
-  .card:nth-child(3)::before{background:linear-gradient(90deg,var(--sel-5),var(--sel-6))}
-  .card::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;
-    border-radius:50%;pointer-events:none;
-    background:radial-gradient(circle, rgba(0,194,255,.10), transparent 68%)}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;
+    background:var(--sel-2)}
+  .card:nth-child(2)::before{background:var(--sel-4)}
+  .card:nth-child(3)::before{background:var(--safety)}
+  .card::after{content:"";position:absolute;right:14px;top:18px;width:30px;height:30px;
+    pointer-events:none;opacity:.16;
+    background:
+      linear-gradient(var(--ink) 0 0) center/100% 2px no-repeat,
+      linear-gradient(var(--ink) 0 0) center/2px 100% no-repeat}
   .card:nth-child(2){margin-top:var(--s6)}
   .card:nth-child(3){margin-top:var(--s8)}
-  .card:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
-  .card h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
-    color:var(--navy-900);margin-bottom:var(--s3);letter-spacing:var(--tr-snug);line-height:1.25}
-  .card p{font-size:14.5px;color:var(--navy-700);line-height:1.7}
+  .card:hover{transform:translate(-2px,-2px);box-shadow:var(--e3)}
+  .card h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;
+    color:var(--ink);margin-bottom:var(--s3);line-height:1.15}
+  .card p{font-size:14.5px;color:var(--ink-soft);line-height:1.7}
 
-  footer{padding:var(--s8) 0 var(--s9);border-top:1px solid rgba(1,31,75,.08);
-    margin-top:var(--sec-y);font-size:14px;color:var(--muted)}
+  footer{padding:var(--s8) 0 var(--s9);border-top:var(--line);
+    margin-top:var(--sec-y);font-size:14px;color:var(--muted);
+    background:var(--surface-2)}
   footer .cols{display:flex;justify-content:space-between;gap:var(--s5);flex-wrap:wrap;align-items:center}
-  footer b{color:var(--navy-700)}
+  footer b{color:var(--ink)}
 
-  /* ===================== CHANCE ME (WO4 Task 3) ===================== */
+  /* ===================== CHANCE ME extras ===================== */
   .prof-f-hs{grid-column:1/-1}
-  .prof-f>span i{font-style:normal;font-weight:600;letter-spacing:0;text-transform:none;
+  .prof-f>span i{font-style:normal;font-weight:500;letter-spacing:0;text-transform:none;
     color:var(--dim-ink);margin-left:6px;font-size:11px}
-  .prof-hint{display:block;font-size:12.5px;line-height:1.55;color:var(--navy-700);
-    font-style:normal;margin-top:6px;max-width:70ch}
+  .prof-hint{display:block;font-size:12.5px;line-height:1.55;color:var(--ink-soft);
+    font-style:normal;margin-top:6px;max-width:70ch;font-family:var(--font-ui)}
 
-  .cmpickcard{background:var(--surface);border-radius:var(--r-lg);padding:var(--s7);
-    margin-bottom:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
+  .cmpickcard{background:var(--surface);border:var(--line);padding:var(--s7);
+    margin-bottom:var(--s5);box-shadow:var(--e2)}
   .cmpickcard .prof-head{justify-content:space-between}
   .cmpickcard .count{margin-left:0}
   .cmpicks{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s5)}
-  .cmpick{padding:10px var(--s4);border-radius:999px;border:none;background:var(--surface-2);
-    box-shadow:var(--edge-strong),var(--lift);font:inherit;font-size:13.5px;font-weight:650;
-    color:var(--navy-700);cursor:pointer;min-height:44px;
+  .cmpick{padding:10px var(--s4);border:var(--line-1);background:#FBF9F1;
+    font:inherit;font-size:13.5px;font-weight:600;
+    color:var(--ink-soft);cursor:pointer;min-height:44px;
     transition:background var(--t-fast) var(--ease),color var(--t-fast) var(--ease),
       transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .cmpick:hover{background:var(--tint);transform:translateY(-2px);
-    box-shadow:var(--edge-strong),var(--lift),var(--e2)}
-  .cmpick.on{background:var(--navy-900);color:#fff;box-shadow:var(--e2)}
-  .cmpick.on:hover{background:var(--navy-800)}
+  .cmpick:hover{background:var(--safety-tint);transform:translate(-1px,-1px);box-shadow:var(--e1)}
+  .cmpick.on{background:var(--ink);color:var(--paper);border-color:var(--ink);box-shadow:var(--e1)}
+  .cmpick.on:hover{background:var(--safety-deep)}
   .cmclear{margin-top:var(--s5)}
 
   .cmnotes{display:flex;flex-direction:column;gap:var(--s3);margin-bottom:var(--s6)}
-  .cmnote{font-size:13px;line-height:1.65;color:var(--navy-700);background:var(--surface-2);
-    border-radius:var(--r-sm);padding:var(--s4);box-shadow:var(--edge),var(--lift)}
-  .cmnote b{color:var(--navy-900);display:block;margin-bottom:2px}
-  .cmnote-core{margin-top:var(--s6);border-left:3px solid var(--estimate);
-    background:rgba(109,74,166,.06)}
+  .cmnote{font-size:13px;line-height:1.65;color:var(--ink-soft);background:var(--surface-2);
+    padding:var(--s4);box-shadow:inset 0 0 0 1px var(--hair)}
+  .cmnote b{color:var(--ink);display:block;margin-bottom:2px}
+  .cmnote-core{margin-top:var(--s6);border-left:6px solid var(--estimate);
+    background:rgba(91,52,184,.06)}
   .cmnote-core b{color:var(--estimate)}
 
   .cmlist{list-style:none;display:flex;flex-direction:column;gap:var(--s5)}
-  .cmrow{background:var(--surface);border-radius:var(--r-lg);padding:var(--s6);
-    box-shadow:var(--edge),var(--lift),var(--e1);
-    animation:riseIn 620ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 55ms)}
+  .cmrow{background:var(--surface);border:var(--line);padding:var(--s6);
+    box-shadow:var(--e2);
+    animation:riseIn 460ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 50ms)}
   .cmr-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s5);
     flex-wrap:wrap;padding-bottom:var(--s5);border-bottom:1px solid var(--hair)}
-  .cmr-name{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
-    color:var(--navy-900);letter-spacing:var(--tr-snug);text-decoration:none;overflow-wrap:anywhere}
-  .cmr-name:hover{text-decoration:underline}
-  .cmr-sub{font-size:var(--t-meta);color:var(--muted);font-weight:600;margin-top:3px}
-  /* the SOURCED figure: display face, tabular, navy — deliberately unlike the estimate */
+  .cmr-name{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;
+    color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+  .cmr-name:hover{color:var(--safety-deep)}
+  .cmr-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted);font-weight:500;margin-top:3px}
   .cmr-base{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;justify-content:flex-end}
-  .cmr-base-l{font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
+  .cmr-base-l{font-family:var(--font-mono);font-size:var(--t-micro);font-weight:600;text-transform:uppercase;
     letter-spacing:var(--tr-wide);color:var(--muted);width:100%;text-align:right}
-  .cmr-base b{font-family:var(--font-display);font-size:26px;font-weight:850;
-    color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1;
+  .cmr-base b{font-family:var(--font-display);font-size:30px;font-weight:800;
+    color:var(--ink);letter-spacing:.01em;line-height:1;
     font-variant-numeric:tabular-nums}
   .cmr-cmp{margin-top:var(--s5)}
   .cmr-cmp i{font-style:normal;font-weight:600;color:var(--muted);font-size:12px;margin-left:4px}
@@ -848,33 +829,31 @@
   }
 
   /* ---------- selectivity distribution chart ---------- */
-  .distcard{background:var(--surface);border-radius:var(--r-xl);padding:var(--s7);
-    box-shadow:var(--edge),var(--lift),var(--e2);margin-top:var(--s7);position:relative;overflow:hidden}
-  .distcard::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
-    background-image:linear-gradient(to bottom, rgba(1,31,75,.05) 1px, transparent 1px);
+  .distcard{background:var(--surface);border:var(--line);padding:var(--s7);
+    box-shadow:var(--e3);margin-top:var(--s7);position:relative;overflow:hidden}
+  .distcard::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(to bottom, rgba(22,19,14,.06) 1px, transparent 1px);
     background-size:100% 34px}
   .distcard>*{position:relative;z-index:1}
   .dist-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s5);
     flex-wrap:wrap;margin-bottom:var(--s6)}
-  .dist-title{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
-    color:var(--navy-900);letter-spacing:var(--tr-snug);line-height:1.15;max-width:20ch}
-  .dist-key{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;
+  .dist-title{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
+    text-transform:uppercase;
+    color:var(--ink);letter-spacing:.015em;line-height:1.05;max-width:20ch}
+  .dist-key{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:9.5px;font-weight:600;
     text-transform:uppercase;letter-spacing:var(--tr-chip);color:var(--muted);flex:none}
-  .dist-key i{width:18px;height:10px;border-radius:2px;display:block}
+  .dist-key i{width:18px;height:10px;display:block;box-shadow:inset 0 0 0 1px rgba(22,19,14,.4)}
   .dist-bars{display:flex;flex-direction:column;gap:var(--s3)}
   .dist-row{display:grid;grid-template-columns:88px minmax(0,1fr) 34px;align-items:center;gap:var(--s4)}
-  .dist-l{font-size:12.5px;font-weight:700;color:var(--navy-700);white-space:nowrap;
-    font-variant-numeric:tabular-nums;text-align:right}
-  .dist-t{height:22px;background:rgba(1,31,75,.05);border-radius:6px;overflow:hidden;
-    box-shadow:inset 0 1px 2px rgba(1,31,75,.07)}
-  .dist-b{display:block;height:100%;border-radius:6px;transform-origin:left;
-    animation:barGrow 1000ms var(--ease-out) both;animation-delay:180ms}
-  .dist-n{font-size:13px;font-weight:800;color:var(--navy-900);text-align:right;
-    font-variant-numeric:tabular-nums}
-  .dist-foot{margin-top:var(--s6);font-size:13.5px;line-height:1.7;color:var(--navy-700);max-width:76ch}
-  .dist-foot b{color:var(--navy-900);font-variant-numeric:tabular-nums}
-  /* scoped to the chart and the key so they cannot override .fill.sel-N, which is
-     declared earlier in the sheet — the exact trap the .plan/.dark bug came from */
+  .dist-l{font-family:var(--font-mono);font-size:11.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+    text-align:right}
+  .dist-t{height:24px;background:rgba(22,19,14,.05);overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(22,19,14,.25)}
+  .dist-b{display:block;height:100%;transform-origin:left;
+    animation:barGrow 800ms var(--ease-out) both;animation-delay:180ms}
+  .dist-n{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--ink);text-align:right}
+  .dist-foot{margin-top:var(--s6);font-size:13.5px;line-height:1.7;color:var(--ink-soft);max-width:76ch}
+  .dist-foot b{color:var(--ink);font-variant-numeric:tabular-nums}
   .dist-b.sel-1,.dist-key i.sel-1{background:var(--sel-1)}
   .dist-b.sel-2,.dist-key i.sel-2{background:var(--sel-2)}
   .dist-b.sel-3,.dist-key i.sel-3{background:var(--sel-3)}
@@ -884,87 +863,90 @@
   @media (max-width:768px){
     .distcard{padding:var(--s6)}
     .dist-row{grid-template-columns:74px minmax(0,1fr) 28px;gap:var(--s3)}
-    .dist-l{font-size:11.5px}
+    .dist-l{font-size:11px}
   }
 
   /* ---------- inline icons ---------- */
-  .ico{flex:none;width:22px;height:22px;stroke:var(--navy-500);stroke-width:1.7;fill:none;
-    stroke-linecap:round;stroke-linejoin:round;transition:stroke var(--t-fast) var(--ease)}
-  .inside:hover .ico{stroke:var(--electric-deep)}
+  .ico{flex:none;width:22px;height:22px;stroke:var(--ink);stroke-width:2;fill:none;
+    stroke-linecap:square;stroke-linejoin:miter;transition:stroke var(--t-fast) var(--ease)}
+  .inside:hover .ico{stroke:var(--safety-deep)}
 
-  /* ===================== HOME (WO3 Task 3) ===================== */
+  /* ===================== HOME ===================== */
   .hm-sec{padding-block:var(--sec-y-sm)}
   .hm-lead{max-width:64ch;margin-bottom:var(--s7)}
-  .hm-lead h2{font-size:var(--t-display-2);font-weight:850;letter-spacing:var(--tr-tight);
-    color:var(--navy-900);font-variation-settings:'wdth' 114;line-height:1;
+  .hm-lead h2{font-size:var(--t-display-2);font-weight:800;letter-spacing:var(--tr-tight);
+    color:var(--ink);line-height:.96;
     max-width:18ch;text-wrap:balance}
   .hm-lead .method-lead{margin-top:var(--s5);margin-bottom:0}
   .hm-split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s8);align-items:start}
   .hm-split .hm-lead{margin-bottom:0}
-  .hm-body p{font-size:var(--t-lead);line-height:1.75;color:var(--navy-700);letter-spacing:-.006em}
+  .hm-body p{font-size:var(--t-lead);line-height:1.75;color:var(--ink-soft)}
   .hm-body p + p{margin-top:var(--s5)}
   .hm-stats{grid-template-columns:repeat(4,minmax(0,1fr));max-width:none;margin-top:0}
-  .hm-covnote{margin-top:var(--s7);font-size:14.5px;line-height:1.7;color:var(--navy-700);max-width:74ch}
-  .hm-covnote b{color:var(--navy-900);font-variant-numeric:tabular-nums}
+  .hm-covnote{margin-top:var(--s7);font-size:14.5px;line-height:1.7;color:var(--ink-soft);max-width:74ch}
+  .hm-covnote b{color:var(--ink);font-variant-numeric:tabular-nums}
 
-  /* what's inside — rows, so they use the RAIL gesture rather than LIFT */
-  .insidelist{display:flex;flex-direction:column}
+  /* what's inside - index rows, RAIL gesture */
+  .insidelist{display:flex;flex-direction:column;border:var(--line);background:var(--surface);box-shadow:var(--e2)}
   .inside{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;gap:var(--s5);
-    align-items:start;padding:var(--s6) var(--s4);text-decoration:none;color:inherit;
+    align-items:start;padding:var(--s6) var(--s5);text-decoration:none;color:inherit;
     border-top:1px solid var(--hair);
-    box-shadow:inset 3px 0 0 transparent;
+    box-shadow:inset 4px 0 0 transparent;
     transition:background var(--t-fast) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .insidelist .inside:last-child{border-bottom:1px solid var(--hair)}
-  .inside:hover{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--electric)}
-  .inside:focus-visible{outline:var(--ring);outline-offset:-2px;background:var(--surface-2)}
-  .inside-n{font-family:var(--font-display);font-size:13px;font-weight:850;color:var(--muted);
-    font-variant-numeric:tabular-nums;letter-spacing:var(--tr-chip);padding-top:4px}
+  .insidelist .inside:first-child{border-top:none}
+  .insidelist .inside:last-child{border-bottom:none}
+  .inside:hover{background:#FBF9F1;box-shadow:inset 4px 0 0 var(--safety)}
+  .inside:focus-visible{outline:var(--ring);outline-offset:-3px;background:#FBF9F1}
+  .inside-n{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--safety-deep);
+    letter-spacing:var(--tr-chip);padding-top:5px}
   .inside-b b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);
-    font-weight:780;color:var(--navy-900);letter-spacing:var(--tr-snug);margin-bottom:var(--s2)}
-  .inside-b span{display:block;font-size:14.5px;line-height:1.7;color:var(--navy-700);max-width:72ch}
-  .inside-go{color:var(--navy-500);font-weight:800;font-size:16px;padding-top:2px;
-    transition:transform var(--t-mid) var(--ease)}
-  .inside:hover .inside-go{transform:translateX(4px)}
+    text-transform:uppercase;letter-spacing:.02em;
+    font-weight:800;color:var(--ink);margin-bottom:var(--s2)}
+  .inside-b span{display:block;font-size:14.5px;line-height:1.7;color:var(--ink-soft);max-width:72ch}
+  .inside-go{color:var(--ink);font-weight:800;font-size:16px;padding-top:2px;
+    transition:transform var(--t-mid) var(--ease),color var(--t-fast) var(--ease)}
+  .inside:hover .inside-go{transform:translateX(4px);color:var(--safety-deep)}
 
-  /* plans — Pro is favoured by SURFACE, not by badges or crossed-out prices */
+  /* plans - Pro is favoured by SURFACE */
   .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s6);align-items:start}
-  .plan{border-radius:var(--r-xl);padding:var(--s7);display:flex;flex-direction:column}
-  .plan:not(.dark){background:var(--surface);box-shadow:var(--edge),var(--lift),var(--e1)}
-  .plan-k{font-size:var(--t-micro);font-weight:800;text-transform:uppercase;
+  .plan{padding:var(--s7);display:flex;flex-direction:column}
+  .plan:not(.dark){background:var(--surface);border:var(--line);box-shadow:var(--e2)}
+  .plan-k{font-family:var(--font-mono);font-size:var(--t-micro);font-weight:600;text-transform:uppercase;
     letter-spacing:var(--tr-wide);color:var(--muted)}
-  .plan-pro .plan-k{color:var(--electric)}
+  .plan-pro .plan-k{color:var(--safety)}
   .plan-price{display:flex;align-items:baseline;gap:var(--s3);margin-top:var(--s4);flex-wrap:wrap}
-  .plan-price b{font-family:var(--font-display);font-size:clamp(40px,4.6vw,60px);font-weight:850;
-    color:var(--navy-900);letter-spacing:var(--tr-tight);line-height:1;font-variant-numeric:tabular-nums}
-  .plan-pro .plan-price b{background:linear-gradient(180deg,#fff,#9FE4FF);
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  .plan-price span{font-size:13px;font-weight:700;text-transform:uppercase;
+  .plan-price b{font-family:var(--font-display);font-size:clamp(48px,5.2vw,72px);font-weight:800;
+    color:var(--ink);letter-spacing:.01em;line-height:1;font-variant-numeric:tabular-nums}
+  .plan-pro .plan-price b{color:var(--safety)}
+  .plan-price span{font-family:var(--font-mono);font-size:12px;font-weight:600;text-transform:uppercase;
     letter-spacing:var(--tr-chip);color:var(--navy-100)}
-  .plan-note{margin-top:var(--s4);font-size:13.5px;line-height:1.65;color:var(--navy-700)}
+  .plan:not(.dark) .plan-price span{color:var(--muted)}
+  .plan-note{margin-top:var(--s4);font-size:13.5px;line-height:1.65;color:var(--ink-soft)}
   .plan-pro .plan-note{color:var(--navy-100)}
   .plan-once b,.plan-pro .plan-once{font-weight:650}
   .plan-list{list-style:none;margin:var(--s6) 0 var(--s7);display:flex;flex-direction:column;
     gap:var(--s3);flex:1}
   .plan-list li{position:relative;padding-left:var(--s5);font-size:14.5px;line-height:1.6;
-    color:var(--navy-700)}
-  .plan-list li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;
-    border-radius:50%;background:var(--navy-300)}
+    color:var(--ink-soft)}
+  .plan-list li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;
+    background:var(--ink)}
   .plan-pro .plan-list li{color:#fff}
-  .plan-pro .plan-list li::before{background:var(--electric);box-shadow:0 0 8px rgba(0,194,255,.7)}
+  .plan-pro .plan-list li::before{background:var(--safety)}
   .plan-btn{align-self:flex-start;text-align:center}
   .plan-sub{margin-top:var(--s3);font-size:12px;color:var(--navy-100)}
+  .plan:not(.dark) .plan-sub{color:var(--muted)}
   .plan-foot{margin-top:var(--s6);font-size:13px;color:var(--muted);line-height:1.65;max-width:70ch}
   .cta-said{margin-top:var(--s3);font-size:13px;line-height:1.6;color:var(--navy-100);max-width:44ch}
   .plan .cta-said{color:var(--navy-100)}
-  .signin .cta-said{color:var(--navy-700)}
+  .signin .cta-said{color:var(--ink-soft)}
 
   .signin{display:flex;align-items:center;justify-content:space-between;gap:var(--s7);
-    flex-wrap:wrap;background:var(--surface);border-radius:var(--r-lg);padding:var(--s7);
-    box-shadow:var(--edge),var(--lift),var(--e1)}
+    flex-wrap:wrap;background:var(--surface);border:var(--line);padding:var(--s7);
+    box-shadow:var(--e2)}
   .signin-copy{flex:1;min-width:min(100%,280px)}
-  .signin-copy h2{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:780;
-    color:var(--navy-900);letter-spacing:var(--tr-snug);line-height:1.15}
-  .signin-copy p{margin-top:var(--s3);font-size:14.5px;line-height:1.7;color:var(--navy-700);max-width:62ch}
+  .signin-copy h2{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
+    color:var(--ink);letter-spacing:.015em;line-height:1.05}
+  .signin-copy p{margin-top:var(--s3);font-size:14.5px;line-height:1.7;color:var(--ink-soft);max-width:62ch}
   .signin-btn{white-space:nowrap}
 
   @media (max-width:1024px){
@@ -986,139 +968,132 @@
   .trkhint{font-size:13.5px;color:var(--muted);margin:0 0 var(--s5);line-height:1.6}
   .trklist{list-style:none;display:flex;flex-direction:column;gap:var(--s4)}
   .trkrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--s5);align-items:start;
-    background:var(--surface);border-radius:var(--r-md);
-    padding:var(--s6);box-shadow:var(--edge),var(--lift),var(--e1);
+    background:var(--surface);border:var(--line);
+    padding:var(--s6);box-shadow:var(--e1);
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .trkrow:hover{box-shadow:var(--edge),var(--lift),var(--e3);transform:translateY(-2px)}
+  .trkrow:hover{box-shadow:var(--e2);transform:translate(-1px,-1px)}
   .trkrow.dragging{opacity:.4}
-  .trkrow.dragover{box-shadow:var(--glow),var(--e3)}
+  .trkrow.dragover{box-shadow:var(--glow)}
   .trkrow-missing{background:var(--surface-2)}
-  .trkrank{font-family:var(--font-display);font-size:24px;font-weight:850;color:rgba(1,31,75,.2);
+  .trkrank{font-family:var(--font-display);font-size:28px;font-weight:800;color:rgba(22,19,14,.22);
     line-height:1;font-variant-numeric:tabular-nums;min-width:30px;text-align:right;
-    letter-spacing:-.04em;padding-top:2px}
+    padding-top:2px}
   .trkmain{min-width:0}
   .trkhead{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap}
-  .trkname{font-size:var(--t-name);font-weight:650;color:var(--navy-900);text-decoration:none;
-    letter-spacing:-.012em;overflow-wrap:anywhere}
-  .trkname:hover{text-decoration:underline}
+  .trkname{font-size:var(--t-name);font-weight:700;color:var(--ink);text-decoration:none;
+    overflow-wrap:anywhere}
+  .trkname:hover{color:var(--safety-deep)}
   .trkstats{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;margin-top:6px}
   .trkrate{font-family:var(--font-display);font-size:var(--t-rate);font-weight:800;
-    color:var(--navy-900);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
-  .trknote-l{display:block;font-size:10px;text-transform:uppercase;letter-spacing:var(--tr-wide);
-    color:var(--muted);font-weight:800;margin:var(--s4) 0 var(--s1)}
-  .trknote{width:100%;border:none;border-radius:var(--r-sm);
+    color:var(--ink);letter-spacing:.01em;font-variant-numeric:tabular-nums}
+  .trknote-l{display:block;font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:var(--tr-wide);
+    color:var(--muted);font-weight:600;margin:var(--s4) 0 var(--s1)}
+  .trknote{width:100%;border:var(--line-1);
     padding:var(--s3) var(--s4);font:inherit;font-size:14px;color:var(--ink);
-    background:var(--surface);resize:vertical;line-height:1.55;
-    box-shadow:var(--edge-strong),var(--lift),var(--e1);transition:box-shadow var(--t-fast) var(--ease)}
-  .trknote:focus{outline:none;box-shadow:var(--glow),var(--e2)}
+    background:#FBF9F1;resize:vertical;line-height:1.55;
+    box-shadow:none;transition:box-shadow var(--t-fast) var(--ease)}
+  .trknote:focus{outline:none;box-shadow:var(--glow)}
   .trknote::placeholder{color:var(--dim-ink);opacity:1}
-  .trksaved{display:inline-block;min-height:16px;font-size:10.5px;font-weight:800;
-    color:var(--verified);text-transform:uppercase;letter-spacing:var(--tr-wide);margin-top:var(--s1)}
-  .trknote-ro{font-size:14px;color:var(--navy-700);margin-top:var(--s2);white-space:pre-wrap}
+  .trksaved{display:inline-block;min-height:16px;font-family:var(--font-mono);font-size:10px;font-weight:600;
+    color:var(--stamp);text-transform:uppercase;letter-spacing:var(--tr-wide);margin-top:var(--s1)}
+  .trknote-ro{font-size:14px;color:var(--ink-soft);margin-top:var(--s2);white-space:pre-wrap}
   .trkacts{display:flex;flex-direction:column;gap:var(--s2);align-items:stretch}
-  .iconbtn{border:none;background:var(--surface);border-radius:var(--r-sm);
-    padding:var(--s2) var(--s4);font:inherit;font-size:12.5px;font-weight:750;color:var(--navy-700);
-    cursor:pointer;min-height:44px;min-width:44px;box-shadow:var(--edge-strong),var(--lift),var(--e1);
+  .iconbtn{border:var(--line-1);background:var(--surface);
+    padding:var(--s2) var(--s4);font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.04em;color:var(--ink);
+    cursor:pointer;min-height:44px;min-width:44px;box-shadow:var(--e1);
     transition:background var(--t-fast) var(--ease),transform var(--t-mid) var(--ease),
       box-shadow var(--t-mid) var(--ease)}
-  .iconbtn:hover:not(:disabled){background:var(--tint);transform:translateY(-2px);
-    box-shadow:var(--edge-strong),var(--lift),var(--e3)}
+  .iconbtn:hover:not(:disabled){background:var(--safety-tint);transform:translate(-1px,-1px);
+    box-shadow:var(--e2)}
   .iconbtn:disabled{opacity:.35;cursor:default}
   .trkadd{display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;margin-top:var(--sec-y-sm);
     padding:var(--s6);background:var(--surface);
-    border-radius:var(--r-md);box-shadow:var(--edge),var(--lift),var(--e1)}
-  .trkadd label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);
-    color:var(--muted);font-weight:800}
+    border:var(--line);box-shadow:var(--e2)}
+  .trkadd label{font-family:var(--font-mono);font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--tr-wide);
+    color:var(--muted);font-weight:600}
   .trkadd select{flex:1;min-width:min(100%,220px)}
-  .trktoggle{background:var(--surface);color:var(--navy-700) !important;
-    box-shadow:var(--edge-strong),var(--lift),var(--e1);font-weight:750;white-space:nowrap;min-height:44px}
-  .trktoggle:hover{background:var(--tint);color:var(--navy-900) !important}
-  .trktoggle.on{background:var(--navy-900);color:#fff !important;box-shadow:var(--e3)}
+  .trktoggle{background:var(--surface);color:var(--ink) !important;
+    box-shadow:var(--e1);font-weight:600;white-space:nowrap;min-height:44px}
+  .trktoggle:hover{background:var(--safety-tint);color:var(--ink) !important}
+  .trktoggle.on{background:var(--ink);color:var(--paper) !important;box-shadow:var(--e2)}
 
   .dllist{list-style:none;display:flex;flex-direction:column;gap:var(--s3)}
   .dlrow{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:var(--s5);align-items:center;
-    background:var(--surface);border-radius:var(--r-md);
-    padding:var(--s5);box-shadow:var(--edge),var(--lift),var(--e1)}
-  .dlwhen b{display:block;font-family:var(--font-display);font-size:15px;font-weight:800;
-    color:var(--navy-900);font-variant-numeric:tabular-nums;letter-spacing:-.025em}
-  .dlwhen span{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted)}
-  .dlrow-unclear{background:var(--surface-2);border-left:3px solid var(--stale)}
-  .dlrow-unclear .dlwhen b{color:var(--stale)}
+    background:var(--surface);border:var(--line-1);
+    padding:var(--s5);box-shadow:var(--e1)}
+  .dlwhen b{display:block;font-family:var(--font-mono);font-size:14px;font-weight:700;
+    color:var(--ink);font-variant-numeric:tabular-nums}
+  .dlwhen span{font-family:var(--font-mono);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:var(--tr-wide);color:var(--muted)}
+  .dlrow-unclear{background:var(--surface-2);border-left:6px solid var(--amber)}
+  .dlrow-unclear .dlwhen b{color:var(--amber)}
   .dlunclear{margin-top:var(--sec-y-sm)}
   .dlunclear h3{font-family:var(--font-display);font-size:var(--t-display-3);font-weight:800;
-    color:var(--navy-900);margin-bottom:var(--s4);display:flex;align-items:center;gap:var(--s3);
-    letter-spacing:var(--tr-snug)}
-  .dlcount{font-family:var(--font-ui);font-size:12px;font-weight:800;background:#F6E7C8;color:#7A5610;
-    padding:2px 9px;border-radius:999px}
-  .dlunclear>p{font-size:13.5px;color:var(--navy-700);max-width:64ch;margin-bottom:var(--s5);line-height:1.65}
+    color:var(--ink);margin-bottom:var(--s4);display:flex;align-items:center;gap:var(--s3);
+    letter-spacing:.015em}
+  .dlcount{font-family:var(--font-mono);font-size:11.5px;font-weight:600;background:var(--amber-tint);color:var(--amber);
+    padding:2px 9px;box-shadow:inset 0 0 0 1px rgba(138,100,16,.3)}
+  .dlunclear>p{font-size:13.5px;color:var(--ink-soft);max-width:64ch;margin-bottom:var(--s5);line-height:1.65}
 
   .lockgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--s5)}
-  .lockcard{background:var(--surface);border-radius:var(--r-lg);position:relative;overflow:hidden;
-    padding:var(--s7);box-shadow:var(--edge),var(--lift),var(--e1);
+  .lockcard{background:var(--surface);border:var(--line);position:relative;overflow:hidden;
+    padding:var(--s7);box-shadow:var(--e1);
     transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease)}
-  .lockcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;
-    background:linear-gradient(90deg,var(--sel-3),var(--sel-5))}
-  .lockcard:hover{transform:translateY(-2px);box-shadow:var(--edge),var(--lift),var(--e3)}
+  .lockcard::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;
+    background:var(--hazard);opacity:.85}
+  .lockcard:hover{transform:translate(-2px,-2px);box-shadow:var(--e3)}
   .lockcard:nth-child(even){margin-top:var(--s5)}
-  .lockcard h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
-    color:var(--navy-900);margin-bottom:var(--s3);letter-spacing:var(--tr-snug)}
-  .lockcard p{font-size:14px;color:var(--navy-700);line-height:1.65}
+  .lockcard h3{font-family:var(--font-display);font-size:var(--t-display-4);font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;
+    color:var(--ink);margin-bottom:var(--s3)}
+  .lockcard p{font-size:14px;color:var(--ink-soft);line-height:1.65}
   .lockcta{display:flex;align-items:center;justify-content:space-between;gap:var(--s6);flex-wrap:wrap;
-    margin-top:var(--sec-y-sm);padding:var(--s7)}
-  .lockcta b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);font-weight:780;
-    color:#fff;letter-spacing:var(--tr-snug)}
+    margin-top:var(--sec-y-sm);padding:var(--s7) var(--s7) calc(var(--s7) + 8px)}
+  .lockcta b{display:block;font-family:var(--font-display);font-size:var(--t-display-4);font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;
+    color:#fff}
   .lockcta span{font-size:13.5px;color:var(--navy-100);line-height:1.65}
 
   /* ===========================================================================
-     RESPONSIVE — tablet at 1024, card layout + touch targets at 768, phone 430.
+     RESPONSIVE - tablet at 1024, card layout + touch targets at 768, phone 430.
      =========================================================================== */
-  /* Seven nav items do not fit between roughly 770 and 1120px. The gap tightens first,
-     then Methodology drops to the footer — it is also reachable from the footer and from
-     the Home tab list, so it is the cheapest of the seven to move. nav keeps
-     overflow-x:auto underneath all of this as a hard guarantee against pushing the page
-     wider than the viewport. */
-  @media (max-width:1120px){ nav{gap:var(--s5)} }
+  @media (max-width:1120px){ nav{gap:var(--s4)} }
   @media (max-width:900px){ .navlinks{display:none} }
 
   @media (max-width:1024px){
-    /* --gutter, --sec-y and the display scale are all clamped on vw, so they scale on
-       their own. Only LAYOUT changes below this width — never type size or spacing. */
     .hero-grid{grid-template-columns:minmax(0,1fr);gap:var(--s7)}
     .heropanel{margin-top:0;max-width:560px;padding:var(--s6)}
     .cards{grid-template-columns:1fr 1fr}
     .card:nth-child(2){margin-top:var(--s5)}
     .card:nth-child(3){margin-top:0}
 
-    /* tablet band (768-1024): the desktop table must still FIT, not scroll.
-       Tighter cells, a narrower rate column, and a compact seal. */
     thead th{padding:var(--s3) var(--s2);letter-spacing:.08em}
     thead th:first-child{padding-left:var(--s4)}
     tbody td{padding:var(--s3) var(--s2)}
     tbody td:first-child{padding-left:var(--s4)}
     .ratecell{min-width:0;gap:var(--s2)}
-    .ratenum{min-width:66px;font-size:19px}
+    .ratenum{min-width:66px;font-size:20px}
     .seal-date{display:none}
     .seal{gap:var(--s2)}
     .school{font-size:15px}
   }
 
-
   @media (max-width:640px){
     .logo{font-size:0;gap:0}
     .logo svg{width:32px;height:32px}
-    nav{gap:var(--s4);font-size:13.5px;justify-content:flex-end;flex:1}
+    nav{gap:var(--s4);font-size:12px;justify-content:flex-end;flex:1}
   }
 
   @media (max-width:768px){
-    .bar{height:64px;gap:var(--s3)}
-    nav{gap:var(--s4);font-size:14px}
+    .bar{height:60px;gap:var(--s3)}
+    nav{gap:var(--s4);font-size:12px}
     nav a{padding:14px 0;min-height:44px;display:inline-flex;align-items:center}
     .logo{min-height:44px}
     thead th{top:64px}
     .hero p.sub{font-size:16.5px;margin-top:var(--s5)}
     .stats{gap:var(--s5)}
-    .stat b{font-size:28px}
-    .heropanel{padding:var(--s6);border-radius:var(--r-lg);max-width:none}
+    .stat b{font-size:32px}
+    .heropanel{padding:var(--s6);max-width:none}
     .cards{grid-template-columns:1fr}
     .card{padding:var(--s6)}
     .card:nth-child(2),.card:nth-child(3){margin-top:0}
@@ -1132,11 +1107,11 @@
     table,tbody{display:block;width:100%}
     tbody tr.row{
       display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4);
-      background:var(--surface);border:1px solid rgba(1,31,75,.08);border-radius:var(--r-md);
+      background:var(--surface);border:var(--line);
       padding:var(--s5);margin-bottom:var(--s4);box-shadow:var(--e2)}
     tbody tr.row:hover td,tbody tr.row.open td,tbody tr.row:focus-visible td{background:transparent}
     tbody tr.row:hover{box-shadow:var(--e3)}
-    tbody tr.row.open{border-color:var(--navy-500)}
+    tbody tr.row.open{border-color:var(--safety-deep)}
     tbody tr.row:focus-visible{outline:var(--ring);outline-offset:3px}
     tbody tr.row td:first-child{box-shadow:none !important}
     tbody td{display:block;border:none;padding:0;text-align:left !important;font-size:14px;
@@ -1144,48 +1119,45 @@
     tbody td:first-child{grid-column:1/-1;padding-left:0}
     tbody td.ratecol{grid-column:1/-1}
     tbody td:last-child{grid-column:1/-1;padding-top:var(--s4);border-top:1px solid var(--hair)}
-    tbody tr:last-child td:first-child,tbody tr:last-child td:last-child{border-radius:0}
 
     .ratewrap{gap:var(--s3)}
     .ratecell{min-width:0;flex-direction:column;align-items:flex-start;gap:var(--s3);width:100%}
-    .ratenum{font-family:var(--font-display);font-size:clamp(34px,10vw,44px);width:auto;
-      text-align:left;letter-spacing:-.045em}
-    .track{width:100%;flex:none;height:7px}
+    .ratenum{font-family:var(--font-display);font-size:clamp(38px,11vw,50px);width:auto;
+      text-align:left}
+    .track{width:100%;flex:none;height:10px}
     .school{font-size:17px}
     tbody td[data-l]:not(.ratecol):not(:first-child):not(:last-child)::before{
-      content:attr(data-l);display:block;font-size:9.5px;text-transform:uppercase;
-      letter-spacing:var(--tr-wide);color:var(--muted);font-weight:800;margin-bottom:var(--s1)}
+      content:attr(data-l);display:block;font-family:var(--font-mono);font-size:9px;text-transform:uppercase;
+      letter-spacing:var(--tr-wide);color:var(--muted);font-weight:600;margin-bottom:var(--s1)}
     tbody td[data-l]:not(.ratecol):not(:first-child):not(:last-child){
-      font-weight:650;color:var(--navy-900);font-size:15px}
+      font-weight:650;color:var(--ink);font-size:15px}
 
     tr.detail{display:block;margin:calc(var(--s4) * -1) 0 var(--s4)}
-    tr.detail td{display:block;border-radius:0 0 var(--r-md) var(--r-md);
-      border:1px solid rgba(1,31,75,.08);border-top:1px dashed rgba(1,31,75,.2);
+    tr.detail td{display:block;
+      border:var(--line);border-top:2px dashed rgba(22,19,14,.35);
       padding:var(--s5);background:var(--surface-2)}
     .dgrid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--s4)}
 
     /* touch targets */
     .chip,.btn,.iconbtn,.golink,.detaillink,.seal,.sp-back{min-height:44px}
-    /* every remaining inline link gets a real tap area: hero panel source, footer
-       contact, the receipt's claim->source links, and the top-75 note link */
     .heropanel-meta a,footer a,.claim-src a,.notrank a,.method-lead a,.dlunclear a,.claim-more a{
       display:inline-flex;align-items:center;min-height:44px}
     .claim-src{align-items:center}
     .toggle input{width:20px;height:20px}
-    .chip{display:inline-flex;align-items:center;padding:0 var(--s5)}
+    .chip{display:inline-flex;align-items:center;padding:0 var(--s4)}
     .btn{display:inline-flex;align-items:center;justify-content:center}
     .golink,.detaillink{display:inline-flex;align-items:center}
     .search input,.ac input{font-size:16px} /* prevents iOS zoom-on-focus */
 
     .sp{padding-block:var(--s5) var(--s3)}
-    .sp-head h1{font-size:clamp(26px,7.6vw,36px);max-width:none;line-height:1.06}
+    .sp-head h1{font-size:clamp(30px,8.6vw,44px);max-width:none;line-height:1.02}
     .sp-section{padding:var(--s5)}
     .statcards{grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:var(--s3)}
     .statcard{padding:var(--s4)}
-    .statcard b{font-size:25px}
-    .statcard.hl b{font-size:32px}
+    .statcard b{font-size:28px}
+    .statcard.hl b{font-size:36px}
     .receipt{padding:var(--s5)}
-    .applycta,.lockcta{padding:var(--s5);flex-direction:column;align-items:stretch}
+    .applycta,.lockcta{padding:var(--s5) var(--s5) calc(var(--s5) + 8px);flex-direction:column;align-items:stretch}
     .btn-primary{width:100%;text-align:center}
     .lockcard:nth-child(even){margin-top:0}
 
@@ -1200,11 +1172,11 @@
   }
 
   @media (max-width:430px){
-    nav{gap:var(--s3);font-size:13px}
+    nav{gap:var(--s3);font-size:11.5px}
     .navlinks .hidemobile{display:none}
     .stats{gap:var(--s4) var(--s5)}
-    .stat b{font-size:23px}
-    .trkrank{font-size:19px;min-width:22px}
+    .stat b{font-size:26px}
+    .trkrank{font-size:21px;min-width:22px}
   }
 
   /* ---------- reduced motion: the design still reads, nothing moves ---------- */
@@ -1216,6 +1188,7 @@
     html{scroll-behavior:auto}
     .fill{transform:none}
   }
+
 </style>
 </head>
 <body>
@@ -1224,10 +1197,10 @@
   <div class="wrap bar">
     <a class="logo" href="#/" aria-label="TransferVerified home">
       <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
-        <rect x="6" y="26" width="11" height="16" rx="2.5" fill="#6497B1"/>
-        <rect x="27" y="14" width="11" height="28" rx="2.5" fill="#011F4B"/>
-        <path d="M 11.5 21 Q 21 3.5 33 8.6" fill="none" stroke="#00C2FF" stroke-width="3.6" stroke-linecap="round"/>
-        <path d="M 38.2 11.2 L 32.1 11.6 L 34.4 6.4 Z" fill="#00C2FF"/>
+        <rect x="6" y="26" width="11" height="16" rx="2.5" fill="#6B6455"/>
+        <rect x="27" y="14" width="11" height="28" rx="2.5" fill="#16130E"/>
+        <path d="M 11.5 21 Q 21 3.5 33 8.6" fill="none" stroke="#FF4D00" stroke-width="3.6" stroke-linecap="round"/>
+        <path d="M 38.2 11.2 L 32.1 11.6 L 34.4 6.4 Z" fill="#FF4D00"/>
       </svg>
       TransferVerified
     </a>
@@ -1250,28 +1223,28 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
 </script>
 <!-- WO4 Task 2: the reference GPA bands. A separate, independently editable file,
-     loaded BEFORE the application script. Deliberately not merged into TT_DATA —
+     loaded BEFORE the application script. Deliberately not merged into TT_DATA -
      these are undergraduate-admission figures, not transfer filings. -->
 <script src="reference-gpa.js"></script>
 <script>
 (function(){
-  /* No email capture — this is a reference tool. Corrections and questions
+  /* No email capture - this is a reference tool. Corrections and questions
      come in via the Contact link in the footer. */
   const S = TT_DATA.schools;
   const BY_SLUG = Object.fromEntries(S.map(s => [s.slug, s]));
   const $ = (s, r=document) => r.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const pct = r => r == null ? '—' : (r*100).toFixed(1) + '%';
-  /* WO3 §6 — the typeset form of a rate: full-weight digits, demoted unit. Used only
+  const pct = r => r == null ? '–' : (r*100).toFixed(1) + '%';
+  /* WO3 §6 - the typeset form of a rate: full-weight digits, demoted unit. Used only
      where the rate is a display object. Inside a sentence, pct() stays plain. */
-  const pctSet = r => r == null ? '—' : `${(r*100).toFixed(1)}<span class="pct-u">%</span>`;
-  const n = v => v == null ? '—' : v.toLocaleString('en-US');
+  const pctSet = r => r == null ? '–' : `${(r*100).toFixed(1)}<span class="pct-u">%</span>`;
+  const n = v => v == null ? '–' : v.toLocaleString('en-US');
   const yearNum = y => { const m = /20\d\d/.exec(y||''); return m ? +m[0] : 0; };
 
   /* ---------- cycle year ----------
      A rate without its cycle is an unlabeled number, so every rate we print carries
      the cycle it came from. The reference cycle is the newest one present in the
-     data, computed at runtime — schools publish their Common Data Sets on their own
+     data, computed at runtime - schools publish their Common Data Sets on their own
      schedules, so when the dataset rolls forward every label re-bases with it. */
   const REF_CYCLE_NUM = S.reduce((max, s) => Math.max(max, yearNum(s.year)), 0);
   const REF_CYCLE = (S.find(s => yearNum(s.year) === REF_CYCLE_NUM) || {}).year || '';
@@ -1294,8 +1267,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const st = cycleState(s);
     const title = {
       current:    'From the most recent cycle in our data (' + REF_CYCLE + ')',
-      behind1:    'One cycle behind the newest data we hold — this is the newest edition this school publishes',
-      behind2:    'Two or more cycles behind the newest data we hold — this is the newest edition this school publishes',
+      behind1:    'One cycle behind the newest data we hold. This is the newest edition this school publishes',
+      behind2:    'Two or more cycles behind the newest data we hold. This is the newest edition this school publishes',
       unconfirmed:'This record does not state which admissions cycle it covers'
     }[st];
     return `<span class="cyc cyc-${st}" title="${esc(title)}">${esc(cycleLabel(s))}</span>`;
@@ -1303,7 +1276,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   // one plain sentence explaining what this record's cycle means, for detail views
   function cycleSentence(s){
     return {
-      current:    'These figures cover the ' + s.year + ' admissions cycle — the most recent cycle in our data.',
+      current:    'These figures cover the ' + s.year + ' admissions cycle, the most recent cycle in our data.',
       behind1:    'These figures cover the ' + s.year + ' cycle, one behind the newest data we hold. It is the most recent edition this school has published.',
       behind2:    'These figures cover the ' + s.year + ' cycle, two or more behind the newest data we hold. It is still the most recent edition this school has published.',
       unconfirmed:'This record does not state which admissions cycle it covers, so we do not claim one.'
@@ -1314,7 +1287,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const asPublished = s => s.flags.some(f => f.includes('implausible'));
   const fromArchive = s => s.flags.some(f => f.includes('refresh_from_live'));
 
-  // school/state matcher — supports school name substring, 2-letter code ("ca"),
+  // school/state matcher - supports school name substring, 2-letter code ("ca"),
   // full state name ("california"), and partials len>=3 ("calif", "new ham")
   const STATE_ABBR = {alabama:'AL',alaska:'AK',arizona:'AZ',arkansas:'AR',california:'CA',colorado:'CO',connecticut:'CT',delaware:'DE','district of columbia':'DC',florida:'FL',georgia:'GA',hawaii:'HI',idaho:'ID',illinois:'IL',indiana:'IN',iowa:'IA',kansas:'KS',kentucky:'KY',louisiana:'LA',maine:'ME',maryland:'MD',massachusetts:'MA',michigan:'MI',minnesota:'MN',mississippi:'MS',missouri:'MO',montana:'MT',nebraska:'NE',nevada:'NV','new hampshire':'NH','new jersey':'NJ','new mexico':'NM','new york':'NY','north carolina':'NC','north dakota':'ND',ohio:'OH',oklahoma:'OK',oregon:'OR',pennsylvania:'PA','rhode island':'RI','south carolina':'SC','south dakota':'SD',tennessee:'TN',texas:'TX',utah:'UT',vermont:'VT',virginia:'VA',washington:'WA','west virginia':'WV',wisconsin:'WI',wyoming:'WY'};
   function matchQuery(s, q){
@@ -1331,7 +1304,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   /* Application platform (Common App / own portal / Coalition / UC / CSU / ApplyTexas)
      is deliberately NOT surfaced. Schools state it on their own transfer pages and we
      link straight there, so carrying our own copy is one more thing to keep true.
-     `reqs.applyVia` stays in the data untouched — it is still used upstream. */
+     `reqs.applyVia` stays in the data untouched - it is still used upstream. */
 
   // flag -> reader-facing honesty note (curated; unknown flags render nothing)
   const FLAG_NOTES = {
@@ -1339,23 +1312,23 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     dates_may_roll:'These dates are from the most recently posted cycle. Confirm the current cycle with the school.',
     residency_rule_only:'The school states a residency rule (credits you must complete on campus) rather than a numeric cap on transfer credits.',
     no_numeric_cap_published:'No numeric transfer-credit cap is published.',
-    cds_d7_conflict:'The school’s transfer page and its Common Data Set list different deadlines — we show the school-page value.',
+    cds_d7_conflict:'The school’s transfer page and its Common Data Set list different deadlines. We show the school-page value.',
     js_blocked:'Some official pages require a browser to render; values were verified from the sources we could reach.',
     js_blocked_deadline_table:'The deadline table is script-rendered; deadlines were verified from the reachable text.',
     waf_blocked:'The school’s server blocks automated access; values were verified from alternate official sources.',
     stale_page_banner:'The page carried an out-of-date banner; dates were checked against the current cycle where possible.',
-    content_from_gatsby_page_data:'Captured from the page’s underlying data feed — verify visually.',
+    content_from_gatsby_page_data:'Captured from the page’s underlying data feed. Verify visually.',
     spring_suspended_2026_recheck_2027:'Spring transfer admission was suspended for 2026; recheck for 2027.',
     spring_us_citizens_and_prs_only:'Spring entry is limited to U.S. citizens and permanent residents.',
     spring_sophomores_only:'Spring entry is limited to sophomore-level transfers.',
-    spring_restricted:'Spring transfer entry is restricted — see the school’s page for who qualifies.',
+    spring_restricted:'Spring transfer entry is restricted. See the school’s page for who qualifies.',
     spring_deadline_not_published:'A spring cycle exists but no spring deadline is published.',
     per_school_variation:'Deadlines or requirements vary by college/major within the school.',
     program_deadlines_vary:'Deadlines vary by program.',
     cap_two_year_only:'The credit cap shown applies to two-year/community-college transfer credit.',
     cap_in_courses:'The cap is stated in courses rather than credit hours.',
     cap_stated_in_years:'The limit is expressed as a year-standing rule rather than a credit number.',
-    priority_then_rolling:'These are priority dates, not hard closing dates — the school keeps reviewing applications on a rolling basis afterward.',
+    priority_then_rolling:'These are priority dates, not hard closing dates. The school keeps reviewing applications on a rolling basis afterward.',
     university_wide_policy:'Deadlines and credit-transfer limits are set university-wide across campuses; we confirmed them against this campus\u2019s own dates page.',
     gpa_stats_2023_24_cycle:'',
     gpa_stats_fall_2023_cycle:'',
@@ -1383,7 +1356,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const r = s.reqs;
     const claims = [];
     if(s.sourceUrl){
-      claims.push([ isGap(s) ? 'Transfer admission counts — confirmed not published'
+      claims.push([ isGap(s) ? 'Transfer admission counts: confirmed not published'
                              : 'Transfer admit rate, applicants, admitted, enrolled',
                     [['Common Data Set' + (s.year ? ' ' + s.year : ''), s.sourceUrl]] ]);
     }
@@ -1412,7 +1385,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function emptyRow(cols, query, clearId){
     return `<tr><td colspan="${cols}"><div class="empty">
       <h3>No school matches “${esc(query)}”.</h3>
-      <p>Try a state instead — “Texas” or “TX” both work — or clear the filters to see all ${S.length}.</p>
+      <p>Try a state instead (“Texas” or “TX” both work), or clear the filters to see all ${S.length}.</p>
       <button class="btn" type="button" id="${clearId}">Clear search</button>
     </div></td></tr>`;
   }
@@ -1427,7 +1400,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const typeLabel = t => (t && t!=='none') ? `<span class="dtype">${esc(t)}</span>` : '';
   const springCell = r => {
     const sd = (r.springDeadline||'').trim();
-    if(!sd) return '<span class="dim">—</span>';
+    if(!sd) return '<span class="dim">–</span>';
     if(sd.toLowerCase()==='none' || r.springType==='none') return '<span class="nospring">no spring intake</span>';
     return `${esc(sd)}${typeLabel(r.springType)}`;
   };
@@ -1446,7 +1419,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   /* Asymmetric hero. The right column is not decoration: it shows a real record
      with its real source link, so the differentiator is demonstrated rather than
      described. Every child carries a --i index for the single page-load reveal. */
-  /* ===== WO2 Task 2 — hero-card aggregates, all derived from TT_DATA at runtime.
+  /* ===== WO2 Task 2 - hero-card aggregates, all derived from TT_DATA at runtime.
      Nothing here is hardcoded; if the dataset changes these figures move with it. ===== */
 
   // Most common fall deadlines. Records whose date can't be read are excluded from the
@@ -1465,7 +1438,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return { top, used, unreadable, nonePublished, total:S.length, max: top.length ? top[0][1] : 0 };
   }
 
-  // Typical application-opening timing. Reported as the modal month with its count —
+  // Typical application-opening timing. Reported as the modal month with its count -
   // and with how many of those values are our own estimate rather than a published date.
   function appOpenPattern(){
     const MON = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1486,7 +1459,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
              rolling, unstated, estimated, notADate, total:S.length };
   }
 
-  // Coverage — the strongest trust argument is the coverage itself.
+  // Coverage - the strongest trust argument is the coverage itself.
   function coverageStats(){
     const total = S.length;
     const sourced = S.filter(x => x.sourceUrl).length;
@@ -1534,7 +1507,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         </div>
       </div>
       <div class="dist-bars">${bars}</div>
-      <p class="dist-foot">Transfer admit rate across the <b>${d.counted}</b> schools that publish one. The middle school of the set sits at <b>${estPct(d.median)}</b> — the hardest at <b>${estPct(d.hardest)}</b>, the most open at <b>${estPct(d.easiest)}</b>. The same six bands drive the estimate model.</p>
+      <p class="dist-foot">Transfer admit rate across the <b>${d.counted}</b> schools that publish one. The middle school of the set sits at <b>${estPct(d.median)}</b>. The hardest sits at <b>${estPct(d.hardest)}</b>, the most open at <b>${estPct(d.easiest)}</b>. The same six bands drive the estimate model.</p>
     </div>`;
   }
 
@@ -1543,7 +1516,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return `<aside class="dark heropanel rv" style="--i:3">
       <div class="heropanel-k">How to read this database</div>
       <ol class="hp-steps">
-        <li><b>Every rate is the school's own figure.</b> Taken from Section D of its Common Data Set — transfer applicants, admitted, enrolled. Not a freshman rate, and never an estimate.</li>
+        <li><b>Every rate is the school's own figure.</b> Taken from Section D of its Common Data Set: transfer applicants, admitted, enrolled. Not a freshman rate, and never an estimate.</li>
         <li><b>The tag beside each rate is the cycle it covers.</b> <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span> is the newest we hold. An amber tag means the school has not published since; we label it rather than hide it.</li>
         <li><b>The check mark opens the filing itself.</b> Every row links to the document its number came from, so you can check our work.</li>
       </ol>
@@ -1562,7 +1535,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       <ul class="hp-bars">${bars}</ul>
       <div class="heropanel-meta">
         Drawn from <b>${f.used} of ${f.total}</b> records that publish a fall date we can read${f.nonePublished?`; ${f.nonePublished} publish none`:''}${f.unreadable?`; ${f.unreadable} could not be read and were left out rather than guessed`:''}.
-        <br><br>${o.month ? `<b>${o.count}</b> schools open applications in <b>${esc(o.month)}</b>${o.rolling?`, and ${o.rolling} accept on a rolling basis` : ''}. ${o.estimated} of the opening dates are our own estimate rather than a date the school publishes — those are marked on the school's own row.` : ''}
+        <br><br>${o.month ? `<b>${o.count}</b> schools open applications in <b>${esc(o.month)}</b>${o.rolling?`, and ${o.rolling} accept on a rolling basis` : ''}. ${o.estimated} of the opening dates are our own estimate rather than a date the school publishes. Those are marked on the school's own row.` : ''}
         <br><br>These are patterns across the dataset, not any single school's dates. Always confirm on the school's page.
       </div>
     </aside>`;
@@ -1588,7 +1561,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
      no longer matches a record is DROPPED rather than rendered against nothing, so the
      feature degrades quietly if the dataset moves underneath it.
      These values are never written back onto a school record, never given a per-school
-     "verified from the filing" treatment, and never carry a sourceUrl claim — they are
+     "verified from the filing" treatment, and never carry a sourceUrl claim - they are
      undergraduate-admission figures, not transfer filings. */
   const REF_BANDS = (window.REFERENCE_GPA || [])
     .filter(r => BY_SLUG[r.slug])
@@ -1603,14 +1576,14 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
   /* ---------- selectivity bands ----------
      WO4 Task 1: these were the comparison-point bands of the WO2/WO3 estimate model,
-     which Chance Me now replaces. They survive purely as a DISPLAY device — the colour
+     which Chance Me now replaces. They survive purely as a DISPLAY device - the colour
      scale on every rate bar and the distribution chart on Home. They take no part in
      any estimate. */
   const SEL_BANDS = [[0,.10],[.10,.25],[.25,.45],[.45,.65],[.65,.85],[.85,1.0001]];
   const selIndex = r => r == null ? 0 : (SEL_BANDS.findIndex(([lo,hi]) => r >= lo && r < hi) + 1);
 
   // credit-cap units that denote an actual transfer ceiling. "in residence" is a
-  // residency requirement — a graduation rule — and is deliberately absent.
+  // residency requirement - a graduation rule - and is deliberately absent.
   const CAP_UNITS = ['semester','quarter','credits','units','sem. (2-yr)','semester credits','courses'];
 
   const estNum = v => { const f = parseFloat(String(v==null?'':v).replace(/[^0-9.]/g,'')); return isFinite(f) ? f : null; };
@@ -1659,15 +1632,15 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
       <h4 class="method-h4">The reference data, and what it is not</h4>
       <p class="method-lead">${esc(CM_DISCLAIMER_REFERENCE)}
-      <br><br>These figures are <b>not</b> in the same class as the rest of the data on this site. Every admit rate, deadline and credit cap elsewhere is transfer-specific and links to the filing it came from. The reference band does not, because there is no per-school transfer-GPA filing behind it — so it is never shown with a verification mark or a source link, and it is never written into a school's record. It covers <b>${REF_BANDS.length} schools</b>, with bands running from ${Math.min(...lows).toFixed(2)} to ${Math.max(...highs).toFixed(2)}.</p>
+      <br><br>These figures are <b>not</b> in the same class as the rest of the data on this site. Every admit rate, deadline and credit cap elsewhere is transfer-specific and links to the filing it came from. The reference band does not, because there is no per-school transfer-GPA filing behind it, so it is never shown with a verification mark or a source link, and it is never written into a school's record. It covers <b>${REF_BANDS.length} schools</b>, with bands running from ${Math.min(...lows).toFixed(2)} to ${Math.max(...highs).toFixed(2)}.</p>
 
       <h4 class="method-h4">Eligibility comes first</h4>
-      <p class="method-lead">Before any arithmetic we check the school's own published rules: its transfer credit cap, its minimum credits, and its minimum GPA. If you don't meet one, we say so and show <b>no estimate at all</b> — a requirement you don't meet is a fact, not a smaller percentage.
-      <br><br>One caveat we'd rather state than hide: a published cap is only checked against your credit total when it is expressed in semester credit-hours. Several schools state theirs in course units or in years — "16 units", "15 courses", "two years of coursework" — and those are not credit totals. Comparing them to one would mark you ineligible on a unit mismatch, so instead we show the cap, say what unit it is in, and leave the judgement to you.</p>
+      <p class="method-lead">Before any arithmetic we check the school's own published rules: its transfer credit cap, its minimum credits, and its minimum GPA. If you don't meet one, we say so and show <b>no estimate at all</b>. A requirement you don't meet is a fact, not a smaller percentage.
+      <br><br>One caveat we'd rather state than hide: a published cap is only checked against your credit total when it is expressed in semester credit-hours. Several schools state theirs in course units or in years ("16 units", "15 courses", "two years of coursework"), and those are not credit totals. Comparing them to one would mark you ineligible on a unit mismatch, so instead we show the cap, say what unit it is in, and leave the judgement to you.</p>
 
       <h4 class="method-h4">The comparison point</h4>
       <p class="method-lead">College GPAs run slightly below recalculated high-school GPAs, so when we compare your <b>college</b> GPA we first shift the reference band down by <b>${CM.BAND_SHIFT.toFixed(2)}</b>.
-      <br><br>Below <b>${CM.HS_THRESHOLD} credits</b> we ask for your high school GPA instead, and compare it against the <b>unshifted</b> band — the reference is itself an undergraduate admitted-GPA figure, so that is a like-for-like comparison rather than a proxy. If you are under ${CM.HS_THRESHOLD} credits and don't give us a high school GPA, we fall back to your college GPA against the shifted band and say on the result that the estimate is weaker for it.</p>
+      <br><br>Below <b>${CM.HS_THRESHOLD} credits</b> we ask for your high school GPA instead, and compare it against the <b>unshifted</b> band. The reference is itself an undergraduate admitted-GPA figure, so that is a like-for-like comparison rather than a proxy. If you are under ${CM.HS_THRESHOLD} credits and don't give us a high school GPA, we fall back to your college GPA against the shifted band and say on the result that the estimate is weaker for it.</p>
 
       <h4 class="method-h4">The two multipliers</h4>
       <p class="method-lead">Both are discrete bands, not a fitted curve. The GPA multiplier never falls as your GPA rises, and the credits multiplier never falls as your credits rise.</p>
@@ -1677,7 +1650,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       </div>
 
       <h4 class="method-h4">Bounding, and the range</h4>
-      <p class="method-lead">We start from the school's own published transfer admit rate and multiply by both figures. The result is floored at <b>${estPct(CM.FLOOR)}</b> and capped at the lower of <b>${CM.CEIL_MULTIPLE}×</b> that school's own rate and <b>${estPct(CM.CEIL_ABS)}</b> — never 0%, never 100%.
+      <p class="method-lead">We start from the school's own published transfer admit rate and multiply by both figures. The result is floored at <b>${estPct(CM.FLOOR)}</b> and capped at the lower of <b>${CM.CEIL_MULTIPLE}×</b> that school's own rate and <b>${estPct(CM.CEIL_ABS)}</b>. Never 0%, never 100%.
       <br><br>It is then shown as a range of <b>±${Math.round(CM.REL*100)}%</b> around that figure, at least <b>${CM.MIN_SPAN}</b> and at most <b>${CM.MAX_SPAN}</b> percentage points wide, rounded to whole percentages. The range is held inside the same bounds, so nothing on screen ever exceeds the ceiling. You will never see a single number, because a single number would imply a precision this model does not have.</p>
 
       <h4 class="method-h4">What the model does and does not use</h4>
@@ -1695,16 +1668,16 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       <div class="cards">
         <div class="card rv" style="--i:1"><h3>Straight from the source</h3><p>Every rate comes from Section D of each school's own Common Data Set. Deadlines and credit-transfer caps come from the school's own admissions pages. Every value links to the file or page it came from.</p></div>
         <div class="card rv" style="--i:2"><h3>Verified, not scraped-and-prayed</h3><p>Numbers are cross-footed against the school's own totals and independently spot-checked. Anything that fails QA is quarantined, not published. When a page and a filing disagree, we show the school-page value and say so.</p></div>
-        <div class="card rv" style="--i:3"><h3>Honest about gaps</h3><p>Blank beats guessed. If a school only publishes a minimum GPA, we don't invent an average. If it doesn't publish transfer counts (Syracuse — we checked), we say so. Older editions are labeled, not hidden.</p></div>
+        <div class="card rv" style="--i:3"><h3>Honest about gaps</h3><p>Blank beats guessed. If a school only publishes a minimum GPA, we don't invent an average. If it doesn't publish transfer counts (Syracuse, we checked), we say so. Older editions are labeled, not hidden.</p></div>
       </div>
       ${showCoverage ? coveragePanel() : ''}
       ${estimateMethodology()}
       <h3 class="method-sub">What the cycle year means</h3>
-      <p class="method-lead">Every admit rate on this site carries the admissions cycle it came from — <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span>, for example. Schools publish their Common Data Sets on their own schedules, so at any moment some are a cycle or two behind the rest. That is the school's timing, not a gap in our checking: what you see is the newest edition that school has actually made public. We label the older ones <span class="cyc cyc-behind1">one cycle behind</span> or <span class="cyc cyc-behind2">two or more behind</span> rather than hiding them, because an older real number beats a current invented one. Where a record doesn't state its cycle at all, we say <span class="cyc cyc-unconfirmed">Cycle year unconfirmed</span> instead of guessing. Nothing is ever filtered out or pushed down the page for being older — you decide what it's worth.</p>
+      <p class="method-lead">Every admit rate on this site carries the admissions cycle it came from: <span class="cyc cyc-current">${esc(REF_CYCLE)} data</span>, for example. Schools publish their Common Data Sets on their own schedules, so at any moment some are a cycle or two behind the rest. That is the school's timing, not a gap in our checking: what you see is the newest edition that school has actually made public. We label the older ones <span class="cyc cyc-behind1">one cycle behind</span> or <span class="cyc cyc-behind2">two or more behind</span> rather than hiding them, because an older real number beats a current invented one. Where a record doesn't state its cycle at all, we say <span class="cyc cyc-unconfirmed">Cycle year unconfirmed</span> instead of guessing. Nothing is ever filtered out or pushed down the page for being older. You decide what it's worth.</p>
     </section>
     <footer><div class="wrap">
       <div class="cols">
-        <div><b>TransferVerified</b> · Built by Batu Yetki — a transfer applicant, for transfers.</div>
+        <div><b>TransferVerified</b> · Built by Batu Yetki, a transfer applicant, for transfers.</div>
         <nav class="social" aria-label="TransferVerified on social media">
           <a href="https://www.tiktok.com/@transferverified" target="_blank" rel="noopener me">TikTok</a>
           <a href="https://www.instagram.com/transferverified" target="_blank" rel="noopener me">Instagram</a>
@@ -1717,11 +1690,11 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       </div>
     </div></footer>`;
   }
-  const searchSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03396C" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
+  const searchSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16130E" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
 
   /* ============ TOP 75 TAB (set of top-ranked national universities) ============ */
   const T75 = S.filter(s => s.t75);
-  const money = v => v == null ? '—' : '$' + v.toLocaleString('en-US');
+  const money = v => v == null ? '–' : '$' + v.toLocaleString('en-US');
   let tControl='all', tQuery='', tSort='rate_asc', tOpen=null;
 
   function topFiltered(){
@@ -1741,22 +1714,22 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     function ra(s){ return s.rate==null?9:s.rate; } function rd(s){ return s.rate==null?-1:s.rate; }
   }
   function tuitionCell(s){
-    if(s.tuition == null) return '<span class="dim">—</span>';
+    if(s.tuition == null) return '<span class="dim">–</span>';
     return `${money(s.tuition)}${s.tuitionIn!=null?`<span class="subnum">${money(s.tuitionIn)} in-state</span>`:''}`;
   }
   function topDetail(s){
     const f = [
-      ['Enrolled from transfer', s.enrolled!=null?n(s.enrolled):'—'],
-      ['Founded', s.founded||'—'],
-      ['Undergraduates', s.undergrads!=null?n(s.undergrads)+' ('+(s.profileYear||'')+')':'—'],
+      ['Enrolled from transfer', s.enrolled!=null?n(s.enrolled):'–'],
+      ['Founded', s.founded||'–'],
+      ['Undergraduates', s.undergrads!=null?n(s.undergrads)+' ('+(s.profileYear||'')+')':'–'],
       [s.tuitionIn!=null?'Tuition & fees (out-of-state)':'Tuition & fees', money(s.tuition)],
       ...(s.tuitionIn!=null?[['Tuition & fees (in-state)', money(s.tuitionIn)]]:[]),
-      ['Terms accepted', s.terms||'—'],
-      ['Min credits', s.minCredits||'—'],
-      ['Min college GPA', s.minGpa||'—'],
-      ['Fall deadline', s.fallDeadline||'—'],
-      ['Spring deadline', s.springDeadline||'—'],
-      ['Notification', s.notification||'—']
+      ['Terms accepted', s.terms||'–'],
+      ['Min credits', s.minCredits||'–'],
+      ['Min college GPA', s.minGpa||'–'],
+      ['Fall deadline', s.fallDeadline||'–'],
+      ['Spring deadline', s.springDeadline||'–'],
+      ['Notification', s.notification||'–']
     ].map(([k,v]) => `<div><b>${k}</b><span>${esc(v)}</span></div>`).join('');
     const hist = s.history.filter(h => h.applicants!=null).map(h =>
       `${esc(h.year)}: ${n(h.applicants)} applied · ${n(h.admits)} admitted (${pct(h.rate)})`).join(' &nbsp;·&nbsp; ');
@@ -1786,7 +1759,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ${heroBlock({
         eyebrow:'The set of top-ranked national universities',
         title:'The top 75, <em>by transfer odds.</em>',
-        sub:"Verified transfer admit rates for the universities that consistently sit at the top of the national rankings — plus what each one costs, how big it is, and how long it has been around. Sorted by how hard they actually are to transfer into.",
+        sub:"Verified transfer admit rates for the universities that consistently sit at the top of the national rankings, plus what each one costs, how big it is, and how long it has been around. Sorted by how hard they actually are to transfer into.",
         stats: topHeroStats(), aside: heroPanel() })}
       <main class="wrap t75">
         <div class="controls">
@@ -1809,7 +1782,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <tbody id="trows"></tbody>
         </table></div>
         <div class="notrank">
-          <b>This is a set, not a ranking.</b> These are the roughly seventy-five universities that consistently appear near the top of major national rankings. We don’t reproduce, order by, or endorse any publisher’s ranking — the sort order on this page is our own, and it defaults to transfer selectivity. Every school here also appears in <a href="#/all">All schools</a>.
+          <b>This is a set, not a ranking.</b> These are the roughly seventy-five universities that consistently appear near the top of major national rankings. We don’t reproduce, order by, or endorse any publisher’s ranking. The sort order on this page is our own, and it defaults to transfer selectivity. Every school here also appears in <a href="#/all">All schools</a>.
           <br><br>Transfer rates come from each school’s own Common Data Set. Tuition and undergraduate enrollment are the most recent published figures (fall 2024); tuition is the full published cost before financial aid, and shows the out-of-state figure for public universities.
         </div>
       </main>` + bandAndMethod();
@@ -1827,12 +1800,12 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       wireClear('#tclear', () => { tQuery=''; tControl='all'; const b=$('#tq'); if(b) b.value=''; renderTop(); }); return; }
     $('#trows').innerHTML = list.map((s, _i) => {
       const open = tOpen===s.slug, gap = isGap(s);
-      const row = `<tr class="row num rv ${open?'open':''}" style="--i:${Math.min(_i,14)}" data-slug="${esc(s.slug)}" tabindex="0" role="button" aria-expanded="${open}" aria-label="${esc(s.name)} — press Enter for details">
+      const row = `<tr class="row num rv ${open?'open':''}" style="--i:${Math.min(_i,14)}" data-slug="${esc(s.slug)}" tabindex="0" role="button" aria-expanded="${open}" aria-label="${esc(s.name)}. Press Enter for details">
         <td class="l"><div class="school">${esc(s.name)} ${chips(s)}</div>
           <div class="meta">${esc(s.state)} · ${s.control}${s.founded?` · <span class="est">founded ${s.founded}</span>`:''}</div></td>
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
-        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim hatch">not published — we checked</span>`
+        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim hatch">not published, we checked</span>`
           :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track sel-${selIndex(s.rate)}"><div class="fill sel-${selIndex(s.rate)}" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Tuition">${tuitionCell(s)}</td>
         <td class="hidesm" data-l="Undergrads">${n(s.undergrads)}</td>
@@ -1844,7 +1817,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     wireClear('#tclear', () => { tQuery=''; const b=$('#tq'); if(b) b.value=''; drawTop(); });
   }
 
-  /* rows are operable by mouse and by keyboard — this is a data tool people arrow through */
+  /* rows are operable by mouse and by keyboard - this is a data tool people arrow through */
   function wireRows(sel, toggle){
     $(sel).querySelectorAll('tr.row').forEach(tr => {
       tr.addEventListener('click', () => toggle(tr.dataset.slug));
@@ -1873,8 +1846,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return h;
   }
   function ratesDetail(s){
-    const f = [['Terms accepted',s.terms||'—'],['Min credits',s.minCredits||'—'],['Min college GPA',s.minGpa||'—'],
-      ['Fall deadline',s.fallDeadline||'—'],['Spring deadline',s.springDeadline||'—'],['Notification',s.notification||'—']]
+    const f = [['Terms accepted',s.terms||'–'],['Min credits',s.minCredits||'–'],['Min college GPA',s.minGpa||'–'],
+      ['Fall deadline',s.fallDeadline||'–'],['Spring deadline',s.springDeadline||'–'],['Notification',s.notification||'–']]
       .map(([k,v]) => `<div><b>${k}</b><span>${esc(v)}</span></div>`).join('');
     const hist = s.history.filter(h => h.applicants!=null).map(h =>
       `${esc(h.year)}: ${n(h.applicants)} applied · ${n(h.admits)} admitted (${pct(h.rate)})`).join(' &nbsp;·&nbsp; ');
@@ -1898,7 +1871,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ${heroBlock({
         eyebrow:'Every number links to the school\u2019s own filing',
         title:'Every school, <em>verified.</em>',
-        sub:"Real transfer admit rates for 150+ top U.S. universities — every number extracted from the school's own official Common Data Set and linked to its source. No estimates. No recycled freshman stats.",
+        sub:"Real transfer admit rates for 150+ top U.S. universities. Every number is extracted from the school's own official Common Data Set and linked to its source. No estimates. No recycled freshman stats.",
         stats: heroStats(), aside: panelHowItWorks() })}
       <main class="wrap">
         <div class="controls">
@@ -1929,12 +1902,12 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       wireClear('#rclear', () => { rQuery=''; rControl='all'; const b=$('#q'); if(b) b.value=''; renderRates(); }); return; }
     $('#rows').innerHTML = list.map((s, _i) => {
       const open = rOpen===s.slug, gap = isGap(s);
-      const row = `<tr class="row num rv ${open?'open':''}" style="--i:${Math.min(_i,14)}" data-slug="${esc(s.slug)}" tabindex="0" role="button" aria-expanded="${open}" aria-label="${esc(s.name)} — press Enter for details">
+      const row = `<tr class="row num rv ${open?'open':''}" style="--i:${Math.min(_i,14)}" data-slug="${esc(s.slug)}" tabindex="0" role="button" aria-expanded="${open}" aria-label="${esc(s.name)}. Press Enter for details">
         <td class="l"><div class="school">${esc(s.name)} ${chips(s)}</div><div class="meta">${esc(s.state)}</div></td>
         <td data-l="Applied">${n(s.applicants)}</td>
         <td data-l="Admitted">${n(s.admits)}</td>
         <td data-l="Enrolled">${n(s.enrolled)}</td>
-        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim hatch">not published — we checked</span>`
+        <td class="l ratecol" data-l="Rate"><div class="ratewrap">${gap?`<span class="dim hatch">not published, we checked</span>`
           :`<div class="ratecell"><span class="ratenum">${pctSet(s.rate)}</span><div class="track sel-${selIndex(s.rate)}"><div class="fill sel-${selIndex(s.rate)}" style="width:${Math.min(100,(s.rate||0)*100)}%"></div></div></div>`}${cycleTag(s)}</div></td>
         <td data-l="Source">${seal(s)}</td>
       </tr>`;
@@ -1963,7 +1936,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ${heroBlock({
         eyebrow:'Dates taken from each school\u2019s own transfer page',
         title:'Deadlines &amp; <em>how to apply.</em>',
-        sub:"Application opening and deadline dates and credit-transfer caps — for 150+ schools, each linked to the school's own transfer page.",
+        sub:"Application opening and deadline dates and credit-transfer caps for 150+ schools, each linked to the school's own transfer page.",
         extra:`<div class="controls rv" style="--i:3">
           <div class="ac" id="ac">${searchSvg}
             <input id="acq" type="search" placeholder="Jump to a school…" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list">
@@ -2000,16 +1973,16 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       if(!r) return `<tr class="row rv" style="--i:${Math.min(_i,14)}" data-slug="${esc(s.slug)}">
         <td class="l"><div class="school">${esc(s.name)} <span class="tag soon">verifying</span></div><div class="meta">${esc(s.state)}</div></td>
         <td class="l" colspan="5"><span class="dim">Deadlines coming soon</span></td></tr>`;
-      const gpa = r.admittedGpa ? `${esc(r.admittedGpa)}${r.admittedGpaBasis?`<span class="dtype">${esc(r.admittedGpaBasis)}</span>`:''}` : '<span class="dim">—</span>';
-      const cap = r.creditCap ? `${esc(r.creditCap)} ${esc(r.creditCapUnit)}` : '<span class="dim">—</span>';
-      const fall = r.fallDeadline ? `${esc(r.fallDeadline)}${typeLabel(r.fallType)}` : '<span class="dim">—</span>';
+      const gpa = r.admittedGpa ? `${esc(r.admittedGpa)}${r.admittedGpaBasis?`<span class="dtype">${esc(r.admittedGpaBasis)}</span>`:''}` : '<span class="dim">–</span>';
+      const cap = r.creditCap ? `${esc(r.creditCap)} ${esc(r.creditCapUnit)}` : '<span class="dim">–</span>';
+      const fall = r.fallDeadline ? `${esc(r.fallDeadline)}${typeLabel(r.fallType)}` : '<span class="dim">–</span>';
       return `<tr class="row rv" style="--i:${Math.min(_i,14)}" data-slug="${esc(s.slug)}">
         <td class="l"><div class="school">${esc(s.name)}</div><div class="meta">${esc(s.state)} · ${s.control}</div></td>
-        <td class="l" data-l="Opens">${r.appOpens?esc(r.appOpens):'<span class="dim">—</span>'}</td>
+        <td class="l" data-l="Opens">${r.appOpens?esc(r.appOpens):'<span class="dim">–</span>'}</td>
         <td class="l" data-l="Fall deadline">${fall}</td>
         <td class="l" data-l="Spring deadline">${springCell(r)}</td>
         <td data-l="Credit cap">${cap}</td>
-        <td data-l="Page">${r.transferUrl?`<a class="golink" href="${esc(r.transferUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>`:'<span class="dim">—</span>'}</td>
+        <td data-l="Page">${r.transferUrl?`<a class="golink" href="${esc(r.transferUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>`:'<span class="dim">–</span>'}</td>
       </tr>`;
     }).join('');
     $('#arows').querySelectorAll('tr.row').forEach(tr => tr.addEventListener('click', () => go('#/school/'+tr.dataset.slug)));
@@ -2043,7 +2016,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   /* ============ SCHOOL PAGE ============ */
   function field(label, value, sub, fallback){
     const blank = value==null || value==='';
-    return `<div class="f"><b>${esc(label)}</b><span>${blank?`<span class="dim" style="font-weight:600">${esc(fallback||'—')}</span>`:esc(value)}${(!blank&&sub)?` <span class="sub">${esc(sub)}</span>`:''}</span></div>`;
+    return `<div class="f"><b>${esc(label)}</b><span>${blank?`<span class="dim" style="font-weight:600">${esc(fallback||'–')}</span>`:esc(value)}${(!blank&&sub)?` <span class="sub">${esc(sub)}</span>`:''}</span></div>`;
   }
   function renderSchool(slug){
     const s = BY_SLUG[slug];
@@ -2075,7 +2048,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         </div>
         <p class="foot-note">Published tuition and fees before financial aid \u00b7 enrollment as of ${esc(s.profileYear||'the most recent published term')}.</p>
       </div>` : '';
-    const cdsFields = '';  // CDS admissions grid removed per design — the CDS is linked in the Provenance section instead of duplicated as a second table.
+    const cdsFields = '';  // CDS admissions grid removed per design - the CDS is linked in the Provenance section instead of duplicated as a second table.
     const reqSection = r ? `
       <div class="sp-section"><h2>How to apply · verified from the school</h2>
         <div class="fieldgrid">
@@ -2089,12 +2062,12 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <div class="dark applycta">
           <div class="applycta-copy">
             <b>Apply on ${esc(s.name)}'s own transfer page</b>
-            <span>The school states its own application steps and platform there — we send you straight to it rather than keeping a second copy.</span>
+            <span>The school states its own application steps and platform there. We send you straight to it rather than keeping a second copy.</span>
           </div>
           <a class="btn btn-primary" href="${esc(r.transferUrl)}" target="_blank" rel="noopener">Open transfer page ↗</a>
         </div>`:''}
       </div>`
-      : `<div class="sp-section"><h2>How to apply</h2><div class="comingsoon">Deadlines and requirements for ${esc(s.name)} are being verified now — check back soon.</div></div>`;
+      : `<div class="sp-section"><h2>How to apply</h2><div class="comingsoon">Deadlines and requirements for ${esc(s.name)} are being verified now. Check back soon.</div></div>`;
     const hist = s.history.filter(h => h.applicants!=null);
     const histSection = hist.length ? `
       <div class="sp-section"><h2>Prior years</h2><div class="sp-hist num">
@@ -2135,7 +2108,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   }
 
   /* ================================================================================
-     PERSONAL TRACKER — Work Order 01, Task 4.
+     PERSONAL TRACKER - Work Order 01, Task 4.
      Interface and client-side data model only. No auth, no payments, no server:
      those are Work Order 02.
      ================================================================================ */
@@ -2148,7 +2121,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const Store = (function(){
     const KEY = 'transferverified.tracker.v1';
     // v2 added `profile`; v3 adds `hsGpa` and the Chance Me school selection.
-    // Older payloads migrate forward on load — nothing is ever discarded on upgrade.
+    // Older payloads migrate forward on load - nothing is ever discarded on upgrade.
     const VERSION = 3;
     const emptyProfile = () => ({ gpa:null, credits:null, level:'', hsGpa:null });
     const empty = () => ({ schemaVersion:VERSION, updatedAt:null, saved:[],
@@ -2181,7 +2154,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         level: ['freshman','sophomore','junior'].includes(p.level) ? p.level : '',
         hsGpa: num(p.hsGpa, 4)
       };
-      // selection is order-significant — it is the order results are shown in — so it
+      // selection is order-significant - it is the order results are shown in - so it
       // is de-duplicated in place rather than sorted.
       const seen = new Set();
       const chancePicks = (Array.isArray(parsed.chancePicks) ? parsed.chancePicks : [])
@@ -2196,7 +2169,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         updatedAt: new Date().toISOString()
       });
       try{ window.localStorage.setItem(KEY, JSON.stringify(next)); }
-      catch(e){ return false; }              // quota or disabled — caller surfaces it
+      catch(e){ return false; }              // quota or disabled - caller surfaces it
       return true;
     }
     function clear(){
@@ -2214,7 +2187,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     return true;
   }
 
-  /* PLACEHOLDER PRICE — NOT FINAL. The owner sets the real figure after seeing this
+  /* PLACEHOLDER PRICE - NOT FINAL. The owner sets the real figure after seeing this
      rendered (Work Order 03, Task 3). One constant, consumed by the plans section and
      the tracker lock screen, so changing it is a one-line edit.
      `oneTime` is deliberately spelled out rather than implied: a student must never be
@@ -2261,13 +2234,13 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
      fallDeadlineIso is stored MM-DD with no year, so it is resolved to the next
      occurrence relative to today purely so the list can sort. No synthesised year is
      ever displayed. Anything that will not parse goes to an explicit group with a
-     link to the school's own page — never dropped, never guessed. */
+     link to the school's own page - never dropped, never guessed. */
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const MONTH_NUM = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12,
     january:1,february:2,march:3,april:4,june:6,july:7,august:8,september:9,october:10,november:11,december:12};
 
   // Returns {mo, da, yr|null} for a single unambiguous date, else null.
-  // Anything with a range, a qualifier, or more than one date stays null on purpose —
+  // Anything with a range, a qualifier, or more than one date stays null on purpose -
   // those belong in "date needs confirming", not in a date we invented.
   function parseDate(txt){
     const t = txt.trim().replace(/\s+/g,' ');
@@ -2329,7 +2302,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   }
 
   /* ---------- views ---------- */
-  /* The locked state is a real view — a page that explains the tool and what it costs.
+  /* The locked state is a real view - a page that explains the tool and what it costs.
      Not an overlay, not a blur, not a teased result behind a modal. */
   function chanceLocked(){
     return `
@@ -2354,7 +2327,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           </div>
           <div class="lockcard rv" style="--i:4">
             <h3>Every step of the arithmetic is shown</h3>
-            <p>Each estimate opens into the full working — every multiplier, why it applied, and which figures are the school\u2019s versus ours. The whole formula is published on the methodology page.</p>
+            <p>Each estimate opens into the full working: every multiplier, why it applied, and which figures are the school\u2019s versus ours. The whole formula is published on the methodology page.</p>
           </div>
         </div>
         <div class="dark lockcta">
@@ -2368,7 +2341,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       </main>` + bandAndMethod();
   }
 
-  /* One glyph per tab. Hand-written inline SVG — no icon font, no dependency. */
+  /* One glyph per tab. Hand-written inline SVG - no icon font, no dependency. */
   const ICONS = {
     top:'<path d="M4 19h4v-7H4zM10 19h4V5h-4zM16 19h4v-10h-4z"/>',
     all:'<path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19.5" cy="18" r="1.6"/>',
@@ -2381,7 +2354,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
   function insideItems(){
     const withFall = S.filter(x => x.reqs && x.reqs.fallDeadline).length;
-    // a real ceiling on transferable credit — NOT the 67 records whose "cap" is an
+    // a real ceiling on transferable credit - NOT the 67 records whose "cap" is an
     // in-residence graduation rule, which is a different thing and never counted here
     const withCap = S.filter(x => {
       const r = x.reqs || {};
@@ -2389,12 +2362,12 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       return c != null && CAP_UNITS.includes((r.creditCapUnit||'').trim());
     }).length;
     return [
-      ['#/top',     'Top 75',      'top',     `The universities that consistently sit at the top of the national rankings, sorted by how hard they actually are to transfer into — with tuition, size, and founding year alongside.`],
+      ['#/top',     'Top 75',      'top',     `The universities that consistently sit at the top of the national rankings, sorted by how hard they actually are to transfer into, with tuition, size, and founding year alongside.`],
       ['#/all',     'All schools', 'all',     `Every one of the ${S.length} records: transfer applicants, admitted, enrolled, and the admit rate, each carrying the cycle it covers and a link to the filing it came from.`],
-      ['#/apply',   'Apply',       'apply',   `Application opening dates and deadlines for all ${S.length} schools — ${withFall} publish a fall date — plus the ${withCap} that publish a numeric ceiling on how much credit will transfer in. Each row links to the school's own transfer page.`],
+      ['#/apply',   'Apply',       'apply',   `Application opening dates and deadlines for all ${S.length} schools (${withFall} publish a fall date), plus the ${withCap} that publish a numeric ceiling on how much credit will transfer in. Each row links to the school's own transfer page.`],
       ['#/tracker', 'Tracker',     'tracker', `Free. Save the schools you are serious about, rank them yourself, keep a note on each, and see every deadline on one timeline.`],
       ['#/chance',  'Chance Me',   'chance',  `The one paid tool. Your GPA and credits set against an admitted-GPA reference band, with the school's own published rules checked first.`],
-      ['#method',   'Methodology', 'method',  `How every number is sourced, what the cycle-year labels mean, and the estimate formula written out in full — including the figures it is currently using.`]
+      ['#method',   'Methodology', 'method',  `How every number is sourced, what the cycle-year labels mean, and the estimate formula written out in full, including the figures it is currently using.`]
     ];
   }
 
@@ -2437,7 +2410,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <div class="plan-note plan-once">${esc(PRO_PRICE.oneTime)} You pay once and keep access permanently. No renewal, no expiry, no card kept on file.</div>
             <ul class="plan-list">${li(pro)}</ul>
             <button class="btn btn-primary plan-btn" type="button" id="plan-pro-btn" data-inert-cta="1">
-              Get Chance Me — ${esc(PRO_PRICE.amount)} once
+              Get Chance Me for ${esc(PRO_PRICE.amount)} once
             </button>
             <div class="plan-sub">Checkout isn't built yet. This button does nothing today.</div>
           </div>
@@ -2456,8 +2429,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           <div class="signin-copy">
             <h2 id="signin-h">${on ? 'Pro is unlocked on this device.' : 'Accounts are coming.'}</h2>
             <p>${on
-              ? 'Your tracker and your Chance Me inputs are stored in this browser. Accounts will let you carry them between devices — until then nothing leaves this device.'
-              : 'Everything free works without one — including the tracker. An account will only ever be needed to carry Chance Me between devices.'}</p>
+              ? 'Your tracker and your Chance Me inputs are stored in this browser. Accounts will let you carry them between devices. Until then nothing leaves this device.'
+              : 'Everything free works without one, including the tracker. An account will only ever be needed to carry Chance Me between devices.'}</p>
           </div>
           <button class="btn signin-btn" type="button" id="signin-btn" data-inert-cta="1">
             ${on ? 'Manage account' : 'Sign in'}
@@ -2488,7 +2461,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ${heroBlock({
         eyebrow:'Verified transfer admission data',
         title:'The transfer numbers schools publish, <em>and nobody collects.</em>',
-        sub:`Real transfer admit rates, deadlines, and credit-transfer caps for ${S.length} U.S. universities — every figure taken from the school’s own official filing and linked back to it. Free to use.`,
+        sub:`Real transfer admit rates, deadlines, and credit-transfer caps for ${S.length} U.S. universities. Every figure is taken from the school’s own official filing and linked back to it. Free to use.`,
         aside: heroPanel() })}
 
       <section class="hm-sec wrap" aria-labelledby="what-h">
@@ -2498,7 +2471,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
             <h2 id="what-h">Every number here came from the school.</h2>
           </div>
           <div class="hm-body">
-            <p>If you are transferring, the number you actually need is the transfer admit rate — how many people applied to transfer into a school last year, and how many got in. It is not the freshman rate, and most places that publish college data do not carry it at all.</p>
+            <p>If you are transferring, the number you actually need is the transfer admit rate: how many people applied to transfer into a school last year, and how many got in. It is not the freshman rate, and most places that publish college data do not carry it at all.</p>
             <p>Schools do publish it. It sits in Section D of a document called the Common Data Set, which nearly every university posts somewhere on its own site. TransferVerified reads those filings, pulls the transfer figures out, checks them by hand, and puts the link to the original next to every number so you can see for yourself where it came from.</p>
             <p>Deadlines, minimum credits, and credit-transfer caps come from each school’s own transfer page, checked the same way. Nothing is estimated, nothing is filled in from a guess, and where a school publishes nothing we say so rather than inventing a figure. It is free to use, and the whole method is written out on this site.</p>
           </div>
@@ -2513,7 +2486,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         </div>
         <div class="stats hm-stats">${covCells}</div>
         ${distChart()}
-        <p class="hm-covnote">Every one of the ${c.total} records was checked by hand between <b>${esc(c.from)}</b> and <b>${esc(c.to)}</b>. Records from an older cycle are labelled and kept — an older real number beats a current invented one — and nothing is filtered out or pushed down the page for being older.</p>
+        <p class="hm-covnote">Every one of the ${c.total} records was checked by hand between <b>${esc(c.from)}</b> and <b>${esc(c.to)}</b>. Records from an older cycle are labelled and kept, because an older real number beats a current invented one, and nothing is filtered out or pushed down the page for being older.</p>
       </section>
 
       <section class="hm-sec wrap" aria-labelledby="inside-h">
@@ -2542,14 +2515,14 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           el.setAttribute('role','status'); b.insertAdjacentElement('afterend', el); return el;
         })();
         note.textContent = b.id === 'signin-btn'
-          ? 'Accounts aren’t built yet — nothing to sign in to, and we will never ask for a password here.'
+          ? 'Accounts aren’t built yet. There is nothing to sign in to, and we will never ask for a password here.'
           : 'Checkout isn’t built yet. When it is, Chance Me will be a single ' + PRO_PRICE.amount + ' payment, not a subscription.';
       });
     });
   }
 
   /* ================================================================================
-     CHANCE ME — Work Order 04, Task 3.
+     CHANCE ME - Work Order 04, Task 3.
 
      EVERY tunable value lives in CM. Nothing below reads a magic number, so the model
      can be retuned here without touching a line of logic. The methodology page renders
@@ -2559,7 +2532,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   const CM = {
     // College GPAs run slightly below recalculated high-school GPAs, so the reference
     // band is shifted DOWN before a college GPA is compared against it. A high-school
-    // GPA is compared to the unshifted band — that is a like-for-like comparison.
+    // GPA is compared to the unshifted band - that is a like-for-like comparison.
     BAND_SHIFT: 0.05,
 
     // Position of the GPA relative to the comparison band. Discrete, no curve.
@@ -2684,7 +2657,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const raw  = base * g.m * c.m;
     const point = Math.min(ceil, Math.max(CM.FLOOR, raw));
 
-    // whole percentages first — rounding before the span rule is what reproduces the
+    // whole percentages first - rounding before the span rule is what reproduces the
     // work order's own examples (15% -> 12-18, 2% -> 1-3)
     const pc = point * 100;
     let lo = Math.round(pc * (1 - CM.REL));
@@ -2704,8 +2677,8 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     const ceilPc = Math.max(1, Math.round(ceil * 100));
     if(hi > ceilPc){ const shift = hi - ceilPc; hi = ceilPc; lo = Math.max(1, lo - shift); }
     lo = Math.max(1, lo);
-    // Where the floor and the ceiling are closer together than the minimum span — a
-    // school whose base rate is under 1%, so floor 1% and ceiling 3x base nearly meet —
+    // Where the floor and the ceiling are closer together than the minimum span - a
+    // school whose base rate is under 1%, so floor 1% and ceiling 3x base nearly meet -
     // the two hard bounds win and the span rule yields. Widening instead would print a
     // number above the model's own ceiling, which is the worse of the two.
     if(hi - lo < CM.MIN_SPAN) hi = Math.min(ceilPc, lo + CM.MIN_SPAN);
@@ -2732,7 +2705,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <h2 id="cm-lab">Your numbers</h2>
         <span class="est-badge">Pro</span>
       </div>
-      <p class="prof-sub">Stored on this device and used only to compare against the reference band below. We don’t ask for test scores — there is no transfer test-score data to compare them against.</p>
+      <p class="prof-sub">Stored on this device and used only to compare against the reference band below. We don’t ask for test scores. There is no transfer test-score data to compare them against.</p>
       <div class="prof-grid">
         <label class="prof-f"><span>College GPA</span>
           <input id="cm-gpa" type="number" inputmode="decimal" min="0" max="4" step="0.01"
@@ -2763,7 +2736,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         <h2 id="cm-pick-lab">Pick your schools</h2>
         <span class="count">${picked.size} selected</span>
       </div>
-      <p class="prof-sub">Chance Me covers the ${REF_BANDS.length} schools we hold a reference band for. Results appear in the order you pick them — we never reorder them by the estimate.</p>
+      <p class="prof-sub">Chance Me covers the ${REF_BANDS.length} schools we hold a reference band for. Results appear in the order you pick them. We never reorder them by the estimate.</p>
       <div class="cmpicks">${chips}</div>
       ${picked.size ? `<button class="iconbtn cmclear" type="button" id="cm-clear">Clear selection</button>` : ''}
     </section>`;
@@ -2799,7 +2772,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
 
     if(e.blocked)
       return `<li class="cmrow" style="--i:${Math.min(i,10)}">${head}${gateHtml}
-        <div class="est-suppressed">No estimate shown — your profile doesn’t meet a requirement ${esc(school.name)} publishes, listed above. A percentage here would be misleading.</div></li>`;
+        <div class="est-suppressed">No estimate shown. Your profile doesn’t meet a requirement ${esc(school.name)} publishes, listed above. A percentage here would be misleading.</div></li>`;
 
     const cap = estNum((school.reqs||{}).creditCap), unit = ((school.reqs||{}).creditCapUnit||'').trim();
     const cmp = [
@@ -2816,7 +2789,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       <div class="estimate">
         <div class="est-label"><span class="est-dot" aria-hidden="true"></span>TransferVerified Estimate</div>
         <div class="est-range">roughly ${e.range}</div>
-        ${e.cmp.weakWithoutHs ? `<div class="est-tier">Weaker without your high school record — you are under ${CM.HS_THRESHOLD} credits and haven’t entered a high school GPA, so this compares your college GPA against a shifted band instead of comparing like for like.</div>` : ''}
+        ${e.cmp.weakWithoutHs ? `<div class="est-tier">Weaker without your high school record. You are under ${CM.HS_THRESHOLD} credits and haven’t entered a high school GPA, so this compares your college GPA against a shifted band instead of comparing like for like.</div>` : ''}
         ${stale}
         <details class="est-break">
           <summary>How we got this</summary>
@@ -2858,7 +2831,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
       ${heroBlock({
         eyebrow:'Pro · saved on this device',
         title:'How do you <em>compare?</em>',
-        sub:`Your GPA and credits set against an admitted-GPA reference band for ${REF_BANDS.length} schools — with each school’s own published rules checked first.`})}
+        sub:`Your GPA and credits set against an admitted-GPA reference band for ${REF_BANDS.length} schools, with each school’s own published rules checked first.`})}
       <main class="wrap">
         ${chanceInputs()}
         ${chancePicker()}
@@ -2872,7 +2845,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function wireChance(){
     const flag = $('#cm-saved');
     const ping = () => { if(flag){ flag.textContent='Saved'; setTimeout(()=>{flag.textContent='';},1600); } };
-    // one timer per field — a shared timer lets a later field cancel an earlier
+    // one timer per field - a shared timer lets a later field cancel an earlier
     // field's pending write and silently drop what the user typed
     const timers = {};
     const debounce = (k, fn) => { clearTimeout(timers[k]); timers[k] = setTimeout(fn, 400); };
@@ -2916,7 +2889,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function renderTracker(){
     $('#view').innerHTML = `
       ${heroBlock({
-        eyebrow:'Free — saved on this device',
+        eyebrow:'Free / saved on this device',
         title:'Your <em>tracker.</em>',
         sub:"The schools you're applying to, in the order you want them, with your notes and every deadline in one place." })}
       <main class="wrap">
@@ -2949,7 +2922,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   function trackerEmpty(){
     return `<div class="empty">
       <h3>Nothing saved yet.</h3>
-      <p>Open any school and choose “Save to tracker”, or add one from the list below. Your list is ranked in the order you add them — you can reorder it any time.</p>
+      <p>Open any school and choose “Save to tracker”, or add one from the list below. Your list is ranked in the order you add them. You can reorder it any time.</p>
       <a class="btn btn-primary" href="#/all">Find schools to add</a>
     </div>`;
   }
@@ -2994,14 +2967,14 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
         </div>
       </li>`;
     }).join('');
-    return `<p class="trkhint">Ranked by where you most want to go. Drag a row, or use the ↑ ↓ buttons — both do the same thing.</p>
+    return `<p class="trkhint">Ranked by where you most want to go. Drag a row, or use the ↑ ↓ buttons. Both do the same thing.</p>
       <ol class="trklist" id="trklist">${items}</ol>` + trackerAdder();
   }
 
   function trackerAdder(){
     const options = S.filter(s => !isSaved(s.slug))
       .slice().sort((a,b)=>a.name.localeCompare(b.name))
-      .map(s => `<option value="${esc(s.slug)}">${esc(s.name)} — ${esc(s.state)}</option>`).join('');
+      .map(s => `<option value="${esc(s.slug)}">${esc(s.name)} / ${esc(s.state)}</option>`).join('');
     if(!options) return `<p class="trkhint" style="margin-top:var(--s5)">All ${S.length} schools are on your list.</p>`;
     return `<div class="trkadd">
       <label for="trkpick">Add a school</label>
@@ -3036,7 +3009,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
     }).join('');
 
     const unclearHtml = unclear.map(({school, which, d}) => `<li class="dlrow dlrow-unclear">
-      <div class="dlwhen"><b>—</b><span>needs confirming</span></div>
+      <div class="dlwhen"><b>–</b><span>needs confirming</span></div>
       <div class="dlmain">
         <a class="trkname" href="#/school/${esc(school.slug)}">${esc(school.name)}</a>
         <div class="meta">${which==='fall'?'Fall':'Spring'} transfer · the school publishes “${esc(d.text)}”, which isn't a single date we can place on a calendar.</div>
@@ -3050,7 +3023,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
            <p>None of your saved schools publishes a deadline we can place on a calendar. Anything we couldn't read is listed below with a link to the school's own page.</p></div></div>`}
       ${unclear.length?`<div class="dlunclear">
         <h3>Date needs confirming <span class="dlcount">${unclear.length}</span></h3>
-        <p>These schools publish something other than one fixed date — a rolling window, a priority date, or a per-programme rule. We won't guess a date for you. Check each one on the school's own page.</p>
+        <p>These schools publish something other than one fixed date: a rolling window, a priority date, or a per-programme rule. We won't guess a date for you. Check each one on the school's own page.</p>
         <ol class="dllist">${unclearHtml}</ol>
       </div>`:''}`;
   }
@@ -3081,7 +3054,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
           }, 400);
         });
       });
-      // drag to reorder — the keyboard path above is equivalent, not a lesser fallback
+      // drag to reorder - the keyboard path above is equivalent, not a lesser fallback
       list.querySelectorAll('.trkrow[draggable]').forEach(row => {
         row.addEventListener('dragstart', e => { trkDrag = row.dataset.slug; row.classList.add('dragging');
           if(e.dataTransfer){ e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain', trkDrag); }catch(_){} } });
@@ -3108,7 +3081,7 @@ window.TT_DATA = {"generated": "2026-07-18", "schools": [{"slug": "american-univ
   }
   function wireTrackerDeadlines(){ /* deadline rows are plain links; nothing to wire */ }
 
-  /* save/remove control shown on a school page — the tracker's only reach into the
+  /* save/remove control shown on a school page - the tracker's only reach into the
      free site, and it never gates or interrupts anything that was already there */
   function trackerToggleBtn(s){
     const on = isSaved(s.slug);

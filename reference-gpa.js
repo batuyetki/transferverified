@@ -1,5 +1,5 @@
 /* ============================================================================
-   TransferVerified — reference GPA bands
+   TransferVerified - reference GPA bands
    Work Order 04, Task 2.
 
    WHAT THIS IS, AND WHAT IT IS NOT
@@ -9,7 +9,7 @@
    that the school itself published, and every value there links back to it.
 
    These do not. They are a reference band for **average admitted GPA for
-   undergraduate admission overall** — not transfer-specific — compiled from
+   undergraduate admission overall** - not transfer-specific - compiled from
    public Common Data Set and institutional sources. They are an orientation
    point for the Chance Me estimate and nothing else.
 
@@ -26,7 +26,7 @@
       else on the site.
 
    The `slug` on each row is mapped by hand to the matching TT_DATA record.
-   Do not fuzzy-match on name — several of these differ from how the school is
+   Do not fuzzy-match on name - several of these differ from how the school is
    named in the dataset (MIT, UCLA, UC Berkeley, and Michigan all do).
 
    No build step: this file is loaded by a plain <script> tag before the main
